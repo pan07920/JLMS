@@ -20,7 +20,7 @@ namespace JLMS
         public MainWindow()
         {
             InitializeComponent();
-
+            DataContext = new JLMS.ViewModels.MainViewModel();
         }
 
     }

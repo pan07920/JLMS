@@ -10,7 +10,10 @@
     Title="JLM Simulator" Height="800" Width="1100"
     SnapsToDevicePixels="True" UseLayoutRounding="True"
     >
-      <Grid>
+    <Window.Resources>
+        <ResourceDictionary Source="MainWindowResources.xaml" />
+    </Window.Resources>
+    <Grid>
         <dxwui:NavigationFrame Source="MainView" AnimationType="SlideHorizontal"/>
     </Grid>
 

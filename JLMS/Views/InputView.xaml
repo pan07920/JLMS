@@ -32,7 +32,7 @@
             </dxwui:PageAdornerControl.HeaderTemplate>
         </dxwui:PageAdornerControl>
         <Border Background="Orange" Grid.Row="1">
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Name="textBlock1" Text="Use the back button or navigation buttons to move through the views"/>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Name="textBlock1" Text="{Binding MyInfo}"/>
         </Border>
     </Grid>
 </UserControl>

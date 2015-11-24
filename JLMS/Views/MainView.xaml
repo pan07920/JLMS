@@ -14,7 +14,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1100">
     <!--<UserControl.Resources>
-        <ResourceDictionary Source="MainWindowResources.xaml" />
+        <ResourceDictionary Source="../MainWindowResources.xaml" />
     </UserControl.Resources>-->
     
     <Grid>
@@ -25,10 +25,19 @@
                 <dxnb:NavBarControl Name="navBarControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1">
 
                     <dxnb:NavBarControl.Groups>
-                        <dxnb:NavBarGroup Header="CME" ImageSource="../Images/Icons/Group.png">
-                            <dxnb:NavBarItem Content="JLMSimInput for Case M25c BaseCase_CME_JIAN_A -1" ImageSource="../Images/Icons/Item.png"/>
-                            <dxnb:NavBarItem Content="Item2" ImageSource="../Images/Icons/Item.png"/>
-                            <dxnb:NavBarItem Content="Item3" ImageSource="../Images/Icons/Item.png"/>
+                       <dxnb:NavBarGroup Header="CME"  ItemsSource="{Binding Path=CaseFiles}"  ImageSource="../Images/Icons/Group.png" >
+                            
+                            <dxnb:NavBarGroup.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source=  "../Images/Icons/Item.png" /> 
+                                        <TextBlock Text="{Binding Path=CaseName}" Margin="5"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </dxnb:NavBarGroup.ItemTemplate>
+                            <!--<dxnb:NavBarItem Content="JLMSimInput for Case M25c BaseCase_CME_JIAN_A -1" ImageSource="../Images/Icons/Item.png"/>-->
+                            <dxnb:NavBarItem  ImageSource="../Images/Icons/Item.png"/>
+                            <!--<dxnb:NavBarItem Content="Item3" ImageSource="../Images/Icons/Item.png"/>-->
                             <!--<dxnb:NavBarItem Content="Add New Case..." />
                             <dxwui:NavigationButton VerticalAlignment="Bottom" FontSize="14" Margin="0" Content="New Case..." NavigateTo="InputView" HorizontalAlignment="Left" BorderThickness="0"/>-->
                         </dxnb:NavBarGroup>
@@ -132,8 +141,10 @@
             <dxlc:LayoutGroup Header="Actions" Width="200" View="GroupBox">
                 <dxlc:LayoutItem >
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
-                        
-                        <dxwui:NavigationButton  Margin="5" Content="View Output" NavigateTo="OutputView"/>
+
+                        <dxwui:NavigationButton  Margin="5" Content="View Output" NavigateTo="OutputView">
+                            
+                        </dxwui:NavigationButton>
                         <dxwui:NavigationButton  Margin="5" Content="Edit Input" NavigateTo="InputView"/>
                         <dxwui:NavigationButton  Margin="5" Content="New Input" NavigateTo="InputView"/>
                         <dxwui:NavigationButton  Margin="5" Content="Settings" NavigateTo="SimView"/>

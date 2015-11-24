@@ -5,4 +5,7 @@
     <DataTemplate DataType="{x:Type vm:MainViewModel}">
         <vw:MainView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:InputViewModel}">
+        <vw:InputView />
+    </DataTemplate>
 </ResourceDictionary>
