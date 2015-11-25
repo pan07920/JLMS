@@ -74,6 +74,7 @@
     </Compile>
     <Compile Include="ViewModels\InputViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\OutputViewModel.cs" />
     <Compile Include="Views\SimView.xaml.cs">
       <DependentUpon>SimView.xaml</DependentUpon>
     </Compile>

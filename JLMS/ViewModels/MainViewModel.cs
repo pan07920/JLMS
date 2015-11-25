@@ -12,18 +12,19 @@ using System.Globalization;
 
 namespace JLMS.ViewModels
 {
+    public class CaseSummary
+    {
+        public string Name { get; set; }
+        public int TotalSecurities { get; set; }
+        public int SimulationLength { get; set; }
+        public bool MTOperationMode { get; set; }
+        public ObservableCollection<KeyValuePair<string, string>> Summary { get; set; }
+    }
     class MainViewModel : ViewModelBase
     {
-        public class CaseSummary
-        {
-            public string Name { get; set; }
-            public int TotalSecurities { get; set; }
-            public int SimulationLength { get; set; }
-            public bool MTOperationMode { get; set; }
-            public ObservableCollection<KeyValuePair<string, string>> Summary { get; set; }
-        }
+       
         private string _workingfolder = @"C:\JLMSim"; //todo, in setting
-        private string _selectedcasename;
+
         private CaseSummary _selectedcase;
         public class CaseFile
         {
@@ -113,7 +114,7 @@ namespace JLMS.ViewModels
             {
                 string val = linemessagelines.Find(delegate (string s) { return s.Contains(param[0]); });
                 if (val == null)
-                    val = "";
+                    val = "0";
                 else
                 {
                     val = val.Split(new char[] { ':', ',' }).ToList<string>().Last<string>().Trim();

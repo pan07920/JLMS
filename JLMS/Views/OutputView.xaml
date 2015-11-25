@@ -5,8 +5,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:JLMS"
+             xmlns:vm="clr-namespace:JLMS.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <!--<UserControl.DataContext>
+        <vm:OutputViewModel/>
+    </UserControl.DataContext>-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -30,7 +34,20 @@
             </dxwui:PageAdornerControl.HeaderTemplate>
         </dxwui:PageAdornerControl>
         <Border Grid.Row="1" Background="Salmon">
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Name="textBlock1" Text="Use the back button or navigation buttons to move through the views"/>
+            <!--<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Name="textBlock1" Text="Use the back button or navigation buttons to move through the views"/>-->
+
+            <!--<ListBox ItemsSource="{Binding SelectedCaseSummary}"  >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Stretch">
+                            <TextBlock Text="{Binding Path= Key}"/>
+                            <TextBlock Text=": "/>
+                            <TextBlock HorizontalAlignment="Right" Text="{Binding Path= Value}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>-->
+
         </Border>
     </Grid>
 </UserControl>
