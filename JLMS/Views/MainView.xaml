@@ -14,9 +14,9 @@
              xmlns:dxwuin="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/navigation"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1100">
-    <!--<UserControl.Resources>
+    <UserControl.Resources>
         <ResourceDictionary Source="../MainWindowResources.xaml" />
-    </UserControl.Resources>-->
+    </UserControl.Resources>
     
     <Grid>
        
@@ -142,8 +142,9 @@
                 <dxlc:LayoutItem >
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
 
-                        <dxwui:NavigationButton  Margin="5" Content="View Output" NavigateTo="OutputView" NavigationParameter="{Binding SelectedCase}"/>
-                        <dxwui:NavigationButton  Margin="5" Content="Edit Input" NavigateTo="InputView"/>
+                        <dxwui:NavigationButton Name ="buttonNavCME" IsEnabled="{Binding Path=IsCaseReady}" Visibility="{Binding Path= SelectedCase.MTOperationMode, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="5" Content="View 1 Output" NavigateTo="CMAOutputView" NavigationParameter="{Binding SelectedCase}"/>
+                        <dxwui:NavigationButton Name ="buttonNavDA"  IsEnabled="{Binding Path=IsCaseReady}" Visibility="{Binding ElementName = buttonNavCME, Path=Visibility, Converter= {StaticResource InvertVisibilityConverter}}" Margin="5" Content="View 2 Output" NavigateTo="DAOutputView" NavigationParameter="{Binding SelectedCase}"/>
+                        <dxwui:NavigationButton  IsEnabled="{Binding Path=IsCaseReady}" Margin="5" Content="Edit Input" NavigateTo="InputView"/>
                         <dxwui:NavigationButton  Margin="5" Content="New Input" NavigateTo="InputView"/>
                         <dxwui:NavigationButton  Margin="5" Content="Settings" NavigateTo="SimView"/>
                     </StackPanel>

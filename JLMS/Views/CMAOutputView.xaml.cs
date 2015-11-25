@@ -19,10 +19,10 @@ namespace JLMS.Views
     /// <summary>
     /// Interaction logic for OutputView.xaml
     /// </summary>
-    public partial class OutputView : UserControl, INavigationAware
+    public partial class CMAOutputView : UserControl, INavigationAware
     {
         OutputViewModel _outputviewmodel = new OutputViewModel();
-        public OutputView()
+        public CMAOutputView()
         {
             InitializeComponent();
             DataContext = _outputviewmodel;
@@ -31,6 +31,7 @@ namespace JLMS.Views
         {
             //myText.SetBinding( = e.Parameter;
             _outputviewmodel.SelectedCase = (CaseSummary) e.Parameter;
+           
         }
         public void NavigatingFrom(DevExpress.Xpf.WindowsUI.Navigation.NavigatingEventArgs e)
         {

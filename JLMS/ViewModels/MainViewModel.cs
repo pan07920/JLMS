@@ -12,7 +12,7 @@ using System.Globalization;
 
 namespace JLMS.ViewModels
 {
-    public class CaseSummary
+    public class CaseSummary 
     {
         public string Name { get; set; }
         public int TotalSecurities { get; set; }
@@ -33,7 +33,10 @@ namespace JLMS.ViewModels
         }
         ObservableCollection<CaseSummary> _casefilescollectioncme = new ObservableCollection<CaseSummary>();
         ObservableCollection<CaseSummary> _casefilescollectionda = new ObservableCollection<CaseSummary>();
-
+        public bool IsCaseReady
+        {
+            get { return _selectedcase != null && _selectedcase.Name != ""; }
+        }
         public CaseSummary SelectedCase
         {
             get { return _selectedcase; }
@@ -42,9 +45,10 @@ namespace JLMS.ViewModels
                 _selectedcase = value;
                 OnPropertyChanged("SelectedCase");
                 OnPropertyChanged("SelectedCaseSummary");
+                OnPropertyChanged("IsCaseReady");
             }
         }
-
+    
         public ObservableCollection<KeyValuePair<string, string>> SelectedCaseSummary
         {
             get { return _selectedcase == null?null:_selectedcase.Summary; }
