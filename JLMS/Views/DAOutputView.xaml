@@ -56,9 +56,32 @@
                                                                 <ColumnDefinition Width="65*" />
                                                                 <ColumnDefinition Width="0" />
                                                             </Grid.ColumnDefinitions>
-                                                            <dxc:ChartControl x:Name="chartControlPrice"  DataSource="{Binding SecurityWeights, Mode=OneWay}" BorderThickness="0">
+                                                            <dxc:ChartControl x:Name="chartControlPrice"  DataSource="{Binding SelectedSecurityPrice, Mode=OneWay}" BorderThickness="0" AnimationMode="OnLoad" >
                                                                 <dxc:ChartControl.Diagram>
-                                                                    <dxc:XYDiagram2D SeriesDataMember="Security" EnableAxisXNavigation="True">
+                                                                      <dxc:XYDiagram2D >
+                                                                        <!--<dxc:XYDiagram2D.DefaultPane>
+                                                                            <dxc:Pane  DomainBrush="#FF278027"></dxc:Pane>
+                                                                        </dxc:XYDiagram2D.DefaultPane>-->
+                                                                        <dxc:XYDiagram2D.Series>
+                                                                            <dxc:StockSeries2D HighValueDataMember="HIGH" LowValueDataMember="LOW" CloseValueDataMember="CLOSE" OpenValueDataMember ="OPEN"  ArgumentDataMember="Day" LevelLineLength="0.25">
+                                                                                <dxc:StockSeries2D.Model>
+                                                                                    <dxc:FlatStock2DModel/>
+                                                                                </dxc:StockSeries2D.Model>
+                                                                            </dxc:StockSeries2D>
+                                                                        </dxc:XYDiagram2D.Series>
+
+                                                                        <!--Region #Axis X-->
+                                                                        <dxc:XYDiagram2D.AxisX >
+                                                                            <dxc:AxisX2D  >
+                                                                                <dxc:AxisX2D.Title>
+                                                                                    <dxc:AxisTitle FontSize="12" Content="Day"/>
+                                                                                </dxc:AxisX2D.Title>
+                                                                            </dxc:AxisX2D>
+                                                                        </dxc:XYDiagram2D.AxisX>
+
+                                                                        <!-- End Rgion -->
+
+                                                                        <!-- region #AxisY -->
                                                                         <dxc:XYDiagram2D.AxisY >
                                                                             <dxc:AxisY2D  >
                                                                                 <dxc:AxisY2D.Title>
@@ -66,23 +89,16 @@
                                                                                 </dxc:AxisY2D.Title>
                                                                             </dxc:AxisY2D>
                                                                         </dxc:XYDiagram2D.AxisY>
-                                                                        <dxc:XYDiagram2D.AxisX >
-                                                                            <dxc:AxisX2D  >
-                                                                                <dxc:AxisX2D.Title>
-                                                                                    <dxc:AxisTitle FontSize="12" Content="day"/>
-                                                                                </dxc:AxisX2D.Title>
-                                                                            </dxc:AxisX2D>
-                                                                        </dxc:XYDiagram2D.AxisX>
-                                                                        <dxc:XYDiagram2D.SeriesTemplate>
-                                                                            <dxc:LineSeries2D ArgumentDataMember="Day" ValueDataMember="Value"/>
-                                                                        </dxc:XYDiagram2D.SeriesTemplate>
+
+
+                                                                        <!--End Rgion-->
                                                                     </dxc:XYDiagram2D>
                                                                 </dxc:ChartControl.Diagram>
                                                                 <dxc:ChartControl.Palette>
                                                                     <dxc:Office2013Palette/>
                                                                 </dxc:ChartControl.Palette>
                                                                 <dxc:ChartControl.Legend>
-                                                                    <dxc:Legend x:Name="legendWeights"/>
+                                                                    <dxc:Legend x:Name="legendprice" HorizontalPosition="Right" VerticalPosition="Bottom" Orientation="Horizontal"/>
                                                                 </dxc:ChartControl.Legend>
                                                             </dxc:ChartControl>
 
@@ -94,7 +110,7 @@
                                                                 <ColumnDefinition Width="65*" />
                                                                 <ColumnDefinition Width="0" />
                                                             </Grid.ColumnDefinitions>
-                                                            <dxc:ChartControl x:Name="chartControlVolume" DataSource="{Binding SecurityReturns}" BorderThickness="0">
+                                                            <dxc:ChartControl x:Name="chartControlVolume" DataSource="{Binding SelectedSecurityVolume}" BorderThickness="0"  AnimationMode="OnDataChanged">
                                                                 <dxc:ChartControl.Diagram>
                                                                     <dxc:XYDiagram2D SeriesDataMember="Security" EnableAxisXNavigation="True">
                                                                         <dxc:XYDiagram2D.AxisY >
@@ -116,7 +132,7 @@
                                                                             </dxc:AxisX2D>
                                                                         </dxc:XYDiagram2D.AxisX>
                                                                         <dxc:XYDiagram2D.SeriesTemplate>
-                                                                            <dxc:LineSeries2D ArgumentDataMember="day" ValueDataMember="Value"/>
+                                                                            <dxc:BarSideBySideSeries2D ArgumentDataMember="Day" ValueDataMember="Value"/>
                                                                         </dxc:XYDiagram2D.SeriesTemplate>
                                                                     </dxc:XYDiagram2D>
                                                                 </dxc:ChartControl.Diagram>
@@ -124,7 +140,7 @@
                                                                     <dxc:Office2013Palette/>
                                                                 </dxc:ChartControl.Palette>
                                                                 <dxc:ChartControl.Legend>
-                                                                    <dxc:Legend x:Name="legendVolumn"/>
+                                                                    <dxc:Legend x:Name="legendVolumn" Visibility="Collapsed"/>
                                                                 </dxc:ChartControl.Legend>
                                                             </dxc:ChartControl>
 

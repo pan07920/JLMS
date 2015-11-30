@@ -29,6 +29,10 @@ namespace JLMS.ViewModels
         DataTable _securitypricetable;
         DataTable _securityvolumetable;
 
+        DataTable _selectedsecuritypricetable;
+        DataTable _selectedsecurityvolumetable;
+
+
         private CaseSummary _selectedcase;
         private string _security;
         private ObservableCollection<string> _securities;
@@ -81,6 +85,8 @@ namespace JLMS.ViewModels
             set
             {
                 _security = value;
+                RefreshSecuritiesData();
+                OnPropertyChanged("SelectedSecurity");
             }
         }
 
@@ -91,7 +97,7 @@ namespace JLMS.ViewModels
         }
         public OutputViewModel()
         {
-            _perdays = 40;
+            _perdays = 10;
             _security = "S1";
             _securities = new ObservableCollection<string>();
 
@@ -128,6 +134,21 @@ namespace JLMS.ViewModels
             _securityvolumetable.Columns.Add("Day", typeof(Int32));
             _securityvolumetable.Columns.Add("Value", typeof(Int32));
 
+
+            _selectedsecuritypricetable = new DataTable("SecurityPriceTable");
+            _selectedsecuritypricetable.Columns.Add("Security", typeof(String));
+            _selectedsecuritypricetable.Columns.Add("Day", typeof(Int32));
+            _selectedsecuritypricetable.Columns.Add("OPEN", typeof(Double));
+            _selectedsecuritypricetable.Columns.Add("HIGH", typeof(Double));
+            _selectedsecuritypricetable.Columns.Add("LOW", typeof(Double));
+            _selectedsecuritypricetable.Columns.Add("CLOSE", typeof(Double));
+            _selectedsecuritypricetable.Columns.Add("Value", typeof(Double));
+
+            _selectedsecurityvolumetable = new DataTable("SecurityVolumeTable");
+            _selectedsecurityvolumetable.Columns.Add("Security", typeof(String));
+            _selectedsecurityvolumetable.Columns.Add("Day", typeof(Int32));
+            _selectedsecurityvolumetable.Columns.Add("Value", typeof(Int32));
+
         }
      
         public DataTable SecurityWeights
@@ -156,7 +177,14 @@ namespace JLMS.ViewModels
             get { return _securityvolumetable; }
         }
 
-
+        public DataTable SelectedSecurityPrice
+        {
+            get { return _selectedsecuritypricetable; }
+        }
+        public DataTable SelectedSecurityVolume
+        {
+            get { return _selectedsecurityvolumetable; }
+        }
         private void LoadData()
         {
             if (_selectedcase == null)
@@ -213,11 +241,11 @@ namespace JLMS.ViewModels
 
             for (int nSecurityPosition = 0; nSecurityPosition < security_count; nSecurityPosition++)
             {
-                _securitypricetable.Rows.Add(nSecurityPosition.ToString(),  1, _price[0, nSecurityPosition], _price[0, nSecurityPosition], _price[0, nSecurityPosition], _price[0, nSecurityPosition], _price[0, nSecurityPosition]);
-                _securityvolumetable.Rows.Add(nSecurityPosition.ToString(), 1, _volume[0, nSecurityPosition]);
+                _securitypricetable.Rows.Add("S" + nSecurityPosition.ToString(),  1, _price[0, nSecurityPosition], _price[0, nSecurityPosition], _price[0, nSecurityPosition], _price[0, nSecurityPosition], _price[0, nSecurityPosition]);
+                _securityvolumetable.Rows.Add("S" + nSecurityPosition.ToString(), 1, _volume[0, nSecurityPosition]);
             }
 
-                for (int nSecurityPosition = 0; nSecurityPosition < security_count; nSecurityPosition++)
+            for (int nSecurityPosition = 0; nSecurityPosition < security_count; nSecurityPosition++)
             {
                 mprv = 0;
                 double P = 0;
@@ -243,8 +271,15 @@ namespace JLMS.ViewModels
                             lo = P;
                     }
                     cl = P;
-                    _securitypricetable.Rows.Add(nSecurityPosition.ToString(), k+ 1, op, hi, lo, cl, prcValue);
-                    _securityvolumetable.Rows.Add(nSecurityPosition.ToString(), k + 1, volValue);
+                    _securitypricetable.Rows.Add("S" + nSecurityPosition.ToString(), k+ 1, op, hi, lo, cl, prcValue);
+                    _securityvolumetable.Rows.Add("S" + nSecurityPosition.ToString(), k + 1, volValue);
+
+                    if ("S" + nSecurityPosition.ToString() == _security)
+                    {
+                        _selectedsecuritypricetable.Rows.Add("S" + nSecurityPosition.ToString(), k + 1, op, hi, lo, cl, prcValue);
+                        _selectedsecurityvolumetable.Rows.Add("S" + nSecurityPosition.ToString(), k + 1, volValue);
+                    }
+
                     mprv = k + 1;
                 }
             }
