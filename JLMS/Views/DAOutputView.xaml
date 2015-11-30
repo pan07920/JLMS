@@ -56,7 +56,7 @@
                                                                 <ColumnDefinition Width="65*" />
                                                                 <ColumnDefinition Width="0" />
                                                             </Grid.ColumnDefinitions>
-                                                            <dxc:ChartControl x:Name="chartControlPrice"  DataSource="{Binding SelectedSecurityPrice, Mode=OneWay}" BorderThickness="0" AnimationMode="OnLoad" >
+                                                            <dxc:ChartControl x:Name="chartControlPrice"  DataSource="{Binding SelectedSecurityPrice, Mode=OneWay}" BorderThickness="0"  >
                                                                 <dxc:ChartControl.Diagram>
                                                                       <dxc:XYDiagram2D >
                                                                         <!--<dxc:XYDiagram2D.DefaultPane>
@@ -67,6 +67,9 @@
                                                                                 <dxc:StockSeries2D.Model>
                                                                                     <dxc:FlatStock2DModel/>
                                                                                 </dxc:StockSeries2D.Model>
+                                                                                <dxc:StockSeries2D.PointAnimation>
+                                                                                    <dxc:Stock2DSlideFromLeftAnimation Duration="00:00:00.1000000" />
+                                                                                </dxc:StockSeries2D.PointAnimation>
                                                                             </dxc:StockSeries2D>
                                                                         </dxc:XYDiagram2D.Series>
 
@@ -110,9 +113,17 @@
                                                                 <ColumnDefinition Width="65*" />
                                                                 <ColumnDefinition Width="0" />
                                                             </Grid.ColumnDefinitions>
-                                                            <dxc:ChartControl x:Name="chartControlVolume" DataSource="{Binding SelectedSecurityVolume}" BorderThickness="0"  AnimationMode="OnDataChanged">
+                                                            <dxc:ChartControl x:Name="chartControlVolume" DataSource="{Binding SelectedSecurityVolume}" BorderThickness="0"  >
                                                                 <dxc:ChartControl.Diagram>
                                                                     <dxc:XYDiagram2D SeriesDataMember="Security" EnableAxisXNavigation="True">
+                                                                        <dxc:XYDiagram2D.Series>
+                                                                            <dxc:BarSideBySideSeries2D>
+                                                                                <dxc:BarSideBySideSeries2D.PointAnimation>
+                                                                                    <dxc:Bar2DGrowUpAnimation Duration="00:00:05.1000000" />
+                                                                                </dxc:BarSideBySideSeries2D.PointAnimation>
+                                                                                
+                                                                            </dxc:BarSideBySideSeries2D>
+                                                                        </dxc:XYDiagram2D.Series>
                                                                         <dxc:XYDiagram2D.AxisY >
                                                                             <dxc:AxisY2D  >
 
