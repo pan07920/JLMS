@@ -29,9 +29,10 @@ namespace JLMS.Views
         }
         public void NavigatedTo(DevExpress.Xpf.WindowsUI.Navigation.NavigationEventArgs e)
         {
-            //myText.SetBinding( = e.Parameter;
-            _outputviewmodel.SelectedCase = (CaseSummary) e.Parameter;
-           
+            _outputviewmodel.SelectedCase = (CaseSummary)e.Parameter;
+            //var dataContext = DataContext as OutputViewModel;
+            //dataContext.SelectedCase = (CaseSummary) e.Parameter;
+
         }
         public void NavigatingFrom(DevExpress.Xpf.WindowsUI.Navigation.NavigatingEventArgs e)
         {

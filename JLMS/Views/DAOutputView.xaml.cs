@@ -13,13 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using JLMS.ViewModels;
+using DevExpress.Xpf.WindowsUI.Navigation;
 
 namespace JLMS.Views
 {
     /// <summary>
     /// Interaction logic for DAOutputView.xaml
     /// </summary>
-    public partial class DAOutputView : UserControl
+    public partial class DAOutputView : UserControl, INavigationAware
     {
 
         OutputViewModel _outputviewmodel = new OutputViewModel();
@@ -31,7 +32,9 @@ namespace JLMS.Views
         public void NavigatedTo(DevExpress.Xpf.WindowsUI.Navigation.NavigationEventArgs e)
         {
             //myText.SetBinding( = e.Parameter;
-            _outputviewmodel.SelectedCase = (CaseSummary)e.Parameter;
+             _outputviewmodel.SelectedCase = (CaseSummary)e.Parameter;
+            //var dataContext = DataContext as OutputViewModel;
+            //dataContext.SelectedCase = (CaseSummary)e.Parameter;
         }
         public void NavigatingFrom(DevExpress.Xpf.WindowsUI.Navigation.NavigatingEventArgs e)
         {
