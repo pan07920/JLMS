@@ -23,7 +23,7 @@ namespace JLMS.Views
     public partial class DAOutputView : UserControl, INavigationAware
     {
 
-        OutputViewModel _outputviewmodel = new OutputViewModel();
+        DAOutputViewModel _outputviewmodel = new DAOutputViewModel();
         public DAOutputView()
         {
             InitializeComponent();

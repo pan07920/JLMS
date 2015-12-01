@@ -19,10 +19,10 @@ namespace JLMS.Views
     /// <summary>
     /// Interaction logic for OutputView.xaml
     /// </summary>
-    public partial class CMAOutputView : UserControl, INavigationAware
+    public partial class CMEOutputView : UserControl, INavigationAware
     {
-        OutputViewModel _outputviewmodel = new OutputViewModel();
-        public CMAOutputView()
+        CMEOutputViewModel _outputviewmodel = new CMEOutputViewModel();
+        public CMEOutputView()
         {
             InitializeComponent();
             DataContext = _outputviewmodel;

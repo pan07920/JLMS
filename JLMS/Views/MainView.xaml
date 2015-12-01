@@ -142,7 +142,7 @@
                 <dxlc:LayoutItem >
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
 
-                        <dxwui:NavigationButton Name ="buttonNavCME" IsEnabled="{Binding Path=IsCaseReady}" Visibility="{Binding Path= SelectedCase.MTOperationMode, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="5" Content="View 1 Output" NavigateTo="CMAOutputView" NavigationParameter="{Binding SelectedCase}"/>
+                        <dxwui:NavigationButton Name ="buttonNavCME" IsEnabled="{Binding Path=IsCaseReady}" Visibility="{Binding Path= SelectedCase.MTOperationMode, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="5" Content="View 1 Output" NavigateTo="CMEOutputView" NavigationParameter="{Binding SelectedCase}"/>
                         <dxwui:NavigationButton Name ="buttonNavDA"  IsEnabled="{Binding Path=IsCaseReady}" Visibility="{Binding ElementName = buttonNavCME, Path=Visibility, Converter= {StaticResource InvertVisibilityConverter}}" Margin="5" Content="View 2 Output" NavigateTo="DAOutputView" NavigationParameter="{Binding SelectedCase}"/>
                         <dxwui:NavigationButton  IsEnabled="{Binding Path=IsCaseReady}" Margin="5" Content="Edit Input" NavigateTo="InputView"/>
                         <dxwui:NavigationButton  Margin="5" Content="New Input" NavigateTo="InputView"/>

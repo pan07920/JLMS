@@ -56,12 +56,9 @@
                                                                 <ColumnDefinition Width="65*" />
                                                                 <ColumnDefinition Width="0" />
                                                             </Grid.ColumnDefinitions>
-                                                            <dxc:ChartControl x:Name="chartControlPrice"  DataSource="{Binding SelectedSecurityPrice, Mode=OneWay}" BorderThickness="0"  >
+                                                            <dxc:ChartControl x:Name="chartControlPrice"  DataSource="{Binding SelectedSecurityPrice, Mode=OneWay,  NotifyOnSourceUpdated=True}" BorderThickness="0"  >
                                                                 <dxc:ChartControl.Diagram>
                                                                       <dxc:XYDiagram2D >
-                                                                        <!--<dxc:XYDiagram2D.DefaultPane>
-                                                                            <dxc:Pane  DomainBrush="#FF278027"></dxc:Pane>
-                                                                        </dxc:XYDiagram2D.DefaultPane>-->
                                                                         <dxc:XYDiagram2D.Series>
                                                                             <dxc:StockSeries2D HighValueDataMember="HIGH" LowValueDataMember="LOW" CloseValueDataMember="CLOSE" OpenValueDataMember ="OPEN"  ArgumentDataMember="Day" LevelLineLength="0.25">
                                                                                 <dxc:StockSeries2D.Model>
@@ -138,7 +135,7 @@
                                                                                     <dxc:Range/>
                                                                                 </dxc:AxisX2D.WholeRange>
                                                                                 <dxc:AxisX2D.Title>
-                                                                                    <dxc:AxisTitle FontSize="12" Content="day"/>
+                                                                                    <dxc:AxisTitle FontSize="12" Content="Day"/>
                                                                                 </dxc:AxisX2D.Title>
                                                                             </dxc:AxisX2D>
                                                                         </dxc:XYDiagram2D.AxisX>
@@ -151,7 +148,7 @@
                                                                     <dxc:Office2013Palette/>
                                                                 </dxc:ChartControl.Palette>
                                                                 <dxc:ChartControl.Legend>
-                                                                    <dxc:Legend x:Name="legendVolumn" Visibility="Collapsed"/>
+                                                                    <dxc:Legend x:Name="legendVolumn" Visibility="Visible"/>
                                                                 </dxc:ChartControl.Legend>
                                                             </dxc:ChartControl>
 
