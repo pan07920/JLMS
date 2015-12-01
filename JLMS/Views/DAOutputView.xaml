@@ -56,17 +56,18 @@
                                                                 <ColumnDefinition Width="65*" />
                                                                 <ColumnDefinition Width="0" />
                                                             </Grid.ColumnDefinitions>
-                                                            <dxc:ChartControl x:Name="chartControlPrice"  DataSource="{Binding SelectedSecurityPrice, Mode=OneWay,  NotifyOnSourceUpdated=True}" BorderThickness="0"  >
+                                                            <dxc:ChartControl x:Name="chartControlPrice"  DataSource="{Binding SelectedSecurityPrice, Mode=OneWay}" BorderThickness="0"  >
                                                                 <dxc:ChartControl.Diagram>
                                                                       <dxc:XYDiagram2D >
                                                                         <dxc:XYDiagram2D.Series>
-                                                                            <dxc:StockSeries2D HighValueDataMember="HIGH" LowValueDataMember="LOW" CloseValueDataMember="CLOSE" OpenValueDataMember ="OPEN"  ArgumentDataMember="Day" LevelLineLength="0.25">
+                                                                            <dxc:StockSeries2D  HighValueDataMember="HIGH" LowValueDataMember="LOW" CloseValueDataMember="CLOSE" OpenValueDataMember ="OPEN"  ArgumentDataMember="Day" LevelLineLength="0.3" >
                                                                                 <dxc:StockSeries2D.Model>
                                                                                     <dxc:FlatStock2DModel/>
                                                                                 </dxc:StockSeries2D.Model>
-                                                                                <dxc:StockSeries2D.PointAnimation>
-                                                                                    <dxc:Stock2DSlideFromLeftAnimation Duration="00:00:00.1000000" />
-                                                                                </dxc:StockSeries2D.PointAnimation>
+                                                                              
+                                                                                <dxc:StockSeries2D.ReductionOptions>
+                                                                                    <dxc:ReductionStockOptions  />
+                                                                                </dxc:StockSeries2D.ReductionOptions>
                                                                             </dxc:StockSeries2D>
                                                                         </dxc:XYDiagram2D.Series>
 

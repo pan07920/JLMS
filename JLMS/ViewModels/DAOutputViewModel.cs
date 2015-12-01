@@ -158,13 +158,18 @@ namespace JLMS.ViewModels
             get { return _securityvolumetable; }
         }
 
-        public DataTable SelectedSecurityPrice
+        //public DataTable SelectedSecurityPrice
+        //{
+        //    get { return _selectedsecuritypricetable; }
+        //}
+
+        public DataView SelectedSecurityPrice
         {
-            get { return _selectedsecuritypricetable; }
+            get { return _selectedsecuritypricetable.DefaultView; }
         }
-        public DataTable SelectedSecurityVolume
+        public DataView SelectedSecurityVolume
         {
-            get { return _selectedsecurityvolumetable; }
+            get { return _selectedsecurityvolumetable.DefaultView;  }
         }
         private void LoadData()
         {
@@ -205,21 +210,21 @@ namespace JLMS.ViewModels
             double cl = 0;
 
 
-            _selectedsecuritypricetable.Rows.Add("S" + nSecurityPosition.ToString(),  1, _price[0, nSecurityPosition], _price[0, nSecurityPosition], _price[0, nSecurityPosition], _price[0, nSecurityPosition], _price[0, nSecurityPosition]);
-            _selectedsecuritypricetable.Rows.Add("S" + nSecurityPosition.ToString(), 1, _volume[0, nSecurityPosition]);
+            //_selectedsecuritypricetable.Rows.Add("S" + nSecurityPosition.ToString(),  1, _price[0, nSecurityPosition], _price[0, nSecurityPosition], _price[0, nSecurityPosition], _price[0, nSecurityPosition], _price[0, nSecurityPosition]);
+            //_selectedsecuritypricetable.Rows.Add("S" + nSecurityPosition.ToString(), 1, _volume[0, nSecurityPosition]);
             
             mprv = 0;
             double P = 0;
-            int datapoints = (int)Math.Floor((double)total_day_count / PerDays);
-            for (int i = 1; i <= datapoints; i++)
+           // int datapoints = (int)Math.Floor((double)total_day_count / PerDays);
+            for (int i = 1; i <= 100; i++)
             {
                 int k = PerDays * i-1;
                 prcValue = _price[k, nSecurityPosition];
                 volValue = 0;
 
                 op = _price[mprv, nSecurityPosition];
-                lo = 1000000;
-                hi = -1000000;
+                lo = double.MaxValue;
+                hi = double.MinValue;
 
                 for (int m = mprv; m <= k; m++)
                 {
