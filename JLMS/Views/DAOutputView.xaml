@@ -10,7 +10,7 @@
              xmlns:vm="clr-namespace:JLMS.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1100">
-     <!--<UserControl.DataContext>
+    <!--<UserControl.DataContext>
         <vm:OutputViewModel/>
     </UserControl.DataContext>-->
     <Grid >
@@ -58,15 +58,29 @@
                                                             </Grid.ColumnDefinitions>
                                                             <dxc:ChartControl x:Name="chartControlPrice"  DataSource="{Binding SelectedSecurityPrice, Mode=OneWay}" BorderThickness="0"  >
                                                                 <dxc:ChartControl.Diagram>
-                                                                      <dxc:XYDiagram2D >
+                                                                    <dxc:XYDiagram2D >
+                                                                        <dxc:XYDiagram2D.DefaultPane>
+                                                                            <dxc:Pane >
+                                                                                <dxc:Pane.DomainBrush>
+                                                                                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                                                                        <GradientStop Color="#FF4E3EB9" Offset="0.98"/>
+                                                                                        <GradientStop Color="#FF2E2189" Offset="0.99"/>
+                                                                                        <GradientStop Color="#FF7E71E2" Offset="0.496"/>
+                                                                                        <GradientStop Color="#FF332689" Offset="0.002"/>
+                                                                                    </LinearGradientBrush>
+                                                                                </dxc:Pane.DomainBrush>
+                                                                            </dxc:Pane>
+                                                                        </dxc:XYDiagram2D.DefaultPane>
+
                                                                         <dxc:XYDiagram2D.Series>
-                                                                            <dxc:StockSeries2D  HighValueDataMember="HIGH" LowValueDataMember="LOW" CloseValueDataMember="CLOSE" OpenValueDataMember ="OPEN"  ArgumentDataMember="Day" LevelLineLength="0.3" >
-                                                                                <dxc:StockSeries2D.Model>
-                                                                                    <dxc:FlatStock2DModel/>
+                                                                            <dxc:StockSeries2D  HighValueDataMember="HIGH" LowValueDataMember="LOW" CloseValueDataMember="CLOSE" OpenValueDataMember ="OPEN" 
+                                                                                                ArgumentDataMember="Day"   LevelLineLength="2" BorderThickness ="1">
+                                                                                <dxc:StockSeries2D.Model >
+                                                                                    <dxc:ThinStock2DModel/>
                                                                                 </dxc:StockSeries2D.Model>
-                                                                              
+
                                                                                 <dxc:StockSeries2D.ReductionOptions>
-                                                                                    <dxc:ReductionStockOptions  />
+                                                                                    <dxc:ReductionStockOptions   />
                                                                                 </dxc:StockSeries2D.ReductionOptions>
                                                                             </dxc:StockSeries2D>
                                                                         </dxc:XYDiagram2D.Series>
@@ -88,6 +102,10 @@
                                                                                 <dxc:AxisY2D.Title>
                                                                                     <dxc:AxisTitle FontSize="12" Content="Price of Security ($)"/>
                                                                                 </dxc:AxisY2D.Title>
+                                                                                <dxc:AxisY2D.Range>
+                                                                                    <dxc:AxisRange dxc:AxisY2D.AlwaysShowZeroLevel="False" />
+                                                                                </dxc:AxisY2D.Range>
+
                                                                             </dxc:AxisY2D>
                                                                         </dxc:XYDiagram2D.AxisY>
 
@@ -96,7 +114,7 @@
                                                                     </dxc:XYDiagram2D>
                                                                 </dxc:ChartControl.Diagram>
                                                                 <dxc:ChartControl.Palette>
-                                                                    <dxc:Office2013Palette/>
+                                                                    <dxc:GreenYellowPalette/>
                                                                 </dxc:ChartControl.Palette>
                                                                 <dxc:ChartControl.Legend>
                                                                     <dxc:Legend x:Name="legendprice" HorizontalPosition="Right" VerticalPosition="Bottom" Orientation="Horizontal"/>
@@ -119,7 +137,7 @@
                                                                                 <dxc:BarSideBySideSeries2D.PointAnimation>
                                                                                     <dxc:Bar2DGrowUpAnimation Duration="00:00:05.1000000" />
                                                                                 </dxc:BarSideBySideSeries2D.PointAnimation>
-                                                                                
+
                                                                             </dxc:BarSideBySideSeries2D>
                                                                         </dxc:XYDiagram2D.Series>
                                                                         <dxc:XYDiagram2D.AxisY >
@@ -146,10 +164,10 @@
                                                                     </dxc:XYDiagram2D>
                                                                 </dxc:ChartControl.Diagram>
                                                                 <dxc:ChartControl.Palette>
-                                                                    <dxc:Office2013Palette/>
+                                                                    <dxc:GreenYellowPalette/>
                                                                 </dxc:ChartControl.Palette>
                                                                 <dxc:ChartControl.Legend>
-                                                                    <dxc:Legend x:Name="legendVolumn" Visibility="Visible"/>
+                                                                    <dxc:Legend x:Name="legendVolumn" Visibility="Collapsed"/>
                                                                 </dxc:ChartControl.Legend>
                                                             </dxc:ChartControl>
 
@@ -266,7 +284,7 @@
                                                                     ItemsSource="{Binding Securities}"       
                                                                     IsSynchronizedWithCurrentItem="True"      
                                                                     SelectionMode="Multiple"
-                                                              >         
+                                                              >
                                                                 <ListBox.ItemTemplate>
                                                                     <DataTemplate>
                                                                         <CheckBox >
@@ -372,10 +390,10 @@
                                                                     <dxc:Legend x:Name="legendVolumeIndices" Visible="False"/>
                                                                 </dxc:ChartControl.Legend>
                                                             </dxc:ChartControl>
-                                                           
+
                                                         </Grid>
                                                     </dxd:LayoutPanel>
-                                                    
+
                                                 </dxd:LayoutGroup>
                                             </dxd:LayoutGroup>
                                         </dxd:DockLayoutManager>
@@ -395,10 +413,10 @@
             </DockPanel>
         </Border>
         <StackPanel  Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal"  >
-                                           <TextBlock Text="Per" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                                            <Slider Name="slPerDays" HorizontalAlignment="Center" Maximum="40" Minimum="10"   Orientation="Horizontal" Width ="300" SmallChange="10" TickFrequency="10" LargeChange="10" IsSnapToTickEnabled="True" TickPlacement="Both" Value="{Binding PerDays}"/>
-                                            <TextBox IsReadOnly="True" Text="{Binding ElementName=slPerDays, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" Width="40" />
-                                            <TextBlock Text="Days" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                        </StackPanel>
+            <TextBlock Text="Per" HorizontalAlignment="Right" VerticalAlignment="Center" />
+            <Slider Name="slPerDays" HorizontalAlignment="Center" Maximum="40" Minimum="10"   Orientation="Horizontal" Width ="300" SmallChange="10" TickFrequency="10" LargeChange="10" IsSnapToTickEnabled="True" TickPlacement="Both" Value="{Binding PerDays}"/>
+            <TextBox IsReadOnly="True" Text="{Binding ElementName=slPerDays, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" Width="40" />
+            <TextBlock Text="Days" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        </StackPanel>
     </Grid>
 </UserControl>
