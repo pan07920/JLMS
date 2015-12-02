@@ -146,7 +146,7 @@
                         <dxwui:NavigationButton Name ="buttonNavDA"  IsEnabled="{Binding Path=IsCaseReady}" Visibility="{Binding ElementName = buttonNavCME, Path=Visibility, Converter= {StaticResource InvertVisibilityConverter}}" Margin="5" Content="View 2 Output" NavigateTo="DAOutputView" NavigationParameter="{Binding SelectedCase}"/>
                         <dxwui:NavigationButton  IsEnabled="{Binding Path=IsCaseReady}" Margin="5" Content="Edit Input" NavigateTo="InputView"/>
                         <dxwui:NavigationButton  Margin="5" Content="New Input" NavigateTo="InputView"/>
-                        <dxwui:NavigationButton  Margin="5" Content="Settings" NavigateTo="SimView"/>
+                        <dxwui:NavigationButton  Margin="5" Content="Settings" NavigateTo="AppSettingsView"/>
                     </StackPanel>
                 </dxlc:LayoutItem>
             </dxlc:LayoutGroup>

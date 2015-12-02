@@ -23,6 +23,16 @@ namespace JLMS
             InitializeComponent();
         }
 
+        private void DXWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            ThemeManager.ApplicationThemeName = Properties.Settings.Default.ThemeName;
+        }
+
+        private void DXWindow_Closed(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ThemeName = ThemeManager.ApplicationThemeName;
+            Properties.Settings.Default.Save();
+        }
     }
 
     public class NavBarGroupEx : NavBarGroup
