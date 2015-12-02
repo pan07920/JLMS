@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Data;
+using DevExpress.Xpf.Core;
 
 namespace JLMS.ViewModels
 {
@@ -192,6 +193,8 @@ namespace JLMS.ViewModels
 
         private void RefreshSelectedSecurityData()
         {
+            UiServices.SetBusyState();
+            
             int security_count = _selectedcase.TotalSecurities;
             int total_day_count = _selectedcase.SimulationLength;
 
