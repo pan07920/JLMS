@@ -175,6 +175,19 @@
   <ItemGroup>
     <Resource Include="Images\Icons\Item.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\input.png" />
+    <Resource Include="Images\Icons\output.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\Delete_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\Edit_32x32_Gray.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
