@@ -102,6 +102,7 @@ namespace JLMS.ViewModels
 
         private void LoadData()
         {
+            UiServices.SetBusyState();
             if (_selectedcase == null)
                 return;
 
@@ -138,6 +139,7 @@ namespace JLMS.ViewModels
       
         private void SamplingParsedWeightData(string filename, int interval)
         {
+            UiServices.SetBusyState();
             int _security_count = _selectedcase.TotalSecurities;
             List<string> inputlines = File.ReadAllLines(filename).ToList<string>();
             int totalline = inputlines.Count;
@@ -166,6 +168,7 @@ namespace JLMS.ViewModels
 
         private void CMEReturnEstimateData(string filename)
         {
+            UiServices.SetBusyState();
             //For CME cases, Return Chart, all securities, by month
             int _security_count = _selectedcase.TotalSecurities;
             List<string> inputlines = File.ReadAllLines(filename).ToList<string>();

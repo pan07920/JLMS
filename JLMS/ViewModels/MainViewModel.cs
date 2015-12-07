@@ -18,7 +18,7 @@ namespace JLMS.ViewModels
         public int TotalSecurities { get; set; }
         public int SimulationLength { get; set; }
         public bool MTOperationMode { get; set; }
-        public ObservableCollection<KeyValuePair<string, string>> Summary { get; set; }
+        public ObservableCollection<KeyValuePair<string, KeyValuePair<string, string>>> Summary { get; set; }
     }
     class MainViewModel : ViewModelBase
     {
@@ -26,11 +26,7 @@ namespace JLMS.ViewModels
         private string _workingfolder = @"C:\JLMSim"; //todo, in setting
 
         private CaseSummary _selectedcase;
-        public class CaseFile
-        {
-            public string CaseType { get; set; }
-            public string CaseName { get; set; }
-        }
+       
         ObservableCollection<CaseSummary> _casefilescollectioncme = new ObservableCollection<CaseSummary>();
         ObservableCollection<CaseSummary> _casefilescollectionda = new ObservableCollection<CaseSummary>();
         public bool IsCaseReady
@@ -49,7 +45,7 @@ namespace JLMS.ViewModels
             }
         }
     
-        public ObservableCollection<KeyValuePair<string, string>> SelectedCaseSummary
+        public ObservableCollection<KeyValuePair<string, KeyValuePair<string, string>>> SelectedCaseSummary
         {
             get { return _selectedcase == null?null:_selectedcase.Summary; }
            
@@ -81,9 +77,9 @@ namespace JLMS.ViewModels
             
             string caseinputfile = _workingfolder + @"\" + prefixInput + casename + ".txt";
             string casemessagefile = _workingfolder + @"\" + prefixMessage + casename + ".csv";
-            ObservableCollection<KeyValuePair<string, string>> summary = new ObservableCollection<KeyValuePair<string, string>>();
+            ObservableCollection<KeyValuePair<string, KeyValuePair<string, string>>> summary = new ObservableCollection<KeyValuePair<string, KeyValuePair<string, string>>>();
 
-            KeyValuePair<string, string> rowfirst = new KeyValuePair<string, string>(  "Case Name", casename);
+            KeyValuePair<string, KeyValuePair<string, string>> rowfirst = new KeyValuePair<string, KeyValuePair<string, string>>(  "Case Name", new KeyValuePair<string, string> ("Selected Case" ,casename ));
             summary.Add(rowfirst);
 
           
@@ -105,7 +101,7 @@ namespace JLMS.ViewModels
                     val = val.Split(':').ToList<string>()[1].Trim();
                 }
      
-                KeyValuePair<string, string> newrow = new KeyValuePair<string, string>(param[1], val);
+                KeyValuePair<string, KeyValuePair<string, string>> newrow = new KeyValuePair<string, KeyValuePair<string, string>>(param[1], new KeyValuePair<string, string>(param[2], val));
                 summary.Add(newrow);
                
                 if (param[1] == "Number of Securities")
@@ -135,7 +131,7 @@ namespace JLMS.ViewModels
                     val = String.Format("{0:n0}", amount);
                 }
 
-                KeyValuePair<string, string> newrow = new KeyValuePair<string, string>(param[1], val);
+                KeyValuePair<string, KeyValuePair<string, string>> newrow = new KeyValuePair<string, KeyValuePair<string, string>>(param[1], new KeyValuePair<string, string>(param[2], val));
                 summary.Add(newrow);
             }
             bool bMTOperationMode = true; //show Weight and Returns
@@ -194,48 +190,48 @@ namespace JLMS.ViewModels
         private List<string[]> GetCaseInputParameters()
         {
             List<string[]> list = new List<string[]>();
-            string[] SimLength = { "Length of Simulation (in days)", "Simulation Length" };
+            string[] SimLength = { "Length of Simulation (in days)", "Simulation Length", "Length of Simulation (in days)" };
             list.Add(SimLength);
-            string[] Securities = { "Securities (other than cash and borrowing)", "Number of Securities" };
+            string[] Securities = { "Securities (other than cash and borrowing)", "Number of Securities", "Securities (other than cash and borrowing)" };
             list.Add(Securities);
-            string[] Statisticians = { "   Statisticians", "Number of Statisticians" };
+            string[] Statisticians = { "   Statisticians", "Number of Statisticians", "   Statisticians" };
             list.Add(Statisticians);
-            string[] Analysts = { "   Portfolio Analysts", "Number of Analysts" };
+            string[] Analysts = { "   Portfolio Analysts", "Number of Analysts", "   Portfolio Analysts" };
             list.Add(Analysts);
-            string[] Investors = { "Investor Templates (types of investors)", "Types of Investors" };
+            string[] Investors = { "Investor Templates (types of investors)", "Types of Investors", "Investor Templates (types of investors)" };
             list.Add(Investors);
-            string[] Trader = { "Trader Templates (types of traders)", "Types of Traders" };
+            string[] Trader = { "Trader Templates (types of traders)", "Types of Traders", "Trader Templates (types of traders)" };
             list.Add(Trader);
-            string[] Factor = { "price series before the start of simulation", "Number of Factors" };
+            string[] Factor = { "price series before the start of simulation", "Number of Factors", "price series before the start of simulation" };
             list.Add(Factor);
-            string[] DayKept = { "Nr. of Days Data Kept for statisticians", "Number of Days Kept" };
+            string[] DayKept = { "Nr. of Days Data Kept for statisticians", "Number of Days Kept", "Nr. of Days Data Kept for statisticians" };
             list.Add(DayKept);
-            string[] nMonthsKept = { "Nr. of Months Data Kept for statisticians", "Number of Months Kept" };
+            string[] nMonthsKept = { "Nr. of Months Data Kept for statisticians", "Number of Months Kept", "Nr. of Months Data Kept for statisticians" };
             list.Add(nMonthsKept);
-            string[] mILS = { "Max Initial Sum of Long + |Short|", "Max Initial L+abs(S)" };
+            string[] mILS = { "Max Initial Sum of Long + |Short|", "Max Initial L+abs(S)", "Max Initial Sum of Long + |Short|" };
             list.Add(mILS);
-            string[] mMLS = { "Max Mark-to-Market Sum of Long + |Short|", "Max Maintenance L+abs(S)" };
+            string[] mMLS = { "Max Mark-to-Market Sum of Long + |Short|", "Max Maintenance L+abs(S)", "Max Mark-to-Market Sum of Long + |Short|" };
             list.Add(mMLS);
-            string[] ds = { "(statisticians use simulation's own history)", "Data Source" };//"Endogenous", "Exogenous"
+            string[] ds = { "(statisticians use simulation's own history)", "Data Source", "(statisticians use simulation's own history)" };//"Endogenous", "Exogenous"
             list.Add(ds);
-            string[] uptickRule = { "Can only short on uptick?  Y or N", "Uptick Rule" };// N --No else Yes
+            string[] uptickRule = { "Can only short on uptick?  Y or N", "Uptick Rule", "Can only short on uptick?  Y or N" };// N --No else Yes
             list.Add(uptickRule);
-            string[] rebateFraction = { "Short rebate fraction", "Rebate Fraction" };
+            string[] rebateFraction = { "Short rebate fraction", "Rebate Fraction", "Short rebate fraction" };
             list.Add(rebateFraction);
             return list;
         }
         private List<string[]> GetCaseMessageParameters()
         {
             List<string[]> list = new List<string[]>();
-            string[] TD = { "Total Deposits", "Total Deposits" };
+            string[] TD = { "Total Deposits", "Total Deposits", "Total Deposits" };
             list.Add(TD);
-            string[] NoD = { "Nr. Deposits", "Number of Deposits" };
+            string[] NoD = { "Nr. Deposits", "Number of Deposits", "Nr. Deposits" };
             list.Add(NoD);
-            string[] TW = { "Total Withdrawals", "Total Withdrawals" };
+            string[] TW = { "Total Withdrawals", "Total Withdrawals", "Total Withdrawals" };
             list.Add(TW);
-            string[] NOW = { "Nr. Withdrawals", "Number of Withdrawals" };
+            string[] NOW = { "Nr. Withdrawals", "Number of Withdrawals", "Nr. Withdrawals" };
             list.Add(NOW);
-            string[] LRS = { "Last random number seed", "Last Random Seed" };
+            string[] LRS = { "Last random number seed", "Last Random Seed", "Last random number seed" };
             list.Add(LRS);
             return list;
         }

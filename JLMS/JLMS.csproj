@@ -79,6 +79,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utilities.cs" />
+    <Compile Include="Views\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\CMEOutputViewModel.cs" />
     <Compile Include="ViewModels\InputViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -133,6 +136,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AppSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -187,6 +194,55 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Icons\Edit_32x32_Gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\JLMS256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\about24x24.png" />
+    <Resource Include="Images\Icons\delete24x24.png" />
+    <Resource Include="Images\Icons\edit24x24.png" />
+    <Resource Include="Images\Icons\newdoc24x24.png" />
+    <Resource Include="Images\Icons\output24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\AddFile_32x32.png" />
+    <Resource Include="Images\Icons\AddItem_32x32.png" />
+    <Resource Include="Images\Icons\ChangeChartSeriesType_32x32.png" />
+    <Resource Include="Images\Icons\DeleteList_32x32.png" />
+    <Resource Include="Images\Icons\Info_32x32.png" />
+    <Resource Include="Images\Icons\Properties_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\Line_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\Line2_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\Edit_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\GroupGreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\ItemBlue.png" />
+    <Resource Include="Images\Icons\ItemGreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\DocumentMap_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\ViewReport_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\MixFiles_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\ViewChart_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\ViewCharts_32x32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

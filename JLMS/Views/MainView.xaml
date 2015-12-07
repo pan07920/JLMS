@@ -26,21 +26,21 @@
                 <dxnb:NavBarControl Name="navBarControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1">
 
                     <dxnb:NavBarControl.Groups>
-                        <local:NavBarGroupEx Header="CME" CurrentItem="{Binding SelectedCase, Mode=TwoWay}" ItemsSource="{Binding CaseFilesCME}" ImageSource="../Images/Icons/Group.png" >
+                        <local:NavBarGroupEx Header="Capital Market Equilibrium(CME)" CurrentItem="{Binding SelectedCase, Mode=TwoWay}" ItemsSource="{Binding CaseFilesCME}" ImageSource="../Images/Icons/GroupGreen.png" >
                             <local:NavBarGroupEx.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source=  "../Images/Icons/Item.png" />
+                                        <Image Source=  "../Images/Icons/ItemGreen.png" />
                                         <TextBlock Text="{Binding Path = Name}" Margin="5"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </local:NavBarGroupEx.ItemTemplate>
                         </local:NavBarGroupEx>
-                        <local:NavBarGroupEx Header="DA" CurrentItem="{Binding SelectedCase, Mode=TwoWay}" ItemsSource="{Binding CaseFilesDA}"  ImageSource="../Images/Icons/Group.png">
+                        <local:NavBarGroupEx Header="Dynamic Analysis(DA)" CurrentItem="{Binding SelectedCase, Mode=TwoWay}" ItemsSource="{Binding CaseFilesDA}"  ImageSource="../Images/Icons/Group.png">
                             <dxnb:NavBarGroup.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source=  "../Images/Icons/Item.png" />
+                                        <Image Source=  "../Images/Icons/ItemBlue.png" />
                                         <TextBlock Text="{Binding Path = Name}" Margin="5"/>
                                     </StackPanel>
                                 </DataTemplate>
@@ -54,88 +54,68 @@
                 </dxnb:NavBarControl>
             </dxlc:LayoutGroup>
 
-           
-                <dxlc:LayoutGroup Orientation="Vertical" >
+
+            <dxlc:LayoutGroup  Orientation="Vertical" >
                 <dxlc:LayoutGroup Header="Case Summary" View="GroupBox" IsCollapsible="False">
                     
                     
 
                     <dxlc:LayoutGroup Orientation="Vertical">
                         <dxlc:LayoutItem VerticalAlignment="Stretch" >
-                         <!--<dxg:GridControl >
-                                <dxg:GridControl.Columns>
-                                    <dxg:GridColumn/>
-                                    <dxg:GridColumn/>
-                                </dxg:GridControl.Columns>
-                            </dxg:GridControl>-->
+                   
                             <Grid>
-                                <!--<ListBox  x:Name="ItemsListBox"  ItemsSource="{Binding Path=SelectedCaseSummary}" 
-                                          DisplayMemberPath="Value"
-                                          SelectedValuePath="Key"
-                                          >
-                                </ListBox>-->
+                                <!--<ListView x:Name="CaseList" ItemsSource="{Binding SelectedCaseSummary}">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn   DisplayMemberBinding="{Binding Path= Key}"  />
+                                            <GridViewColumn   DisplayMemberBinding="{Binding Path= Value.Value}"/>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>-->
                                 <ListBox ItemsSource="{Binding SelectedCaseSummary}"  >
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Stretch">
-                                                <TextBlock Text="{Binding Path= Key}"/>
+                                            <!--<StackPanel  Orientation="Horizontal" HorizontalAlignment="Stretch" ToolTip ="{Binding Path= Value.Key}">
+                                                <TextBlock Text="{Binding Path= Key}" />
                                                 <TextBlock Text=": "/>
-                                                <TextBlock HorizontalAlignment="Right" Text="{Binding Path= Value}"/>
-                                            </StackPanel>
+                                                <TextBlock HorizontalAlignment="Right" Text="{Binding Path= Value.Value}"/>
+                                            </StackPanel>-->
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*" />
+                                                    <ColumnDefinition Width="2" />
+                                                    <ColumnDefinition Width="1*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock  Margin ="5,0,0,0" Text="{Binding Path= Key}" Grid.Column="0" ToolTip ="{Binding Path= Value.Key}"/>
+                                                <Border Grid.Column="1"  Width="2">
+                                                    
+                                                </Border>
+                                                <TextBlock Margin ="5,0,0,0"  Text="{Binding Path= Value.Value}" Grid.Column="2" ToolTip ="{Binding Path= Value.Key}"/>
+                                            </Grid>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <StackPanel>
+                                                            <ContentPresenter/>
+                                                            <Separator x:Name="SeparatorBot"/>
+                                                        </StackPanel>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+
                                 </ListBox>
                             </Grid>
-                            <!--<ListBox   >
-                                <ListBoxItem>ListBox Item #1</ListBoxItem>
-                                <ListBoxItem>ListBox Item #2</ListBoxItem>
-                                <ListBoxItem>ListBox Item #3</ListBoxItem>
-                                <ListBoxItem>ListBox Item #1</ListBoxItem>
-                                <ListBoxItem>ListBox Item #2</ListBoxItem>
-                                <ListBoxItem>ListBox Item #3</ListBoxItem>
-                                <ListBoxItem>ListBox Item #1</ListBoxItem>
-                                <ListBoxItem>ListBox Item #2</ListBoxItem>
-                                <ListBoxItem>ListBox Item #3</ListBoxItem>
-                                <ListBoxItem>ListBox Item #3</ListBoxItem>
-                                
-                                    <ListBoxItem>ListBox Item #1</ListBoxItem>
-                                    <ListBoxItem>ListBox Item #2</ListBoxItem>
-                                    <ListBoxItem>ListBox Item #3</ListBoxItem>
-                                    <ListBoxItem>ListBox Item #1</ListBoxItem>
-                                    <ListBoxItem>ListBox Item #2</ListBoxItem>
-                                    <ListBoxItem>ListBox Item #3</ListBoxItem>
-                                    <ListBoxItem>ListBox Item #1</ListBoxItem>
-                                    <ListBoxItem>ListBox Item #2</ListBoxItem>
-                                    <ListBoxItem>ListBox Item #3</ListBoxItem>
-                                    <ListBoxItem>ListBox Item #3</ListBoxItem>
-                                </ListBox>-->
+                          
                         </dxlc:LayoutItem>
-                        <!--<dxlc:LayoutItem Label="First Name:">
-                            <dxe:TextEdit />
-                        </dxlc:LayoutItem>
-                        <dxlc:LayoutItem Label="Middle Name:">
-                            <dxe:TextEdit />
-                        </dxlc:LayoutItem>
-                        <dxlc:LayoutItem Label="Last Name:">
-                            <dxe:TextEdit />
-                        </dxlc:LayoutItem>
-                        <dxlc:LayoutItem Label="Birth Date:" HorizontalAlignment="Left">
-                            <dxe:DateEdit MaskUseAsDisplayFormat="True" Width="200" HorizontalContentAlignment="Right" />
-                        </dxlc:LayoutItem>-->
-
-                    
+                                           
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutGroup>
-
-                <!--<dxlc:LayoutGroup >
-
-                    <dxlc:LayoutItem >
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
-                            <dxwui:NavigationButton  Margin="10, 0, 0, 0" Content="Edit Input" NavigateTo="InputView"/>
-                            <dxwui:NavigationButton  Margin="10, 0, 0, 0" Content="View Output" NavigateTo="OutputView"/>
-                        </StackPanel>
-                    </dxlc:LayoutItem>
-                </dxlc:LayoutGroup>-->
                     
                 </dxlc:LayoutGroup>
             <dxlc:LayoutGroup Header="Actions" Width="200" View="GroupBox">
@@ -145,46 +125,70 @@
                         <dxwui:NavigationButton Name ="buttonNavCME" IsEnabled="{Binding Path=IsCaseReady}" 
                                                 Visibility="{Binding Path= SelectedCase.MTOperationMode, Converter={StaticResource BooleanToVisibilityConverter}}" 
                                                 Margin="5" NavigateTo="CMEOutputView" NavigationParameter="{Binding SelectedCase}" >
-                            <StackPanel Orientation="Horizontal"  >
-                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/output.png" Stretch="None" HorizontalAlignment="Left" />
-                                <TextBlock Margin ="5,0,0,0" Text="View Output" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Vertical"  >
+                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/ViewChart_32x32.png" Stretch="None" HorizontalAlignment="Center" />
+                                <TextBlock Margin ="5,0,0,0" Text="View Output Charts" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             </StackPanel>
                             </dxwui:NavigationButton> 
                         <dxwui:NavigationButton Name ="buttonNavDA"  IsEnabled="{Binding Path=IsCaseReady}" Visibility="{Binding ElementName = buttonNavCME, Path=Visibility, Converter= {StaticResource InvertVisibilityConverter}}" Margin="5"  NavigateTo="DAOutputView" NavigationParameter="{Binding SelectedCase}">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  >
-                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/output.png" Stretch="None" HorizontalAlignment="Left" />
-                                <TextBlock Margin ="5,0,0,0" Text="View Output" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left"  >
+                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/Line2_32x32.png" Stretch="None" HorizontalAlignment="Center" />
+                                <TextBlock Margin ="5,0,0,0" Text="View Output Charts" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </dxwui:NavigationButton>
+
+
+                        <dxwui:NavigationButton Name ="buttonNavCMEFile" IsEnabled="{Binding Path=IsCaseReady}" 
+                                                Visibility="{Binding Path= SelectedCase.MTOperationMode, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                                Margin="5" NavigateTo="CMEOutputFileView" NavigationParameter="{Binding SelectedCase}" >
+                            <StackPanel Orientation="Vertical"  >
+                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/MixFiles_32x32.png" Stretch="None" HorizontalAlignment="Center" />
+                                <TextBlock Margin ="5,0,0,0" Text="View Output Files" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </dxwui:NavigationButton>
+                        <dxwui:NavigationButton Name ="buttonNavDAFile"  IsEnabled="{Binding Path=IsCaseReady}" 
+                                                Visibility="{Binding ElementName = buttonNavCME, Path=Visibility, Converter= {StaticResource InvertVisibilityConverter}}" 
+                                                Margin="5"  NavigateTo="DAOutputFileView" NavigationParameter="{Binding SelectedCase}">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left"  >
+                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/MixFiles_32x32.png" Stretch="None" HorizontalAlignment="Center" />
+                                <TextBlock Margin ="5,0,0,0" Text="View Output Files" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </dxwui:NavigationButton>
                         <dxwui:NavigationButton  IsEnabled="{Binding Path=IsCaseReady}" Margin="5"  NavigateTo="InputView">
-                            <StackPanel Orientation="Horizontal"  >
-                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/Edit_32x32_Gray.png" Stretch="None" HorizontalAlignment="Left" />
-                                <TextBlock Margin ="5,0,0,0" Text="Edit Input" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Vertical"  >
+                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/Edit_32x32.png" Stretch="None" HorizontalAlignment="Center" />
+                                <TextBlock Margin ="5,0,0,0" Text="Edit Input" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </dxwui:NavigationButton>
                         <dxwui:NavigationButton  Margin="5"  NavigateTo="InputView">
-                            <StackPanel Orientation="Horizontal"  >
-                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/input.png" Stretch="None" HorizontalAlignment="Left" />
-                                <TextBlock Margin ="5,0,0,0" Text="New CME Input" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Vertical"  >
+                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/AddFile_32x32.png" Stretch="None" HorizontalAlignment="Center" />
+                                <TextBlock Margin ="5,0,0,0" Text="New CME Input" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </dxwui:NavigationButton>
                         <dxwui:NavigationButton  Margin="5"  NavigateTo="InputView">
-                                <StackPanel Orientation="Horizontal"  >
-                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/input.png" Stretch="None"  HorizontalAlignment="Left"/>
-                                    <TextBlock Margin ="5,0,0,0" Text="New DA Input" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Vertical"  >
+                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/AddItem_32x32.png" Stretch="None"  HorizontalAlignment="Center"/>
+                                <TextBlock Margin ="5,0,0,0" Text="New DA Input" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                 </StackPanel>
                             </dxwui:NavigationButton>    
                                 <dxwui:NavigationButton  IsEnabled="{Binding Path=IsCaseReady}" Margin="5" NavigateTo="InputView">
-                            <StackPanel Orientation="Horizontal"  >
-                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/Delete_32x32.png" Stretch="None" HorizontalAlignment="Left"/>
-                                <TextBlock Margin ="5,0,0,0" Text="Delete Input" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Vertical"  >
+                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/DeleteList_32x32.png" Stretch="None" HorizontalAlignment="Center"/>
+                                <TextBlock Margin ="5,0,0,0" Text="Delete Input" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </dxwui:NavigationButton>
 
                         <dxwui:NavigationButton  Margin="5"  NavigateTo="AppSettingsView">
-                               <StackPanel Orientation="Horizontal"  >
-                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/settings.png" Stretch="None" HorizontalAlignment="Left"/>
-                                <TextBlock Margin ="5,0,0,0" Text="Settings" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Vertical"  >
+                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/Properties_32x32.png" Stretch="None" HorizontalAlignment="Center"/>
+                                <TextBlock Margin ="5,0,0,0" Text="Settings" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </dxwui:NavigationButton>
+                        <dxwui:NavigationButton  Margin="5"  NavigateTo="AboutView">
+                            <StackPanel Orientation="Vertical"  >
+                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/Info_32x32.png" Stretch="None" HorizontalAlignment="Center"/>
+                                <TextBlock Margin ="5,0,0,0" Text="About" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </dxwui:NavigationButton>
 
