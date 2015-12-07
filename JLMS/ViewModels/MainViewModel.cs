@@ -19,6 +19,7 @@ namespace JLMS.ViewModels
         public int SimulationLength { get; set; }
         public bool MTOperationMode { get; set; }
         public ObservableCollection<KeyValuePair<string, KeyValuePair<string, string>>> Summary { get; set; }
+        public ObservableCollection<KeyValuePair<string, string>> OutputFiles;
     }
     class MainViewModel : ViewModelBase
     {
@@ -33,6 +34,8 @@ namespace JLMS.ViewModels
         {
             get { return _selectedcase != null && _selectedcase.Name != ""; }
         }
+        public string FileFolder { get { return _workingfolder; } }
+       
         public CaseSummary SelectedCase
         {
             get { return _selectedcase; }
@@ -49,6 +52,12 @@ namespace JLMS.ViewModels
         {
             get { return _selectedcase == null?null:_selectedcase.Summary; }
            
+        }
+
+        public ObservableCollection<KeyValuePair<string, string>> SelectedCaseFile
+        {
+            get { return _selectedcase == null ? null : _selectedcase.OutputFiles; }
+
         }
 
         public ObservableCollection<CaseSummary> CaseFilesCME
@@ -77,6 +86,8 @@ namespace JLMS.ViewModels
             
             string caseinputfile = _workingfolder + @"\" + prefixInput + casename + ".txt";
             string casemessagefile = _workingfolder + @"\" + prefixMessage + casename + ".csv";
+
+          
             ObservableCollection<KeyValuePair<string, KeyValuePair<string, string>>> summary = new ObservableCollection<KeyValuePair<string, KeyValuePair<string, string>>>();
 
             KeyValuePair<string, KeyValuePair<string, string>> rowfirst = new KeyValuePair<string, KeyValuePair<string, string>>(  "Case Name", new KeyValuePair<string, string> ("Selected Case" ,casename ));
@@ -144,11 +155,30 @@ namespace JLMS.ViewModels
             }
             if (mode == "X" || mode == "N")
                 bMTOperationMode = false;
+
+            ObservableCollection<KeyValuePair<string, string>> filelist = new ObservableCollection<KeyValuePair<string, string>>();
+            
+
+            filelist.Add(new KeyValuePair<string, string>("Order Impact Analysis for Case " , "Order Impact Analysis for Case " + casename + ".csv"));
+            filelist.Add(new KeyValuePair<string, string>("WhoDidWhatIn Case", "WhoDidWhatIn Case " + casename + ".csv"));
+            filelist.Add(new KeyValuePair<string, string>("Trace file for Case", "Trace file for Case " + casename + ".txt"));
+            filelist.Add(new KeyValuePair<string, string>("Estimates During Case", "Estimates During Case " + casename + ".csv"));
+            filelist.Add(new KeyValuePair<string, string>("Daily Reports for Case", "Daily Reports for Case " + casename + ".csv"));
+
+            filelist.Add(new KeyValuePair<string, string>(prefixInput, prefixInput + casename + ".csv"));
+            filelist.Add(new KeyValuePair<string, string>(prefixMessage, prefixMessage + casename + ".csv"));
+
+            if (bMTOperationMode)
+                 filelist.Add(new KeyValuePair<string, string>("Convergence Analysis for Case", "Convergence Analysis for Case " + casename + ".csv"));
+             else
+                filelist.Add(new KeyValuePair<string, string>("Order Impact Analysis for Case", "Order Impact Analysis for Case " + casename + ".csv"));
+
             CaseSummary simcase = new CaseSummary();
             simcase.Name = casename;
             simcase.MTOperationMode = bMTOperationMode;
             simcase.SimulationLength = nSimulationLength;
             simcase.TotalSecurities = nTotalSecurities;
+            simcase.OutputFiles = filelist;
             simcase.Summary = summary;
             if(bMTOperationMode)
                 _casefilescollectioncme.Add(simcase);

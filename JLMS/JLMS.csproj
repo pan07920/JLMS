@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>JLMS.ico</ApplicationIcon>
+    <ApplicationIcon>JLMSim.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Data.v15.2, Version=15.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -79,6 +79,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utilities.cs" />
+    <Compile Include="ViewModels\CMEOutputFileViewModel.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
@@ -89,8 +90,14 @@
     <Compile Include="Views\AppSettingsView.xaml.cs">
       <DependentUpon>AppSettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CMEOutputFileView.xaml.cs">
+      <DependentUpon>CMEOutputFileView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DAOutputView.xaml.cs">
       <DependentUpon>DAOutputView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DAOutputFileView.xaml.cs">
+      <DependentUpon>DAOutputFileView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SimView.xaml.cs">
       <DependentUpon>SimView.xaml</DependentUpon>
@@ -144,6 +151,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CMEOutputFileView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DAOutputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -165,6 +176,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CMEOutputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DAOutputFileView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -243,6 +258,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Icons\ViewCharts_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="JLMSim.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\JLMSim.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\jlemLOGO-long_-_darkened_for_web4-SM.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="copyright.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\BOFolder_32x32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

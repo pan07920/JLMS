@@ -36,8 +36,16 @@
             </dxwui:PageAdornerControl.HeaderTemplate>
         </dxwui:PageAdornerControl>
         <Border Grid.Row="1">
-            <Grid Margin="5" >
-            
+            <Grid  Margin="5" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center"  >
+                <Image  Margin ="20" HorizontalAlignment="Center" VerticalAlignment="Bottom"   Source="/JLMS;component/Images/jlemLOGO-long_-_darkened_for_web4-SM.gif"/>
+                    <TextBlock Padding="10" Name="CopyRight"  Grid.Column ="1" Loaded="CopyRightContent_Loaded" HorizontalAlignment="Center"></TextBlock>
+                </StackPanel>
+                <TextBox Padding="20"  Name="CopyRightContent"  Grid.Column ="1" Loaded="CopyRightContent_Loaded"></TextBox>
             </Grid>
         </Border>
     </Grid>

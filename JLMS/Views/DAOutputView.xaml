@@ -87,6 +87,23 @@
                                                                                 </dxc:StockSeries2D.ReductionOptions>
                                                                             </dxc:StockSeries2D>
                                                                         </dxc:XYDiagram2D.Series>
+                                                                        <!--<dxc:XYDiagram2D.Series>
+                                                                            <dxc:CandleStickSeries2D   DisplayName="{Binding SelectedSecurity}" HighValueDataMember="HIGH" LowValueDataMember="LOW" CloseValueDataMember="CLOSE" OpenValueDataMember ="OPEN" 
+                                                                                                ArgumentDataMember="Day"   BorderThickness ="1">
+                                                                                <dxc:CandleStickSeries2D.PointAnimation>
+                                                                                    <dxc:Stock2DSlideFromLeftAnimation Duration="0:0:0.02" PointDelay="0:0:0.01" />
+                                                                                </dxc:CandleStickSeries2D.PointAnimation>
+                                                                                <dxc:CandleStickSeries2D.Model >
+                                                                                    <dxc:GlassCandleStick2DModel />
+                                                                                </dxc:CandleStickSeries2D.Model>
+
+                                                                                --><!--region #ValueToDisplay--><!--
+                                                                                <dxc:CandleStickSeries2D.PointOptions>
+                                                                                    <dxc:PointOptions dxc:FinancialSeries2D.ValueToDisplay="HighValue" />
+                                                                                </dxc:CandleStickSeries2D.PointOptions>
+                                                                                --><!--endregion #ValueToDisplay--><!--
+                                                                            </dxc:CandleStickSeries2D>
+                                                                        </dxc:XYDiagram2D.Series>-->
 
                                                                         <!--Region #Axis X-->
                                                                         <dxc:XYDiagram2D.AxisX >

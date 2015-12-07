@@ -1,0 +1,133 @@
+LICENSE AGREEMENT 
+
+This License Agreement ("Agreement") is a legal contract between you (either an individual or a single business 
+entity) and Jacobs Levy Equity Management, Inc. Registered users of the JLMSim Software (including its 
+documentation, the "Software") are permitted to use the Software subject to the conditions set forth herein.
+
+BY ACCEPTING ALL OF THE TERMS OF THIS LICENSE AGREEMENT, OR BY INSTALLING, COPYING, OR 
+OTHERWISE USING THE SOFTWARE APPLICATION, YOU AGREE TO BE BOUND BY THE TERMS OF 
+THIS AGREEMENT, INCLUDING THE WARRANTY DISCLAIMERS AND LIMITATIONS OF LIABILITY BELOW. 
+IF YOU DO NOT AGREE TO THE TERMS OF THIS AGREEMENT, DO NOT INSTALL OR USE THE 
+SOFTWARE.
+
+The Software is NOT in the public domain. Jacobs Levy owns all right, title and interest to and in the Software and 
+its source code in its entirety. This Agreement does not convey to you an interest in or to the Software, but only a 
+limited right of use revocable in accordance with the terms of this Agreement. You may use the Software only 
+subject to the following conditions:
+
+License: 
+* You must be a registered user to use the Software. You can register through the Jacobs Levy Equity 
+Management, Inc. website, www.jlem.com.
+* You may not modify, decompile, reverse engineer, or disassemble the Software.
+* You may not redistribute the Software in any fashion.
+* You may not sell the Software or charge a distribution fee.
+* Your right to use the Software automatically terminates on your breach of the Agreement. In the event that your 
+right to use the Software terminates, you agree to promptly destroy the program and documentation, together with 
+all copies thereof, in whole or in part, in any form, and to cease all use of the program and documentation. 
+* You understand that Jacobs Levy Equity Management, Inc. is under no obligation to update the Software. 
+
+Disclaimer of Investment Advice:
+YOU UNDERSTAND AND AGREE THAT JACOBS LEVY EQUITY MANAGEMENT, INC. IS NOT PROVIDING 
+ANY INVESTMENT ADVICE OR RECOMMENDATION IN CONNECTION WITH YOUR USE OF THE 
+SOFTWARE AND HAS NO RESPONSIBILITY FOR ANY DECISIONS YOU MAY MAKE BASED ON YOUR USE 
+OF THE SOFTWARE. THE USE OF THE SOFTWARE IS SOLELY YOUR RESPONSIBILITY.
+
+Disclaimer of Warranty:
+THE SOFTWARE AND RELATED DOCUMENTATION ARE PROVIDED "AS IS", WITHOUT WARRANTY OF 
+ANY KIND. JACOBS LEVY EQUITY MANAGEMENT, INC. DOES NOT AND CANNOT WARRANT THAT THE 
+FUNCTIONS CONTAINED IN THE SOFTWARE WILL MEET YOUR REQUIREMENTS, OR THAT THE 
+OPERATION OF THE SOFTWARE WILL BE UNINTERRUPTED, ERROR-FREE OR COMPLETE, OR THAT 
+DEFECTS IN THE SOFTWARE OR DOCUMENTATION WILL BE CORRECTED. JACOBS LEVY EQUITY 
+MANAGEMENT, INC DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING, BUT NOT 
+LIMITED TO, ANY WARRANTIES OF DESIGN, MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+PURPOSE, OR TITLE OR INFRINGEMENT OF THIRD-PARTY RIGHTS.
+
+Limitation of Liability:
+IN NO EVENT SHALL JACOBS LEVY EQUITY MANAGEMENT, INC. BE LIABLE FOR ANY DAMAGES, 
+INCLUDING, WITHOUT LIMITATION: LOST REVENUE OR PROFITS OR ANY INCIDENTAL, INDIRECT, 
+SPECIAL OR CONSEQUENTIAL DAMAGES, INCLUDING ANY LOST PROFITS OR LOST SAVINGS; OR 
+OTHER LOSSES THAT RESULT FROM THE USE OR INABILITY TO USE THE SOFTWARE, EVEN IF A 
+JACOBS LEVY EQUITY MANAGEMENT, INC. REPRESENTATIVE HAS BEEN ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGES; OR FOR ANY CLAIM BY ANY THIRD PARTY.
+
+General Terms:
+This Agreement represents the complete agreement between you and Jacobs Levy Equity Management, Inc. 
+concerning the Software, supersedes any prior agreements and understanding concerning its subject matter, and 
+can only be modified by a written agreement signed by you and Jacobs Levy Equity Management, Inc. Changes 
+from the terms and conditions of this Agreement made in any other manner will be of no effect. If any portion of this 
+Agreement shall be held invalid, illegal or unenforceable, the validity, legality and enforceability of the remainder of 
+the Agreement shall not be in any way affected or impeded thereby.
+
+Choice of Law and Forum, Waiver of Jury Trial:
+This Agreement shall be governed by the laws of the State of New Jersey applicable to contracts made or 
+performed entirely within the state. YOU AND JACOBS LEVY EQUITY MANAGEMENT, INC. AGREE THAT THE 
+COURTS OF THE UNITED STATES AND THE STATE OF NEW JERSEY SHALL BE THE EXCLUSIVE 
+FORUMS FOR ANY ACTION ARISING OUT OF THIS AGREEMENT, AGREE TO THE PERSONAL 
+JURISDICTION OF THOSE COURTS, AND WAIVE ALL OBJECTIONS TO LAYING VENUE THEREIN. YOU 
+AND JACOBS LEVY EQUITY MANAGEMENT, INC. WAIVE ANY RIGHT TO JURY TRIAL.
+
+
+
+©2010 Jacobs Levy Equity Management
+
+THIS AGREEMENT, INCLUDING THE WARRANTY DISCLAIMERS AND LIMITATIONS OF LIABILITY BELOW. 
+IF YOU DO NOT AGREE TO THE TERMS OF THIS AGREEMENT, CLICK ON THE "NO" ICON BELOW AND 
+DO NOT INSTALL OR USE THE SOFTWARE.
+
+The Software is NOT in the public domain. Jacobs Levy owns all right, title and interest to and in the Software and 
+its source code in its entirety. This Agreement does not convey to you an interest in or to the Software, but only a 
+limited right of use revocable in accordance with the terms of this Agreement. You may use the Software only 
+subject to the following conditions:
+
+License:
+
+    * You must be a registered user to use the Software. Registration may be made only on the Jacobs Levy Equity 
+Management, Inc. website, www.jlem.com.
+    * You may not modify, decompile, reverse engineer, or disassemble the Software.
+    * You may not redistribute the Software in any fashion.
+    * You may not sell the Software or charge a distribution fee.
+    * Your right to use the Software automatically terminates on your breach of the Agreement. In the event that 
+your right to use the Software terminates, you agree to promptly destroy the program and documentation, together 
+with all copies thereof, in whole or in part, in any form, and to cease all use of the program and documentation.
+    * You understand that Jacobs Levy Equity Management, Inc. is under no obligation to update the Software. 
+
+
+Disclaimer of Investment Advice:
+YOU UNDERSTAND AND AGREE THAT JACOBS LEVY EQUITY MANAGEMENT, INC. IS NOT PROVIDING 
+ANY INVESTMENT ADVICE OR RECOMMENDATION IN CONNECTION WITH YOUR USE OF THE 
+SOFTWARE AND HAS NO RESPONSIBILITY FOR ANY DECISIONS YOU MAY MAKE BASED ON YOUR USE 
+OF THE SOFTWARE. THE USE OF THE SOFTWARE IS SOLELY YOUR RESPONSIBILITY.
+
+Disclaimer of Warranty:
+THE SOFTWARE AND RELATED DOCUMENTATION ARE PROVIDED "AS IS", WITHOUT WARRANTY OF 
+ANY KIND. JACOBS LEVY EQUITY MANAGEMENT, INC. DOES NOT AND CANNOT WARRANT THAT THE 
+FUNCTIONS CONTAINED IN THE SOFTWARE WILL MEET YOUR REQUIREMENTS, OR THAT THE 
+OPERATION OF THE SOFTWARE WILL BE UNINTERRUPTED, ERROR-FREE OR COMPLETE, OR THAT 
+DEFECTS IN THE SOFTWARE OR DOCUMENTATION WILL BE CORRECTED. JACOBS LEVY EQUITY 
+MANAGEMENT, INC DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING, BUT NOT 
+LIMITED TO, ANY WARRANTIES OF DESIGN, MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+PURPOSE, OR TITLE OR INFRINGEMENT OF THIRD-PARTY RIGHTS.
+
+Limitation of Liability:
+IN NO EVENT SHALL JACOBS LEVY EQUITY MANAGEMENT, INC. BE LIABLE FOR ANY DAMAGES, 
+INCLUDING, WITHOUT LIMITATION: LOST REVENUE OR PROFITS OR ANY INCIDENTAL, INDIRECT, 
+SPECIAL OR CONSEQUENTIAL DAMAGES, INCLUDING ANY LOST PROFITS OR LOST SAVINGS; OR 
+OTHER LOSSES THAT RESULT FROM THE USE OR INABILITY TO USE THE SOFTWARE, EVEN IF A 
+JACOBS LEVY EQUITY MANAGEMENT, INC. REPRESENTATIVE HAS BEEN ADVISED OF THE POSSIBILITY 
+OF SUCH DAMAGES; OR FOR ANY CLAIM BY ANY THIRD PARTY.
+
+General Terms:
+This Agreement represents the complete agreement between you and Jacobs Levy Equity Management, Inc. 
+concerning the Software, supersedes any prior agreements and understanding concerning its subject matter, and 
+can only be modified by a written agreement signed by you and Jacobs Levy Equity Management, Inc. Changes 
+from the terms and conditions of this Agreement made in any other manner will be of no effect. If any portion of this 
+Agreement shall be held invalid, illegal or unenforceable, the validity, legality and enforceability of the remainder of 
+the Agreement shall not be in any way affected or impeded thereby.
+
+Choice of Law and Forum, Waiver of Jury Trial:
+This Agreement shall be governed by the laws of the State of New Jersey applicable to contracts made or 
+performed entirely within the state. YOU AND JACOBS LEVY EQUITY MANAGEMENT, INC. AGREE THAT THE 
+COURTS OF THE UNITED STATES AND THE STATE OF NEW JERSEY SHALL BE THE EXCLUSIVE 
+FORUMS FOR ANY ACTION ARISING OUT OF THIS AGREEMENT, AGREE TO THE PERSONAL 
+JURISDICTION OF THOSE COURTS, AND WAIVE ALL OBJECTIONS TO LAYING VENUE THEREIN. YOU 
+AND JACOBS LEVY EQUITY MANAGEMENT, INC. WAIVE ANY RIGHT TO JURY TRIAL.

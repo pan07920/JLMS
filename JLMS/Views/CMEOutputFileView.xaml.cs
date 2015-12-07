@@ -13,22 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace JLMS.View
+namespace JLMS.Views
 {
     /// <summary>
-    /// Interaction logic for AboutView.xaml
+    /// Interaction logic for CMEOutputFileView.xaml
     /// </summary>
-    public partial class AboutView : UserControl
+    public partial class CMEOutputFileView : UserControl
     {
-        public AboutView()
+        public CMEOutputFileView()
         {
             InitializeComponent();
-        }
-
-        private void CopyRightContent_Loaded(object sender, RoutedEventArgs e)
-        {
-            CopyRight.Text = "© " +  DateTime.Now.ToString("yyyy") + " Jacobs Levy Equity Management. All rights reserved";
-            CopyRightContent.Text = global::JLMS.Properties.Resources.copyright;
         }
     }
 }
