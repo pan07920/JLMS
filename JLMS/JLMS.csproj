@@ -79,7 +79,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utilities.cs" />
-    <Compile Include="ViewModels\CMEOutputFileViewModel.cs" />
+    <Compile Include="ViewModels\OutputFileViewModel.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
@@ -90,8 +90,8 @@
     <Compile Include="Views\AppSettingsView.xaml.cs">
       <DependentUpon>AppSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CMEOutputFileView.xaml.cs">
-      <DependentUpon>CMEOutputFileView.xaml</DependentUpon>
+    <Compile Include="Views\OutputFileView.xaml.cs">
+      <DependentUpon>OutputFileView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DAOutputView.xaml.cs">
       <DependentUpon>DAOutputView.xaml</DependentUpon>
@@ -151,7 +151,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CMEOutputFileView.xaml">
+    <Page Include="Views\OutputFileView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

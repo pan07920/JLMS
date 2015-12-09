@@ -140,7 +140,7 @@
 
                         <dxwui:NavigationButton Name ="buttonNavCMEFile" IsEnabled="{Binding Path=IsCaseReady}" 
                                                 Visibility="{Binding Path= SelectedCase.MTOperationMode, Converter={StaticResource BooleanToVisibilityConverter}}" 
-                                                Margin="5" NavigateTo="CMEOutputFileView" NavigationParameter="{Binding SelectedCase}" >
+                                                Margin="5" NavigateTo="OutputFileView" NavigationParameter="{Binding SelectedCase}" >
                             <StackPanel Orientation="Vertical"  >
                                 <Image  Margin ="2" Source="/JLMS;component/Images/Icons/MixFiles_32x32.png" Stretch="None" HorizontalAlignment="Center" />
                                 <TextBlock Margin ="5,0,0,0" Text="View Output Files" VerticalAlignment="Center" HorizontalAlignment="Left"/>
@@ -148,7 +148,7 @@
                         </dxwui:NavigationButton>
                         <dxwui:NavigationButton Name ="buttonNavDAFile"  IsEnabled="{Binding Path=IsCaseReady}" 
                                                 Visibility="{Binding ElementName = buttonNavCME, Path=Visibility, Converter= {StaticResource InvertVisibilityConverter}}" 
-                                                Margin="5"  NavigateTo="DAOutputFileView" NavigationParameter="{Binding SelectedCase}">
+                                                Margin="5"  NavigateTo="OutputFileView" NavigationParameter="{Binding SelectedCase}">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left"  >
                                 <Image  Margin ="2" Source="/JLMS;component/Images/Icons/MixFiles_32x32.png" Stretch="None" HorizontalAlignment="Center" />
                                 <TextBlock Margin ="5,0,0,0" Text="View Output Files" VerticalAlignment="Center" HorizontalAlignment="Left"/>

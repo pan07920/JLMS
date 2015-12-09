@@ -27,7 +27,7 @@ namespace JLMS.ViewModels
         private string _workingfolder = @"C:\JLMSim"; //todo, in setting
 
         private CaseSummary _selectedcase;
-       
+        KeyValuePair<string, string> _selectedoutfile;
         ObservableCollection<CaseSummary> _casefilescollectioncme = new ObservableCollection<CaseSummary>();
         ObservableCollection<CaseSummary> _casefilescollectionda = new ObservableCollection<CaseSummary>();
         public bool IsCaseReady
@@ -47,7 +47,19 @@ namespace JLMS.ViewModels
                 OnPropertyChanged("IsCaseReady");
             }
         }
-    
+      
+        public KeyValuePair<string, string> SelectedOutputFile
+        {
+            get { return _selectedoutfile; }
+            set
+            {
+                if(_selectedoutfile.Value !=  value.Value)
+                {
+                    _selectedoutfile = value;
+                    OnPropertyChanged("SelectedOutputFile");
+                }
+            }
+        }
         public ObservableCollection<KeyValuePair<string, KeyValuePair<string, string>>> SelectedCaseSummary
         {
             get { return _selectedcase == null?null:_selectedcase.Summary; }
@@ -76,6 +88,7 @@ namespace JLMS.ViewModels
         }
         public MainViewModel()
         {
+            _selectedoutfile = new KeyValuePair<string, string>();
             LoadCaseFiles();
         }
         private void LoadSummary(string casename)
@@ -159,19 +172,19 @@ namespace JLMS.ViewModels
             ObservableCollection<KeyValuePair<string, string>> filelist = new ObservableCollection<KeyValuePair<string, string>>();
             
 
-            filelist.Add(new KeyValuePair<string, string>("Order Impact Analysis for Case " , "Order Impact Analysis for Case " + casename + ".csv"));
-            filelist.Add(new KeyValuePair<string, string>("WhoDidWhatIn Case", "WhoDidWhatIn Case " + casename + ".csv"));
-            filelist.Add(new KeyValuePair<string, string>("Trace file for Case", "Trace file for Case " + casename + ".txt"));
-            filelist.Add(new KeyValuePair<string, string>("Estimates During Case", "Estimates During Case " + casename + ".csv"));
-            filelist.Add(new KeyValuePair<string, string>("Daily Reports for Case", "Daily Reports for Case " + casename + ".csv"));
+            filelist.Add(new KeyValuePair<string, string>("Order Impact Analysis for Case " , _workingfolder + @"\" + "Order Impact Analysis for Case " + casename + ".csv"));
+            filelist.Add(new KeyValuePair<string, string>("Who Did What In Case", _workingfolder + @"\" + "WhoDidWhatIn Case " + casename + ".csv"));
+            filelist.Add(new KeyValuePair<string, string>("Trace file for Case", _workingfolder + @"\" + "Trace file for Case " + casename + ".txt"));
+            filelist.Add(new KeyValuePair<string, string>("Estimates During Case", _workingfolder + @"\" + "Estimates During Case " + casename + ".csv"));
+            filelist.Add(new KeyValuePair<string, string>("Daily Reports for Case", _workingfolder + @"\" + "Daily Reports for Case " + casename + ".csv"));
 
-            filelist.Add(new KeyValuePair<string, string>(prefixInput, prefixInput + casename + ".csv"));
-            filelist.Add(new KeyValuePair<string, string>(prefixMessage, prefixMessage + casename + ".csv"));
+            filelist.Add(new KeyValuePair<string, string>(prefixInput, _workingfolder + @"\" + prefixInput + casename + ".txt"));
+            filelist.Add(new KeyValuePair<string, string>(prefixMessage, _workingfolder + @"\" + prefixMessage + casename + ".csv"));
 
             if (bMTOperationMode)
-                 filelist.Add(new KeyValuePair<string, string>("Convergence Analysis for Case", "Convergence Analysis for Case " + casename + ".csv"));
+                 filelist.Add(new KeyValuePair<string, string>("Convergence Analysis for Case", _workingfolder + @"\" + "Convergence Analysis for Case " + casename + ".csv"));
              else
-                filelist.Add(new KeyValuePair<string, string>("Order Impact Analysis for Case", "Order Impact Analysis for Case " + casename + ".csv"));
+                filelist.Add(new KeyValuePair<string, string>("Order Impact Analysis for Case", _workingfolder + @"\" + "Order Impact Analysis for Case " + casename + ".csv"));
 
             CaseSummary simcase = new CaseSummary();
             simcase.Name = casename;

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace JLMS.Views
 {
     /// <summary>
-    /// Interaction logic for CMEOutputFileView.xaml
+    /// Interaction logic for OutputFileView.xaml
     /// </summary>
-    public partial class CMEOutputFileView : UserControl
+    public partial class OutputFileView : UserControl
     {
-        public CMEOutputFileView()
+        public OutputFileView()
         {
             InitializeComponent();
         }

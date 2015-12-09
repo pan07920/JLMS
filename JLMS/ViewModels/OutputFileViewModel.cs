@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JLMS.ViewModels
 {
-    class CMEOutputFileViewModel: ViewModelBase
+    class OutputFileViewModel: ViewModelBase
     {
         private ObservableCollection<string> _securities;
 
