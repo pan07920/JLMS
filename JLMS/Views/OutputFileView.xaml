@@ -8,6 +8,7 @@
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxnb="http://schemas.devexpress.com/winfx/2008/xaml/navbar"
              xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
+            xmlns:dxsps="http://schemas.devexpress.com/winfx/2008/xaml/spreadsheet" 
              xmlns:local="clr-namespace:JLMS"
              mc:Ignorable="d" 
              xmlns:dxwuin="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/navigation"
@@ -42,7 +43,7 @@
                      <dxlc:LayoutGroup  Orientation="Vertical"  Header="Case Output Files" View="GroupBox" IsCollapsible="False" DragScrolling="False" Width="250">
                             <dxnb:NavBarControl Name="navBarControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1">
                                 <dxnb:NavBarControl.Groups>
-                            <local:NavBarGroupEx Header="{Binding FileFolder}" CurrentItem="{Binding SelectedOutputFile, Mode=TwoWay}" ItemsSource="{Binding SelectedCaseFile}" ImageSource="/JLMS;component/Images/Icons/BOFolder_32x32.png" NavigationPaneVisible="False" >
+                            <local:NavBarGroupEx Header="{Binding FileFolder}" CurrentItem="{Binding SelectedOutputFile, Mode=TwoWay}" ItemsSource="{Binding SelectedCaseFile}" ImageSource="/JLMS;component/Images/Icons/BOFolder_32x32.png" NavigationPaneVisible="False"  >
                                         <local:NavBarGroupEx.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
@@ -59,12 +60,20 @@
                             </dxnb:NavBarControl>
                         </dxlc:LayoutGroup>
 
-                <dxlc:LayoutGroup Header="File Preview"  View="GroupBox"  Orientation="Vertical">
+                <dxlc:LayoutGroup Name="FilePreView" Header="File Preview"  View="GroupBox"  Orientation="Vertical">
                     <dxd:LayoutControlItem Caption="File" VerticalAlignment="Top">
-                        <TextBox x:Name ="txtboxfileselect" Text="{Binding SelectedOutputFile.Value, Mode=OneWay}" Height="20" />
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBox  x:Name ="txtboxfileselect" Margin="3" IsReadOnly ="true" Grid.Column="0" Text="{Binding SelectedOutputFile.Value, Mode=OneWay}" Height="20" TextChanged="txtboxfileselect_TextChanged" />
+                            <CheckBox Name="checkboxopenextern" Margin="3" Content="Open File with External Program" Grid.Column="1" HorizontalAlignment="Left" IsChecked="True"></CheckBox>
+                        </Grid>
                     </dxd:LayoutControlItem>
                     <dxd:LayoutControlItem   ItemHeight="5*" >
-                        <WebBrowser x:Name="ViewWeb" local:WebBrowserUtility.BindableSource ="{Binding Text, ElementName=txtboxfileselect, Mode=OneWay}" OverridesDefaultStyle="True"  />
+                        <!--<WebBrowser x:Name="ViewWeb" local:WebBrowserUtility.BindableSource ="{Binding Text, ElementName=txtboxfileselect, Mode=OneWay}" OverridesDefaultStyle="True"  />-->
+                        <dxsps:SpreadsheetControl Name ="outputFileSheet"></dxsps:SpreadsheetControl>
                     </dxd:LayoutControlItem>
                 </dxlc:LayoutGroup>
                 
