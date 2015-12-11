@@ -36,12 +36,10 @@
         <Border  Grid.Row="1" Background="Transparent">
             <DockPanel Margin="5" >
                 <dxd:DockLayoutManager x:Name="dockLayoutManager" >
-                    <dxd:LayoutGroup>
                         <dxd:LayoutGroup Orientation="Vertical"  ItemWidth="1.3*">
                             <dxd:DocumentGroup ItemHeight="4*">
-                                <dxd:DocumentPanel x:Name="dpSecurities" Caption="Security (individual)" ItemHeight="4*" AllowClose="False" >
+                                <dxd:DocumentPanel x:Name="dpSecurities" Caption="Individual Security" ItemHeight="4*" AllowClose="False" >
                                     <Grid >
-
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"></ColumnDefinition>
                                             <ColumnDefinition Width="100"></ColumnDefinition>
@@ -423,8 +421,6 @@
                                 </dxd:DocumentPanel>
                             </dxd:DocumentGroup>
                         </dxd:LayoutGroup>
-                    </dxd:LayoutGroup>
-
                 </dxd:DockLayoutManager>
             </DockPanel>
         </Border>

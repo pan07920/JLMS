@@ -42,5 +42,12 @@ namespace JLMS.Views
         {
            // string s = e.Parameter.ToString();
         }
+
+        private void cmdPrintWeightChart_Click(object sender, RoutedEventArgs e)
+        {
+            //chartControlWeights.ShowPrintPreview(this, DevExpress.Xpf.Charts.PrintSizeMode.ProportionalZoom);
+            chartControlWeights.Print(DevExpress.Xpf.Charts.PrintSizeMode.ProportionalZoom);
+
+        }
     }
 }

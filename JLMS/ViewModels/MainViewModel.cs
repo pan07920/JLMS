@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.IO;
 using System.Globalization;
-
+using DevExpress.Xpf.Core;
 
 namespace JLMS.ViewModels
 {
@@ -23,11 +23,10 @@ namespace JLMS.ViewModels
     }
     class MainViewModel : ViewModelBase
     {
-       
+
         private string _workingfolder = @"C:\JLMSim"; //todo, in setting
 
         private CaseSummary _selectedcase;
-        KeyValuePair<string, string> _selectedoutfile;
         ObservableCollection<CaseSummary> _casefilescollectioncme = new ObservableCollection<CaseSummary>();
         ObservableCollection<CaseSummary> _casefilescollectionda = new ObservableCollection<CaseSummary>();
         public bool IsCaseReady
@@ -35,41 +34,24 @@ namespace JLMS.ViewModels
             get { return _selectedcase != null && _selectedcase.Name != ""; }
         }
         public string FileFolder { get { return _workingfolder; } }
-       
+
         public CaseSummary SelectedCase
         {
             get { return _selectedcase; }
             set
             {
                 _selectedcase = value;
-                _selectedoutfile = new KeyValuePair<string, string>();
                 OnPropertyChanged("SelectedCase");
                 OnPropertyChanged("SelectedCaseSummary");
                 OnPropertyChanged("IsCaseReady");
-                OnPropertyChanged("SelectedOutputFile");
             }
         }
-      
-        public KeyValuePair<string, string> SelectedOutputFile
-        {
-            get { return _selectedoutfile; }
-            set
-            {
-                if(_selectedoutfile.Value !=  value.Value)
-                {
-                    _selectedoutfile = value;
-                    OnPropertyChanged("SelectedOutputFile");
-                }
-            }
-        }
-        public string SelectedOutputFileName
-        {
-            get { return _selectedoutfile.Value; }
-        }
+
+
         public ObservableCollection<KeyValuePair<string, KeyValuePair<string, string>>> SelectedCaseSummary
         {
-            get { return _selectedcase == null?null:_selectedcase.Summary; }
-           
+            get { return _selectedcase == null ? null : _selectedcase.Summary; }
+
         }
 
         public ObservableCollection<KeyValuePair<string, string>> SelectedCaseFile
@@ -94,116 +76,124 @@ namespace JLMS.ViewModels
         }
         public MainViewModel()
         {
-            _selectedoutfile = new KeyValuePair<string, string>();
             LoadCaseFiles();
         }
         private void LoadSummary(string casename)
         {
-            
-            string prefixInput = "JLMSimInput for Case ";
-            string prefixMessage = "Messages from Case ";
-            
-            string caseinputfile = _workingfolder + @"\" + prefixInput + casename + ".txt";
-            string casemessagefile = _workingfolder + @"\" + prefixMessage + casename + ".csv";
 
-          
-            ObservableCollection<KeyValuePair<string, KeyValuePair<string, string>>> summary = new ObservableCollection<KeyValuePair<string, KeyValuePair<string, string>>>();
+            try {
+                string prefixInput = "JLMSimInput for Case ";
+                string prefixMessage = "Messages from Case ";
 
-            KeyValuePair<string, KeyValuePair<string, string>> rowfirst = new KeyValuePair<string, KeyValuePair<string, string>>(  "Case Name", new KeyValuePair<string, string> ("Selected Case" ,casename ));
-            summary.Add(rowfirst);
+                string caseinputfile = _workingfolder + @"\" + prefixInput + casename + ".txt";
+                string casemessagefile = _workingfolder + @"\" + prefixMessage + casename + ".csv";
 
-          
-            List<string> inputlines = File.ReadAllLines(caseinputfile).ToList<string>();
-            List<string> linemessagelines = File.ReadAllLines(casemessagefile).ToList<string>();
+                if (!File.Exists(casemessagefile))
+                    return;
 
-            List<string[]> frominput = GetCaseInputParameters();
-            List<string[]> fromMessage = GetCaseMessageParameters();
+                ObservableCollection<KeyValuePair<string, KeyValuePair<string, string>>> summary = new ObservableCollection<KeyValuePair<string, KeyValuePair<string, string>>>();
 
-            int nTotalSecurities = 0;
-            int nSimulationLength = 0;
-            foreach (string[] param in frominput)
-            {
-                string val = inputlines.Find(delegate (string s) { return s.Contains(param[0]); });
-                if (val == null)
-                    val = "";
+                KeyValuePair<string, KeyValuePair<string, string>> rowfirst = new KeyValuePair<string, KeyValuePair<string, string>>("Case Name", new KeyValuePair<string, string>("Selected Case", casename));
+                summary.Add(rowfirst);
+
+
+                List<string> inputlines = File.ReadAllLines(caseinputfile).ToList<string>();
+                List<string> linemessagelines = File.ReadAllLines(casemessagefile).ToList<string>();
+
+                List<string[]> frominput = GetCaseInputParameters();
+                List<string[]> fromMessage = GetCaseMessageParameters();
+
+                int nTotalSecurities = 0;
+                int nSimulationLength = 0;
+                foreach (string[] param in frominput)
+                {
+                    string val = inputlines.Find(delegate (string s) { return s.Contains(param[0]); });
+                    if (val == null)
+                        val = "";
+                    else
+                    {
+                        val = val.Split(':').ToList<string>()[1].Trim();
+                    }
+
+                    KeyValuePair<string, KeyValuePair<string, string>> newrow = new KeyValuePair<string, KeyValuePair<string, string>>(param[1], new KeyValuePair<string, string>(param[2], val));
+                    summary.Add(newrow);
+
+                    if (param[1] == "Number of Securities")
+                        nTotalSecurities = int.Parse(val);
+                    if (param[1] == "Simulation Length")
+                        nSimulationLength = int.Parse(val);
+                }
+
+                foreach (string[] param in fromMessage)
+                {
+                    string val = linemessagelines.Find(delegate (string s) { return s.Contains(param[0]); });
+                    if (val == null)
+                        val = "0";
+                    else
+                    {
+                        val = val.Split(new char[] { ':', ',' }).ToList<string>().Last<string>().Trim();
+                    }
+                    if (param[0].Contains("Total"))
+                    {
+                        Decimal amount = Decimal.Parse(val);
+                        val = String.Format(new CultureInfo("en-US"), "{0:C0}", amount); //"{0:C}" for decimal/cents
+                    }
+
+                    if (param[0].Contains("Nr."))
+                    {
+                        int amount = int.Parse(val);
+                        val = String.Format("{0:n0}", amount);
+                    }
+
+                    KeyValuePair<string, KeyValuePair<string, string>> newrow = new KeyValuePair<string, KeyValuePair<string, string>>(param[1], new KeyValuePair<string, string>(param[2], val));
+                    summary.Add(newrow);
+                }
+                bool bMTOperationMode = true; //show Weight and Returns
+                string mode = inputlines.Find(delegate (string s) { return s.Contains("or that specific specs follow"); });
+                if (mode == null)
+                    mode = "";
                 else
                 {
-                    val = val.Split(':').ToList<string>()[1].Trim();
+                    mode = mode.Split(new char[] { ':', ',' }).ToList<string>().Last<string>().Trim();
                 }
-     
-                KeyValuePair<string, KeyValuePair<string, string>> newrow = new KeyValuePair<string, KeyValuePair<string, string>>(param[1], new KeyValuePair<string, string>(param[2], val));
-                summary.Add(newrow);
-               
-                if (param[1] == "Number of Securities")
-                    nTotalSecurities = int.Parse(val);
-                if (param[1] == "Simulation Length")
-                    nSimulationLength = int.Parse(val);
-            }
+                if (mode == "X" || mode == "N")
+                    bMTOperationMode = false;
 
-            foreach (string[] param in fromMessage)
+                ObservableCollection<KeyValuePair<string, string>> filelist = new ObservableCollection<KeyValuePair<string, string>>();
+
+
+                filelist.Add(new KeyValuePair<string, string>("Order Impact Analysis for Case ", _workingfolder + @"\" + "Order Impact Analysis for Case " + casename + " t GE 100.csv"));
+                filelist.Add(new KeyValuePair<string, string>("Who Did What In Case (large file!)", _workingfolder + @"\" + "WhoDidWhatIn Case " + casename + ".csv"));
+                filelist.Add(new KeyValuePair<string, string>("Trace file for Case (large file!)", _workingfolder + @"\" + "Trace file for Case " + casename + ".txt"));
+                filelist.Add(new KeyValuePair<string, string>("Estimates During Case", _workingfolder + @"\" + "Estimates During Case " + casename + ".csv"));
+                filelist.Add(new KeyValuePair<string, string>("Daily Reports for Case", _workingfolder + @"\" + "Daily Reports for Case " + casename + ".csv"));
+
+                filelist.Add(new KeyValuePair<string, string>(prefixInput, _workingfolder + @"\" + prefixInput + casename + ".txt"));
+                filelist.Add(new KeyValuePair<string, string>(prefixMessage, _workingfolder + @"\" + prefixMessage + casename + ".csv"));
+
+                if (bMTOperationMode)
+                    filelist.Add(new KeyValuePair<string, string>("Convergence Analysis for Case", _workingfolder + @"\" + "Convergence Analysis for Case " + casename + ".csv"));
+                // else
+                //     filelist.Add(new KeyValuePair<string, string>("Order Impact Analysis for Case", _workingfolder + @"\" + "Order Impact Analysis for Case " + casename + ".csv"));
+
+                CaseSummary simcase = new CaseSummary();
+                simcase.Name = casename;
+                simcase.MTOperationMode = bMTOperationMode;
+                simcase.SimulationLength = nSimulationLength;
+                simcase.TotalSecurities = nTotalSecurities;
+                simcase.OutputFiles = filelist;
+                simcase.Summary = summary;
+                //if (bMTOperationMode)
+                    _casefilescollectioncme.Add(simcase);
+               // else
+                 //   _casefilescollectionda.Add(simcase);
+
+            }
+            catch(Exception e)
             {
-                string val = linemessagelines.Find(delegate (string s) { return s.Contains(param[0]); });
-                if (val == null)
-                    val = "0";
-                else
-                {
-                    val = val.Split(new char[] { ':', ',' }).ToList<string>().Last<string>().Trim();
-                }
-                if (param[0].Contains("Total"))
-                {
-                    Decimal amount = Decimal.Parse(val);
-                    val = String.Format(new CultureInfo("en-US"), "{0:C0}", amount); //"{0:C}" for decimal/cents
-                }
 
-                if (param[0].Contains("Nr."))
-                {
-                    int amount = int.Parse(val);
-                    val = String.Format("{0:n0}", amount);
-                }
-
-                KeyValuePair<string, KeyValuePair<string, string>> newrow = new KeyValuePair<string, KeyValuePair<string, string>>(param[1], new KeyValuePair<string, string>(param[2], val));
-                summary.Add(newrow);
+                DXMessageBox.Show("Error reading case files, please make sure all case files are closed: " + System.Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
-            bool bMTOperationMode = true; //show Weight and Returns
-            string mode = inputlines.Find(delegate (string s) { return s.Contains("or that specific specs follow"); });
-            if (mode == null)
-                mode = "";
-            else
-            {
-                mode = mode.Split(new char[] { ':', ',' }).ToList<string>().Last<string>().Trim();
-            }
-            if (mode == "X" || mode == "N")
-                bMTOperationMode = false;
-
-            ObservableCollection<KeyValuePair<string, string>> filelist = new ObservableCollection<KeyValuePair<string, string>>();
-            
-
-            filelist.Add(new KeyValuePair<string, string>("Order Impact Analysis for Case " , _workingfolder + @"\" + "Order Impact Analysis for Case " + casename + " t GE 100.csv"));
-            filelist.Add(new KeyValuePair<string, string>("Who Did What In Case (large file!)", _workingfolder + @"\" + "WhoDidWhatIn Case " + casename + ".csv"));
-            filelist.Add(new KeyValuePair<string, string>("Trace file for Case (large file!)", _workingfolder + @"\" + "Trace file for Case " + casename + ".txt"));
-            filelist.Add(new KeyValuePair<string, string>("Estimates During Case", _workingfolder + @"\" + "Estimates During Case " + casename + ".csv"));
-            filelist.Add(new KeyValuePair<string, string>("Daily Reports for Case", _workingfolder + @"\" + "Daily Reports for Case " + casename + ".csv"));
-
-            filelist.Add(new KeyValuePair<string, string>(prefixInput, _workingfolder + @"\" + prefixInput + casename + ".txt"));
-            filelist.Add(new KeyValuePair<string, string>(prefixMessage, _workingfolder + @"\" + prefixMessage + casename + ".csv"));
-
-            if (bMTOperationMode)
-                 filelist.Add(new KeyValuePair<string, string>("Convergence Analysis for Case", _workingfolder + @"\" + "Convergence Analysis for Case " + casename + ".csv"));
-            // else
-           //     filelist.Add(new KeyValuePair<string, string>("Order Impact Analysis for Case", _workingfolder + @"\" + "Order Impact Analysis for Case " + casename + ".csv"));
-
-            CaseSummary simcase = new CaseSummary();
-            simcase.Name = casename;
-            simcase.MTOperationMode = bMTOperationMode;
-            simcase.SimulationLength = nSimulationLength;
-            simcase.TotalSecurities = nTotalSecurities;
-            simcase.OutputFiles = filelist;
-            simcase.Summary = summary;
-            if(bMTOperationMode)
-                _casefilescollectioncme.Add(simcase);
-            else
-                _casefilescollectionda.Add(simcase);
-
         }
         private void LoadCaseFiles()
         {

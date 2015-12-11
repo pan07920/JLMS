@@ -32,30 +32,36 @@ namespace JLMS.Views
         private void txtboxfileselect_TextChanged(object sender, TextChangedEventArgs e)
         {
             UiServices.SetBusyState();
-
-            string filename = ((TextBox)sender).Text;
-            if (System.IO.File.Exists(filename))
+            try
             {
-                if (checkboxopenextern.IsChecked == true)
+                string filename = ((TextBox)sender).Text;
+                if (System.IO.File.Exists(filename))
                 {
-                    System.Diagnostics.Process.Start(filename);
-                }
-                else
-                { 
-                // outputFileSheet.LoadDocument(filename);
+                    if (checkboxopenextern.IsChecked == true)
+                    {
+                        System.Diagnostics.Process.Start(filename);
+                    }
+                    else
+                    {
+                        // outputFileSheet.LoadDocument(filename);
 
-                IWorkbook workbook = outputFileSheet.Document;
+                        IWorkbook workbook = outputFileSheet.Document;
 
 
-                // Load a workbook from a stream. 
-                using (FileStream stream = new FileStream(filename, FileMode.Open))
-                {
-                    if (filename.ToUpper().Contains(".TXT"))
-                        workbook.LoadDocument(stream, DocumentFormat.Text);
-                    else if (filename.ToUpper().Contains(".CSV"))
-                        workbook.LoadDocument(stream, DocumentFormat.Csv);
+                        // Load a workbook from a stream. 
+                        using (FileStream stream = new FileStream(filename, FileMode.Open))
+                        {
+                            if (filename.ToUpper().Contains(".TXT"))
+                                workbook.LoadDocument(stream, DocumentFormat.Text);
+                            else if (filename.ToUpper().Contains(".CSV"))
+                                workbook.LoadDocument(stream, DocumentFormat.Csv);
+                        }
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                DevExpress.Xpf.Core.DXMessageBox.Show("Error reading output file, please make sure the file is not openend: " + System.Environment.NewLine + ex.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
         }
     }

@@ -39,11 +39,11 @@
         <Grid Grid.Row="1">
 
             <dxlc:LayoutControl x:Name="layoutControl" >
-                        
-                     <dxlc:LayoutGroup  Orientation="Vertical"  Header="Case Output Files" View="GroupBox" IsCollapsible="False" DragScrolling="False" Width="250">
+
+                <dxlc:LayoutGroup  Orientation="Vertical"  Header="Case Output Files" View="GroupBox" dxlc:LayoutControl.AllowHorizontalSizing="True" IsCollapsible="False" DragScrolling="False" Width="250">
                             <dxnb:NavBarControl Name="navBarControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1">
                                 <dxnb:NavBarControl.Groups>
-                            <local:NavBarGroupEx Header="{Binding FileFolder}" CurrentItem="{Binding SelectedOutputFile, Mode=TwoWay}" ItemsSource="{Binding SelectedCaseFile}" ImageSource="/JLMS;component/Images/Icons/BOFolder_32x32.png" NavigationPaneVisible="False"  >
+                            <local:NavBarGroupEx x:Name="navBarFileList"  Header="{Binding FileFolder}" ItemsSource="{Binding SelectedCaseFile}" ImageSource="/JLMS;component/Images/Icons/BOFolder_32x32.png" NavigationPaneVisible="False"  >
                                         <local:NavBarGroupEx.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
@@ -61,19 +61,21 @@
                         </dxlc:LayoutGroup>
 
                 <dxlc:LayoutGroup Name="FilePreView" Header="File Preview"  View="GroupBox"  Orientation="Vertical">
-                    <dxd:LayoutControlItem Caption="File" VerticalAlignment="Top">
+                    <dxd:LayoutControlItem>
                         <Grid >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="4*"></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <TextBox  x:Name ="txtboxfileselect" Margin="3" IsReadOnly ="true" Grid.Column="0" Text="{Binding SelectedOutputFile.Value, Mode=OneWay}" Height="20" TextChanged="txtboxfileselect_TextChanged" />
-                            <CheckBox Name="checkboxopenextern" Margin="3" Content="Open File with External Program" Grid.Column="1" HorizontalAlignment="Left" IsChecked="True"></CheckBox>
-                        </Grid>
-                    </dxd:LayoutControlItem>
-                    <dxd:LayoutControlItem   ItemHeight="5*" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"  ></RowDefinition>
+                                <RowDefinition Height="30" ></RowDefinition>
+                                <RowDefinition ></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <!--<TextBox  x:Name ="txtboxfileselect" Margin="3" IsReadOnly ="true" Grid.Column="0" Text="{Binding SelectedOutputFile.Value, Mode=OneWay}" Height="20" TextChanged="txtboxfileselect_TextChanged" />-->
+                            <TextBox  x:Name ="txtboxfileselect" Margin="3" IsReadOnly ="true" Grid.Row="0" Text="{Binding CurrentItem.Value, ElementName = navBarFileList, Mode=OneWay}" Height="24" TextChanged="txtboxfileselect_TextChanged" />
+                            <CheckBox Name="checkboxopenextern" Margin="3" Content="Open with External Program (recommended for large files) " Grid.Row="1" HorizontalAlignment="Left" IsChecked="False"></CheckBox>
+                        
+               
                         <!--<WebBrowser x:Name="ViewWeb" local:WebBrowserUtility.BindableSource ="{Binding Text, ElementName=txtboxfileselect, Mode=OneWay}" OverridesDefaultStyle="True"  />-->
-                        <dxsps:SpreadsheetControl Name ="outputFileSheet"></dxsps:SpreadsheetControl>
+                            <dxsps:SpreadsheetControl Name ="outputFileSheet"  Grid.Row="2"></dxsps:SpreadsheetControl>
+                        </Grid>
                     </dxd:LayoutControlItem>
                 </dxlc:LayoutGroup>
                 

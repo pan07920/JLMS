@@ -23,12 +23,19 @@ namespace JLMS.ViewModels
         private CaseSummary _selectedcase;
         private string _selectedsecurity;
         private ObservableCollection<string> _securities;
+        private ObservableCollection<string> _securitieschecked =  new ObservableCollection<string>();
         public string SelectedCaseName
         {
             get { return _selectedcase != null ? _selectedcase.Name : ""; }
 
         }
-      
+        public ObservableCollection<string> SecuritiesChecked
+        {
+            get
+            {
+                return _securitieschecked;
+            }
+        }
         public CaseSummary SelectedCase
         {
             get { return _selectedcase; }
@@ -109,10 +116,11 @@ namespace JLMS.ViewModels
             for (int i = 0; i < _selectedcase.TotalSecurities; i++)
             {
                 _securities.Add("S" + i.ToString());
+                _securitieschecked.Add("S" + i.ToString());
             }
+            OnPropertyChanged("SecuritiesChecked");
 
-           
-           string prefixInput = "JLMSimInput for Case ";
+            string prefixInput = "JLMSimInput for Case ";
 
            string casename = _selectedcase.Name;
            string caseinputfile = _jlmsimfolder + @"\" + prefixInput + casename + ".txt";
@@ -132,7 +140,7 @@ namespace JLMS.ViewModels
 
            string returnfile = _jlmsimfolder + @"\" + "Estimates During Case " + casename + ".csv";
            CMEReturnEstimateData(returnfile);//, 100);
-              
+           
         }
 
    
@@ -164,6 +172,8 @@ namespace JLMS.ViewModels
                 }
             }
             OnPropertyChanged("SecurityWeights");
+      
+            
         }
 
         private void CMEReturnEstimateData(string filename)

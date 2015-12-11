@@ -15,6 +15,7 @@ using System.Globalization;
 using System.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
+using System.Windows.Media.Imaging;
 
 namespace JLMS
 {
@@ -132,34 +133,42 @@ namespace JLMS
             throw new NotImplementedException();
         }
     }
-    public static class WebBrowserUtility
+
+    class MTOperationModeConverter : IValueConverter
     {
-        public static readonly DependencyProperty BindableSourceProperty =
-            DependencyProperty.RegisterAttached("BindableSource", typeof(string), typeof(WebBrowserUtility), new UIPropertyMetadata(null, BindableSourcePropertyChanged));
-
-        public static string GetBindableSource(DependencyObject obj)
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return (string)obj.GetValue(BindableSourceProperty);
-        }
-
-        public static void SetBindableSource(DependencyObject obj, string value)
-        {
-            obj.SetValue(BindableSourceProperty, value);
-        }
-
-        public static void BindableSourcePropertyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            WebBrowser browser = o as WebBrowser;
-            if (browser != null)
+            string path = "";
+            if (value is Boolean )
             {
-                string uri = e.NewValue as string;
-                browser.Source = !String.IsNullOrEmpty(uri) ? new Uri(uri) : null;
+                if ((bool)value)
+                {
+                     path = "../Images/Icons/ItemGreen.png";
+                    //return new BitmapImage(new Uri("/AssemblyName;component/" + path, UriKind.Relative));
+                }
+                else
+                {
+                    path = "../Images/Icons/ItemBlue.png";
+                    //return new BitmapImage(new Uri("/AssemblyName;component/" + path, UriKind.Relative));
+                }
+     
             }
+            
+            return path;
         }
 
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            //if (value is Visibility && (Visibility)value == Visibility.Visible)
+            //{
+            //    return true;
+            //}
+            //return false;
+            throw new NotImplementedException();
+        }
     }
-   
-        public static class UiServices
+
+    public static class UiServices
     {
 
         /// <summary>

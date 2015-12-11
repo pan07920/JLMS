@@ -14,5 +14,6 @@
     <local:InvertVisibilityConverter x:Key="InvertVisibilityConverter" />
     <local:DataTableMaxValueConverter x:Key="DataTableMaxValueConverter" />
     <local:DataTableMinValueConverter x:Key="DataTableMinValueConverter" />
-    
+    <local:MTOperationModeConverter x:Key="MTOperationModeConverter" />
+
 </ResourceDictionary>

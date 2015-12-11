@@ -80,6 +80,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IListItemConverter.cs" />
+    <Compile Include="MultiSelectorBehaviours.cs" />
+    <Compile Include="TwoListSynchronizer.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="ViewModels\OutputFileViewModel.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
@@ -97,9 +100,6 @@
     </Compile>
     <Compile Include="Views\DAOutputView.xaml.cs">
       <DependentUpon>DAOutputView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\DAOutputFileView.xaml.cs">
-      <DependentUpon>DAOutputFileView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SimView.xaml.cs">
       <DependentUpon>SimView.xaml</DependentUpon>
@@ -178,10 +178,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CMEOutputView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\DAOutputFileView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -26,17 +26,18 @@
                 <dxnb:NavBarControl Name="navBarControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1">
 
                     <dxnb:NavBarControl.Groups>
-                        <local:NavBarGroupEx Header="Capital Market Equilibrium(CME)" CurrentItem="{Binding SelectedCase, Mode=TwoWay}" ItemsSource="{Binding CaseFilesCME}" ImageSource="../Images/Icons/GroupGreen.png" >
+                        <local:NavBarGroupEx Header="Sim Cases with Output Available" CurrentItem="{Binding SelectedCase, Mode=TwoWay}" ItemsSource="{Binding CaseFilesCME}" ImageSource="../Images/Icons/GroupGreen.png" NavigationPaneVisible="False" >
                             <local:NavBarGroupEx.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source=  "../Images/Icons/ItemGreen.png" />
+                                        <!--<Image Source=  "../Images/Icons/ItemGreen.png" />-->
+                                        <Image Source="{Binding MTOperationMode, Converter={StaticResource MTOperationModeConverter}}" />
                                         <TextBlock Text="{Binding Path = Name}" Margin="5"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </local:NavBarGroupEx.ItemTemplate>
                         </local:NavBarGroupEx>
-                        <local:NavBarGroupEx Header="Dynamic Analysis(DA)" CurrentItem="{Binding SelectedCase, Mode=TwoWay}" ItemsSource="{Binding CaseFilesDA}"  ImageSource="../Images/Icons/Group.png">
+                        <!--<local:NavBarGroupEx Header="Dynamic Analysis(DA)" CurrentItem="{Binding SelectedCase, Mode=TwoWay}" ItemsSource="{Binding CaseFilesDA}"  ImageSource="../Images/Icons/Group.png">
                             <dxnb:NavBarGroup.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -45,11 +46,11 @@
                                     </StackPanel>
                                 </DataTemplate>
                             </dxnb:NavBarGroup.ItemTemplate>
-                        </local:NavBarGroupEx>
+                        </local:NavBarGroupEx>-->
                     </dxnb:NavBarControl.Groups>
                    
                     <dxnb:NavBarControl.View>
-                        <dxnb:NavigationPaneView IsExpandButtonVisible="False"/>
+                        <dxnb:NavigationPaneView IsExpandButtonVisible="False"  />
                     </dxnb:NavBarControl.View>
                 </dxnb:NavBarControl>
             </dxlc:LayoutGroup>
@@ -157,19 +158,19 @@
                         <dxwui:NavigationButton  IsEnabled="{Binding Path=IsCaseReady}" Margin="5"  NavigateTo="InputView">
                             <StackPanel Orientation="Vertical"  >
                                 <Image  Margin ="2" Source="/JLMS;component/Images/Icons/Edit_32x32.png" Stretch="None" HorizontalAlignment="Center" />
-                                <TextBlock Margin ="5,0,0,0" Text="Edit Input" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                <TextBlock Margin ="5,0,0,0" Text="Edit Case" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </dxwui:NavigationButton>
                         <dxwui:NavigationButton  Margin="5"  NavigateTo="InputView">
                             <StackPanel Orientation="Vertical"  >
                                 <Image  Margin ="2" Source="/JLMS;component/Images/Icons/AddFile_32x32.png" Stretch="None" HorizontalAlignment="Center" />
-                                <TextBlock Margin ="5,0,0,0" Text="New CME Input" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                <TextBlock Margin ="5,0,0,0" Text="New CME Case" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </dxwui:NavigationButton>
                         <dxwui:NavigationButton  Margin="5"  NavigateTo="InputView" >
                             <StackPanel Orientation="Vertical"  >
                                 <Image  Margin ="2" Source="/JLMS;component/Images/Icons/AddItem_32x32.png" Stretch="None"  HorizontalAlignment="Center"/>
-                                <TextBlock Margin ="5,0,0,0" Text="New DA Input" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                <TextBlock Margin ="5,0,0,0" Text="New DA Case" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                 </StackPanel>
                         </dxwui:NavigationButton  >
                         <dxwui:NavigationButton  IsEnabled="{Binding Path=IsCaseReady}" Margin="5" NavigateTo="DeleteView" Visibility="Collapsed">

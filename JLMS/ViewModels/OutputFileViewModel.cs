@@ -9,7 +9,7 @@ namespace JLMS.ViewModels
 {
     class OutputFileViewModel: ViewModelBase
     {
-        private ObservableCollection<string> _securities;
+       
 
     }
 }

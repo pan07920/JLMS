@@ -43,92 +43,135 @@
         </dxwui:PageAdornerControl>
         <Border Grid.Row="1" Background="Salmon">
             <dxd:DockLayoutManager x:Name="dockLayoutManager">
-                <dxd:LayoutGroup>
+
                     <dxd:LayoutGroup Orientation="Vertical" ItemWidth="4*">
-                        <dxd:LayoutPanel Caption="Weights" ItemHeight="2*">
-                            <Grid>
+                    <dxd:DocumentGroup ItemHeight="4*">
+                        <dxd:DocumentPanel x:Name="dpWeights" Caption="Weights" ItemHeight="4*" AllowClose="False" >
+                               <Grid >
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="65*" />
-                                    <ColumnDefinition Width="0" />
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="120"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <dxc:ChartControl x:Name="chartControlWeights"  DataSource="{Binding SecurityWeights, Mode=OneWay}" BorderThickness="0">
-                                    <dxc:ChartControl.Diagram>
-                                        <dxc:XYDiagram2D SeriesDataMember="Security" EnableAxisXNavigation="True">
-                                            <dxc:XYDiagram2D.AxisY >
-                                                <dxc:AxisY2D  >
-                                                    <dxc:AxisY2D.Title>
-                                                        <dxc:AxisTitle FontSize="12" Content="Portfolio Weight (%)"/>
-                                                    </dxc:AxisY2D.Title>
-                                                </dxc:AxisY2D>
-                                            </dxc:XYDiagram2D.AxisY>
-                                            <dxc:XYDiagram2D.AxisX >
-                                                <dxc:AxisX2D  >
-                                                    <dxc:AxisX2D.Title>
-                                                        <dxc:AxisTitle FontSize="12" Content="Day"/>
-                                                    </dxc:AxisX2D.Title>
-                                                </dxc:AxisX2D>
-                                            </dxc:XYDiagram2D.AxisX>
-                                            <dxc:XYDiagram2D.SeriesTemplate>
-                                                <dxc:LineSeries2D ArgumentDataMember="Day" ValueDataMember="Value"/>
-                                            </dxc:XYDiagram2D.SeriesTemplate>
-                                        </dxc:XYDiagram2D>
-                                    </dxc:ChartControl.Diagram>
-                                    <dxc:ChartControl.Palette>
-                                        <dxc:Office2013Palette/>
-                                    </dxc:ChartControl.Palette>
-                                    <dxc:ChartControl.Legend>
-                                        <dxc:Legend x:Name="legendWeights"/>
-                                    </dxc:ChartControl.Legend>
-                                </dxc:ChartControl>
+                                
+                                <dxd:LayoutPanel Caption="Weights" ItemHeight="2*"  AllowClose="False">
+                                   <dxc:ChartControl x:Name="chartControlWeights"  DataSource="{Binding SecurityWeights, Mode=OneWay}" BorderThickness="0">
+                                        <dxc:ChartControl.Diagram>
+                                            <dxc:XYDiagram2D SeriesDataMember="Security" EnableAxisXNavigation="True">
+                                                <dxc:XYDiagram2D.AxisY >
+                                                    <dxc:AxisY2D  >
+                                                        <dxc:AxisY2D.Title>
+                                                            <dxc:AxisTitle FontSize="12" Content="Portfolio Weight (%)"/>
+                                                        </dxc:AxisY2D.Title>
+                                                    </dxc:AxisY2D>
+                                                </dxc:XYDiagram2D.AxisY>
+                                                <dxc:XYDiagram2D.AxisX >
+                                                    <dxc:AxisX2D  >
+                                                        <dxc:AxisX2D.Title>
+                                                            <dxc:AxisTitle FontSize="12" Content="Day"/>
+                                                        </dxc:AxisX2D.Title>
+                                                    </dxc:AxisX2D>
+                                                </dxc:XYDiagram2D.AxisX>
+                                                <dxc:XYDiagram2D.SeriesTemplate>
+                                                    <dxc:LineSeries2D ArgumentDataMember="Day" ValueDataMember="Value"/>
+                                                </dxc:XYDiagram2D.SeriesTemplate>
+                                            </dxc:XYDiagram2D>
+                                        </dxc:ChartControl.Diagram>
+                                        <dxc:ChartControl.Palette>
+                                            <dxc:Office2013Palette/>
+                                        </dxc:ChartControl.Palette>
+                                        <dxc:ChartControl.Legend>
+                                            <dxc:Legend x:Name="legendWeights"/>
+                                        </dxc:ChartControl.Legend>
+                                    </dxc:ChartControl>
+                            </dxd:LayoutPanel>
+                                <StackPanel  Grid.Column="1" >
+                                <ListBox SelectedIndex="0" ItemsSource="{Binding Securities}" local:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SecuritiesChecked}"
+                                            SelectionMode="Multiple"
+                                            Background="{x:Null}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Content="{Binding}" Margin="3" IsChecked="{Binding RelativeSource= {RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ListBox>
+                                    <Button x:Name="cmdRefreshWeightChart" Margin="5" Content="Refresh Chart" VerticalAlignment="Bottom" ></Button>
+                                    <Button x:Name ="cmdPrintWeightChart" Margin="5" Content="Print Chart" VerticalAlignment="Bottom" Click="cmdPrintWeightChart_Click" ></Button>
+                                </StackPanel>
 
                             </Grid>
-                        </dxd:LayoutPanel>
-                        <dxd:LayoutPanel Caption="Returns" ItemHeight="2*">
-                            <Grid>
+                        </dxd:DocumentPanel>
+                        <dxd:DocumentPanel x:Name="dpReturns" Caption="Returns" ItemHeight="4*" AllowClose="False" >
+
+                            <Grid >
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="65*" />
-                                    <ColumnDefinition Width="0" />
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="120"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <dxc:ChartControl x:Name="chartControlReturns" DataSource="{Binding SecurityReturns}" BorderThickness="0">
-                                    <dxc:ChartControl.Diagram>
-                                        <dxc:XYDiagram2D SeriesDataMember="Security" EnableAxisXNavigation="True">
-                                            <dxc:XYDiagram2D.AxisY >
-                                                <dxc:AxisY2D  >
-                                                    <dxc:AxisY2D.WholeRange>
-                                                        <dxc:Range MinValue="{Binding SecurityReturns,  Converter={StaticResource DataTableMinValueConverter}}" MaxValue="{Binding SecurityReturns,  Converter={StaticResource DataTableMaxValueConverter}}"/>
-                                                    </dxc:AxisY2D.WholeRange>
-                                                    <dxc:AxisY2D.Title>
-                                                        <dxc:AxisTitle FontSize="12" Content="Return Estimate (%)"/>
-                                                    </dxc:AxisY2D.Title>
-                                                </dxc:AxisY2D>
-                                            </dxc:XYDiagram2D.AxisY>
-                                            <dxc:XYDiagram2D.AxisX >
-                                                <dxc:AxisX2D  >
-                                                    <dxc:AxisX2D.WholeRange>
-                                                        <dxc:Range/>
-                                                    </dxc:AxisX2D.WholeRange>
-                                                    <dxc:AxisX2D.Title>
-                                                        <dxc:AxisTitle FontSize="12" Content="Month"/>
-                                                    </dxc:AxisX2D.Title>
-                                                </dxc:AxisX2D>
-                                            </dxc:XYDiagram2D.AxisX>
-                                            <dxc:XYDiagram2D.SeriesTemplate>
-                                                <dxc:LineSeries2D ArgumentDataMember="Month" ValueDataMember="Value"/>
-                                            </dxc:XYDiagram2D.SeriesTemplate>
-                                        </dxc:XYDiagram2D>
-                                    </dxc:ChartControl.Diagram>
-                                    <dxc:ChartControl.Palette>
-                                        <dxc:Office2013Palette/>
-                                    </dxc:ChartControl.Palette>
-                                    <dxc:ChartControl.Legend>
-                                        <dxc:Legend x:Name="legendReturns"/>
-                                    </dxc:ChartControl.Legend>
-                                </dxc:ChartControl>
+                                <dxd:LayoutPanel Caption="Returns" ItemHeight="2*" AllowClose="False">
+                                
+                                    <dxc:ChartControl x:Name="chartControlReturns" DataSource="{Binding SecurityReturns}" BorderThickness="0">
+                                        <dxc:ChartControl.Diagram>
+                                            <dxc:XYDiagram2D SeriesDataMember="Security" EnableAxisXNavigation="True">
+                                                <dxc:XYDiagram2D.AxisY >
+                                                    <dxc:AxisY2D  >
+                                                        <dxc:AxisY2D.WholeRange>
+                                                            <dxc:Range MinValue="{Binding SecurityReturns,  Converter={StaticResource DataTableMinValueConverter}}" MaxValue="{Binding SecurityReturns,  Converter={StaticResource DataTableMaxValueConverter}}"/>
+                                                        </dxc:AxisY2D.WholeRange>
+                                                        <dxc:AxisY2D.Title>
+                                                            <dxc:AxisTitle FontSize="12" Content="Return Estimate (%)"/>
+                                                        </dxc:AxisY2D.Title>
+                                                    </dxc:AxisY2D>
+                                                </dxc:XYDiagram2D.AxisY>
+                                                <dxc:XYDiagram2D.AxisX >
+                                                    <dxc:AxisX2D  >
+                                                        <dxc:AxisX2D.WholeRange>
+                                                            <dxc:Range/>
+                                                        </dxc:AxisX2D.WholeRange>
+                                                        <dxc:AxisX2D.Title>
+                                                            <dxc:AxisTitle FontSize="12" Content="Month"/>
+                                                        </dxc:AxisX2D.Title>
+                                                    </dxc:AxisX2D>
+                                                </dxc:XYDiagram2D.AxisX>
+                                                <dxc:XYDiagram2D.SeriesTemplate>
+                                                    <dxc:LineSeries2D ArgumentDataMember="Month" ValueDataMember="Value"/>
+                                                </dxc:XYDiagram2D.SeriesTemplate>
+                                            </dxc:XYDiagram2D>
+                                        </dxc:ChartControl.Diagram>
+                                        <dxc:ChartControl.Palette>
+                                            <dxc:Office2013Palette/>
+                                        </dxc:ChartControl.Palette>
+                                        <dxc:ChartControl.Legend>
+                                            <dxc:Legend x:Name="legendReturns"/>
+                                        </dxc:ChartControl.Legend>
+                                    </dxc:ChartControl>
+
+                                </dxd:LayoutPanel>
+                                <ListBox ItemsSource="{Binding Securities}" local:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SecuritiesChecked}" Grid.Column="1"
+                                            SelectionMode="Multiple"
+                                            Background="{x:Null}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Content="{Binding}" Margin="3" IsChecked="{Binding RelativeSource= {RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ListBox>
 
                             </Grid>
-                        </dxd:LayoutPanel>
-                    </dxd:LayoutGroup>
+     
+                        </dxd:DocumentPanel>
+                    </dxd:DocumentGroup>
                 </dxd:LayoutGroup>
+
             </dxd:DockLayoutManager>
 
         </Border>
