@@ -81,7 +81,16 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IListItemConverter.cs" />
+    <Compile Include="Model\AnalystData.cs" />
+    <Compile Include="Model\Beta.cs" />
+    <Compile Include="Model\ConvarianceMatrix.cs" />
+    <Compile Include="Model\FactorData.cs" />
+    <Compile Include="Model\Investor.cs" />
+    <Compile Include="Model\SecurityData.cs" />
+    <Compile Include="Model\Statistician.cs" />
+    <Compile Include="Model\Trader.cs" />
     <Compile Include="MultiSelectorBehaviours.cs" />
+    <Compile Include="RelayCommand.cs" />
     <Compile Include="TwoListSynchronizer.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="ViewModels\OutputFileViewModel.cs" />
@@ -94,6 +103,12 @@
     <Compile Include="ViewModels\DAOutputViewModel.cs" />
     <Compile Include="Views\AppSettingsView.xaml.cs">
       <DependentUpon>AppSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CMEInputView.xaml.cs">
+      <DependentUpon>CMEInputView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DAInputView.xaml.cs">
+      <DependentUpon>DAInputView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OutputFileView.xaml.cs">
       <DependentUpon>OutputFileView.xaml</DependentUpon>
@@ -150,6 +165,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AppSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CMEInputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DAInputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

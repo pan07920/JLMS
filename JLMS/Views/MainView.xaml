@@ -155,19 +155,31 @@
                                 <TextBlock Margin ="5,0,0,0" Text="View Output Files" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </dxwui:NavigationButton>
-                        <dxwui:NavigationButton  IsEnabled="{Binding Path=IsCaseReady}" Margin="5"  NavigateTo="InputView">
+                        <dxwui:NavigationButton IsEnabled="{Binding Path=IsCaseReady}" 
+                                                Visibility="{Binding Path= SelectedCase.MTOperationMode, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                                 Margin="5"  NavigateTo="CMEInputView" NavigationParameter="{Binding SelectedCase.Name}">
                             <StackPanel Orientation="Vertical"  >
                                 <Image  Margin ="2" Source="/JLMS;component/Images/Icons/Edit_32x32.png" Stretch="None" HorizontalAlignment="Center" />
                                 <TextBlock Margin ="5,0,0,0" Text="Edit Case" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </dxwui:NavigationButton>
-                        <dxwui:NavigationButton  Margin="5"  NavigateTo="InputView">
+
+                        <dxwui:NavigationButton  IsEnabled="{Binding Path=IsCaseReady}" Visibility="{Binding ElementName = buttonNavCME, Path=Visibility, Converter= {StaticResource InvertVisibilityConverter}}" 
+                                                 Margin="5"  NavigateTo="DAInputView"  NavigationParameter="{Binding SelectedCase.Name}">
+                            <StackPanel Orientation="Vertical"  >
+                                <Image  Margin ="2" Source="/JLMS;component/Images/Icons/Edit_32x32.png" Stretch="None" HorizontalAlignment="Center" />
+                                <TextBlock Margin ="5,0,0,0" Text="Edit Case" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                        </dxwui:NavigationButton>
+
+
+                        <dxwui:NavigationButton  Margin="5"  NavigateTo="CMEInputView" NavigationParameter="New CME">
                             <StackPanel Orientation="Vertical"  >
                                 <Image  Margin ="2" Source="/JLMS;component/Images/Icons/AddFile_32x32.png" Stretch="None" HorizontalAlignment="Center" />
                                 <TextBlock Margin ="5,0,0,0" Text="New CME Case" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </dxwui:NavigationButton>
-                        <dxwui:NavigationButton  Margin="5"  NavigateTo="InputView" >
+                        <dxwui:NavigationButton  Margin="5"  NavigateTo="DAInputView" NavigationParameter="New DA"> 
                             <StackPanel Orientation="Vertical"  >
                                 <Image  Margin ="2" Source="/JLMS;component/Images/Icons/AddItem_32x32.png" Stretch="None"  HorizontalAlignment="Center"/>
                                 <TextBlock Margin ="5,0,0,0" Text="New DA Case" VerticalAlignment="Center" HorizontalAlignment="Left"/>
