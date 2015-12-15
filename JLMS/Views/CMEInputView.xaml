@@ -10,6 +10,7 @@
              xmlns:local="clr-namespace:JLMS" 
              xmlns:dxwuin="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/navigation"
              xmlns:ViewModels="clr-namespace:JLMS.ViewModels" x:Class="JLMS.Views.CMEInputView"
+             xmlns:VGrid="clr-namespace:JLMS.VGrid"
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="1100">
     <UserControl.Resources>
@@ -20,7 +21,19 @@
         <DataTemplate x:Key="wrapHeader">
             <TextBlock Text="{Binding}" TextWrapping="Wrap"/>
         </DataTemplate>
-        
+        <DataTemplate x:Key="dateCellTemplate">
+            <dxe:DateEdit Name="PART_Editor"/>
+        </DataTemplate>
+        <DataTemplate x:Key="textCellTemplate">
+            <dxe:TextEdit Name="PART_Editor"/>
+        </DataTemplate>
+        <DataTemplate x:Key="boolCellTemplate">
+            <dxe:CheckEdit Name="PART_Editor"/>
+        </DataTemplate>
+        <DataTemplate x:Key="intCellTemplate">
+            <dxe:TextEdit Name="PART_Editor" MaskType="Numeric" Mask="d"/>
+        </DataTemplate>
+
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -252,40 +265,70 @@
                             </dxlc:LayoutGroup>
                         </dxlc:LayoutGroup>
                         <dxlc:LayoutGroup Header="Investors" Padding="3">
+                            <!--<VGrid:VerticalGridControl x:Name="gridInvestor" AutoPopulateRows="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2" 
+                                   ItemsSource="{Binding InvestorList}" >
+                                <VGrid:VerticalGridControl.Rows>
+                                    <VGrid:VerticalRowData  RowName ="InvestorTemplate"  CellTemplate="{StaticResource textCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="NumberOfInvestors"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="ReoptimizationFrequency"  CellTemplate="{StaticResource textCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="PortfolioAnalystUsed"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="TraderTemplateUsed"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="RiskAversion"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="MeanStartWealth"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="SigmaStartWealth"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="Probability"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="LowerEdge"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="UpperEdge"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="Increment"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="MaximumBuy"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="MaximuSellNormal"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="MaximuSellUrgent"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="TemporaryExtraLeverage"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="TraceFraction"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="TraceWeathiesNumber"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                </VGrid:VerticalGridControl.Rows>
+                            </VGrid:VerticalGridControl>-->
+
                             <dxg:GridControl Name ="gridInvestor" AutoGenerateColumns="None" ItemsSource="{Binding InvestorList}">
-                               
-
                                 <dxg:GridControl.Columns>
-                                   
-                                    <dxg:GridColumn  FieldName ="InvestorTemplate" Header ="Investor Template"/>
-                                    <dxg:GridColumn  FieldName ="NumberOfInvestors" Header ="Number of Inverstor"/>
-                                    <dxg:GridColumn  FieldName ="ReoptimizationFrequency" Header ="Reoptimization Frequency"/>
-                                    <dxg:GridColumn  FieldName ="PortfolioAnalystUsed" Header ="Portfolio Analyst Used"/>
-                                    <dxg:GridColumn  FieldName ="TraderTemplateUsed" Header ="Trader Template Used"/>
-                                    <dxg:GridColumn  FieldName ="RiskAversion" Header ="Risk Aversion"/>
-                                    <dxg:GridColumn  FieldName ="MeanStartWealth" Header ="mean(log10(starting wealth)"/>
-                                    <dxg:GridColumn  FieldName ="SigmaStartWealth" Header ="sigma(log10(starting wealth)"/>
-                                    <dxg:GridColumn  FieldName ="Probability" Header ="Probability"/>
-                                    <dxg:GridColumn  FieldName ="LowerEdge" Header ="Lower edge"/>
-                                    <dxg:GridColumn  FieldName ="UpperEdge" Header ="Upper edge"/>
-                                    <dxg:GridColumn  FieldName ="Increment" Header ="Increment"/>
-                                    <dxg:GridColumn  FieldName ="MaximumBuy" Header ="Maximum Buy"/>
-                                    <dxg:GridColumn  FieldName ="MaximuSellNormal" Header ="Maximum Sell(normal)"/>
-                                    <dxg:GridColumn  FieldName ="MaximuSellUrgent" Header ="Maximu Sell(urgent)"/>
-                                    <dxg:GridColumn  FieldName ="TemporaryExtraLeverage" Header ="Temporary Extra Leverage"/>
-                                    <dxg:GridColumn  FieldName ="TraceFraction" Header ="Trace Fraction"/>
-                                    <dxg:GridColumn  FieldName ="TraceWeathiesNumber" Header ="Trace Wealthiest Number"/>
-                                    
-                                    
+                                    <dxg:GridColumn  FieldName ="InvestorTemplate" Header ="Investor Template" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="NumberOfInvestors" Header ="Number of Inverstor" AllowColumnFiltering ="False"/>
+                                    <dxg:GridColumn  FieldName ="ReoptimizationFrequency" Header ="Reoptimization Frequency" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="PortfolioAnalystUsed" Header ="Portfolio Analyst Used" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="TraderTemplateUsed" Header ="Trader Template Used" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="RiskAversion" Header ="Risk Aversion" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="MeanStartWealth" Header ="mean(log10(starting wealth)" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="SigmaStartWealth" Header ="sigma(log10(starting wealth)" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="Probability" Header ="Probability" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="LowerEdge" Header ="Lower edge" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="UpperEdge" Header ="Upper edge" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="Increment" Header ="Increment" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="MaximumBuy" Header ="Maximum Buy" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="MaximuSellNormal" Header ="Maximum Sell(normal)" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="MaximuSellUrgent" Header ="Maximu Sell(urgent)" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="TemporaryExtraLeverage" Header ="Temporary Extra Leverage" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="TraceFraction" Header ="Trace Fraction" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="TraceWeathiesNumber" Header ="Trace Wealthiest Number" AllowColumnFiltering ="False" />
                                 </dxg:GridControl.Columns>
-
                                 <dxg:GridControl.View>
-                                    <dxg:TableView x:Name="viewInvestor" AutoWidth="True"  
-                                                   AllowGrouping="False" ShowGroupPanel="False"
-                                                    ColumnHeaderTemplate="{StaticResource wrapHeader}" />
-
+                                    <dxg:TableView x:Name="viewInvestor" AutoWidth="True"  AllowSorting="False"  
+                                                   AllowGrouping="False" ShowGroupPanel="False" >
+                                        <!--ColumnHeaderTemplate="{StaticResource wrapHeader}">-->
+                                        <dxg:TableView.ColumnHeaderTemplate>
+                                            <DataTemplate>
+                                                <Viewbox Stretch="None">
+                                                    <ContentPresenter Name="contentPresenter" Content="{Binding}" ToolTip="{Binding}" Style="{Binding Path=(dxg:GridColumnHeader.GridColumn).ActualColumnHeaderContentStyle, RelativeSource={RelativeSource TemplatedParent}}">
+                                                        <ContentPresenter.LayoutTransform>
+                                                            <RotateTransform Angle="-90" />
+                                                        </ContentPresenter.LayoutTransform>
+                                                    </ContentPresenter>
+                                                </Viewbox>
+                                            </DataTemplate>
+                                        </dxg:TableView.ColumnHeaderTemplate>
+                                    </dxg:TableView>
                                 </dxg:GridControl.View>
                             </dxg:GridControl>
+
                             <dxlc:LayoutGroup Orientation="Vertical" Width ="100" Padding ="5,0,5,5" VerticalAlignment="Top" >
                                 <dxlc:LayoutItem   >
                                     <Button Content ="+"  Command="{Binding AddInvestorCommand}"  />
@@ -302,7 +345,30 @@
                             <dxe:TextEdit />
                         </dxlc:LayoutGroup>
                         <dxlc:LayoutGroup Header="CovMatrix (CME only)" Padding="3">
-                            <dxe:TextEdit />
+                            <dxg:GridControl Name="gridControlCovMatrix" AutoPopulateColumns="False" ItemsSource="{Binding CovMatrixList}" 
+                                ItemsSourceChanged="gridControlCovMatrix_ItemsSourceChanged_1" CustomUnboundColumnData="gridControlCovMatrix_CustomUnboundColumnData_1">
+                                <dxg:GridControl.Columns>
+                                    <dxg:GridColumn AllowEditing="False" Width="30">
+                                        <dxg:GridColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <TextBlock Text="{Binding RowData.RowHandle.Value, StringFormat= 'R-\{0\}'}"   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </dxg:GridColumn.CellTemplate>
+                                    </dxg:GridColumn>
+                                </dxg:GridControl.Columns>
+                                <dxg:GridControl.View>
+                                    <dxg:TableView x:Name="viewCovMatrix" AutoWidth="True"  CellValueChanged="tableviewCovMatrix_CellValueChanged_1"
+                                                   AllowGrouping="False" ShowGroupPanel="False"  >
+                                        <dxg:TableView.CellTemplate>
+                                            <DataTemplate>
+                                                <dxe:TextEdit Name="PART_Editor" MaskType="Numeric" HorizontalAlignment="Right"/>
+                                            </DataTemplate>
+                                        </dxg:TableView.CellTemplate>
+                                    </dxg:TableView>
+                                </dxg:GridControl.View>
+                            </dxg:GridControl>
                         </dxlc:LayoutGroup>
                        
                     </dxlc:LayoutGroup>

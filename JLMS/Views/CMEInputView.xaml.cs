@@ -16,6 +16,7 @@ using DevExpress.Xpf.WindowsUI.Navigation;
 using JLMS.ViewModels;
 using DevExpress.Xpf.Grid;
 using JLMS.Model;
+using System.Collections.ObjectModel;
 namespace JLMS.Views
 {
     /// <summary>
@@ -69,6 +70,47 @@ namespace JLMS.Views
             //    e.WindowCaption = "Input Error";
             //}
         }
+
+        private void gridControlCovMatrix_CustomUnboundColumnData_1(object sender, GridColumnDataEventArgs e)
+        {
+            GridColumn col = e.Column;
+            CovMatrix m = gridControlCovMatrix.GetRow(e.ListSourceRowIndex) as CovMatrix;
+            int colNum = int.Parse(col.FieldName);
+            e.Value = m[colNum];
+        }
+
+        private void gridControlCovMatrix_ItemsSourceChanged_1(object sender, ItemsSourceChangedEventArgs e)
+        {
+            if ((sender as GridControl).ItemsSource is ObservableCollection<CovMatrix> )
+            {
+                ObservableCollection<CovMatrix> it = (sender as GridControl).ItemsSource as ObservableCollection<CovMatrix>;
+                int colCount = it[0].GetColumnsColunt();
+                for (int i = 0; i < colCount; i++)
+                {
+                    GridColumn col = new GridColumn();
+                    col.UnboundType = DevExpress.Data.UnboundColumnType.Object;
+                    col.FieldName = i.ToString();
+                    col.Header = "C-" + i.ToString();
+                    gridControlCovMatrix.Columns.Add(col);
+                }
+            }
+
+        }
+
+        private void tableviewCovMatrix_CellValueChanged_1(object sender, CellValueChangedEventArgs e)
+        {
+            CovMatrix md = e.Row as CovMatrix;
+            GridColumn col = e.Column;
+            int colNum = int.Parse(col.FieldName);
+
+            var v = (sender as TableView).ActiveEditor.EditValue;
+            if (md[colNum] == null)
+                md[colNum] = null;
+            else
+                md[colNum] = double.Parse(v.ToString());
+        }
+
+      
     }
 
 

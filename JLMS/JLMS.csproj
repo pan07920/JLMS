@@ -84,15 +84,20 @@
     <Compile Include="Model\AnalystData.cs" />
     <Compile Include="Model\Beta.cs" />
     <Compile Include="Model\ConvarianceMatrix.cs" />
+    <Compile Include="Model\CovMatrix.cs" />
     <Compile Include="Model\FactorData.cs" />
     <Compile Include="Model\Investor.cs" />
+    <Compile Include="Model\Security.cs" />
     <Compile Include="Model\SecurityData.cs" />
-    <Compile Include="Model\Statistician.cs" />
-    <Compile Include="Model\Trader.cs" />
+    <Compile Include="Model\StatisticianData.cs" />
+    <Compile Include="Model\TraderData.cs" />
     <Compile Include="MultiSelectorBehaviours.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="TwoListSynchronizer.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="VGrid\VerticalGridControl.xaml.cs">
+      <DependentUpon>VerticalGridControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\OutputFileViewModel.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
@@ -160,6 +165,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="VGrid\VerticalGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AboutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

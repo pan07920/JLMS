@@ -42,6 +42,7 @@ namespace JLMS.ViewModels
         public ObservableCollection<Investor> InvestorList { get; set; }
 
         public ObservableCollection<FactorData> FactorList { get; set; }
+        public ObservableCollection<CovMatrix> CovMatrixList { get; set; }
         public InputViewModel()
         {
             _casename = "New Case!";
@@ -53,8 +54,14 @@ namespace JLMS.ViewModels
 
             SecurityList = new ObservableCollection<SecurityData>();
             SecurityList.Add(new SecurityData("Security0", FactorList.Count));
-           
             SecurityList.Add(new SecurityData("Security1", FactorList.Count));
+            SecurityList.Add(new SecurityData("Security2", FactorList.Count));
+            SecurityList.Add(new SecurityData("Security3", FactorList.Count));
+            SecurityList.Add(new SecurityData("Security4", FactorList.Count));
+            SecurityList.Add(new SecurityData("Security5", FactorList.Count));
+            SecurityList.Add(new SecurityData("Security6", FactorList.Count));
+            SecurityList.Add(new SecurityData("Security7", FactorList.Count));
+
 
             AnalystList = new ObservableCollection<AnalystData>();
             AnalystList.Add(new AnalystData("PA0", 1, false));
@@ -63,6 +70,19 @@ namespace JLMS.ViewModels
             InvestorList = new ObservableCollection<Investor>();
             InvestorList.Add(new Investor("Templ0"));
             InvestorList.Add(new Investor("Templ1"));
+            string covmatrixmodel = "AC_LH";
+            CovMatrixList = new ObservableCollection<CovMatrix>();
+            for (int i = 0; i < SecurityList.Count; i++)
+            {
+                if (covmatrixmodel == "AC_UH")
+                    CovMatrixList.Add(new CovMatrix(0, SecurityList.Count, i - 1, true));
+                else if (covmatrixmodel == "AC_LH")
+                    CovMatrixList.Add(new CovMatrix(0, SecurityList.Count, i + 1, false));
+                else if (covmatrixmodel == "AC_BH")
+                    CovMatrixList.Add(new CovMatrix(0, SecurityList.Count));
+                else
+                    CovMatrixList.Clear();
+            }
 
         }
 
