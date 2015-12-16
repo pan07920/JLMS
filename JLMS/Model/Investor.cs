@@ -31,12 +31,12 @@ namespace JLMS.Model
             TraceWeathiesNumber = 1;
 
         }
-        public string InvestorTemplate { get; set; }
+        public string InvestorTemplate { get;  }
         public int  NumberOfInvestors { get; set; }
         public string ReoptimizationFrequency { get; set; }
         public int PortfolioAnalystUsed { get; set; }
         public int TraderTemplateUsed { get; set; }
-        public int RiskAversion { get; set; }
+        public double RiskAversion { get; set; }
         public int MeanStartWealth { get; set; }
         public int SigmaStartWealth { get; set; }
         public double Probability { get; set; }

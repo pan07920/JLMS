@@ -14,15 +14,20 @@
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="1100">
     <UserControl.Resources>
-        
+        <local:RadioButtonCheckedConverter x:Key="RadioButtonCheckedConverter" />
+        <local:CovMatrixModelToVisibilityConverter x:Key="CovMatrixModelToVisibilityConverter" />
         <!--<ResourceDictionary>
             <SolidColorBrush x:Key="evenRowBrush" Color="#FFDCE2E2" />
             </ResourceDictionary>-->
+        <!--https://documentation.devexpress.com/#WindowsForms/CustomDocument1498  about mask-->
         <DataTemplate x:Key="wrapHeader">
             <TextBlock Text="{Binding}" TextWrapping="Wrap"/>
         </DataTemplate>
         <DataTemplate x:Key="dateCellTemplate">
             <dxe:DateEdit Name="PART_Editor"/>
+        </DataTemplate>
+        <DataTemplate x:Key="textblockCellTemplate">
+            <dxe:TextEdit IsReadOnly="True" Name="PART_Editor"/>
         </DataTemplate>
         <DataTemplate x:Key="textCellTemplate">
             <dxe:TextEdit Name="PART_Editor"/>
@@ -33,7 +38,9 @@
         <DataTemplate x:Key="intCellTemplate">
             <dxe:TextEdit Name="PART_Editor" MaskType="Numeric" Mask="d"/>
         </DataTemplate>
-
+        <DataTemplate x:Key="decimalCellTemplate">
+            <dxe:TextEdit Name="PART_Editor" MaskType="Numeric" Mask="f2"/>
+        </DataTemplate>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -75,7 +82,9 @@
                             </dxlc:LayoutItem>
 
                             <dxlc:LayoutItem Label="Based On Case:">
-                                <ComboBox />
+                                <ComboBox ItemsSource="{Binding SampleFiles}" SelectedValue="{Binding SelectedSampleFile}">
+                                    
+                                </ComboBox>
                             </dxlc:LayoutItem>
 
 
@@ -265,31 +274,34 @@
                             </dxlc:LayoutGroup>
                         </dxlc:LayoutGroup>
                         <dxlc:LayoutGroup Header="Investors" Padding="3">
-                            <!--<VGrid:VerticalGridControl x:Name="gridInvestor" AutoPopulateRows="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2" 
+                            <VGrid:VerticalGridControl x:Name="gridInvestor" AutoPopulateRows="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2" 
                                    ItemsSource="{Binding InvestorList}" >
                                 <VGrid:VerticalGridControl.Rows>
-                                    <VGrid:VerticalRowData  RowName ="InvestorTemplate"  CellTemplate="{StaticResource textCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="InvestorTemplate" CellTemplate="{StaticResource textCellTemplate}" />
                                     <VGrid:VerticalRowData  RowName ="NumberOfInvestors"  CellTemplate="{StaticResource intCellTemplate}"/>
                                     <VGrid:VerticalRowData  RowName ="ReoptimizationFrequency"  CellTemplate="{StaticResource textCellTemplate}"/>
                                     <VGrid:VerticalRowData  RowName ="PortfolioAnalystUsed"  CellTemplate="{StaticResource intCellTemplate}"/>
                                     <VGrid:VerticalRowData  RowName ="TraderTemplateUsed"  CellTemplate="{StaticResource intCellTemplate}"/>
-                                    <VGrid:VerticalRowData  RowName ="RiskAversion"  CellTemplate="{StaticResource intCellTemplate}"/>
-                                    <VGrid:VerticalRowData  RowName ="MeanStartWealth"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="RiskAversion"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="MeanStartWealth" Header ="mean(log10(starting wealth)" CellTemplate="{StaticResource intCellTemplate}"/>
                                     <VGrid:VerticalRowData  RowName ="SigmaStartWealth"  CellTemplate="{StaticResource intCellTemplate}"/>
                                     <VGrid:VerticalRowData  RowName ="Probability"  CellTemplate="{StaticResource intCellTemplate}"/>
                                     <VGrid:VerticalRowData  RowName ="LowerEdge"  CellTemplate="{StaticResource intCellTemplate}"/>
                                     <VGrid:VerticalRowData  RowName ="UpperEdge"  CellTemplate="{StaticResource intCellTemplate}"/>
                                     <VGrid:VerticalRowData  RowName ="Increment"  CellTemplate="{StaticResource intCellTemplate}"/>
-                                    <VGrid:VerticalRowData  RowName ="MaximumBuy"  CellTemplate="{StaticResource intCellTemplate}"/>
-                                    <VGrid:VerticalRowData  RowName ="MaximuSellNormal"  CellTemplate="{StaticResource intCellTemplate}"/>
-                                    <VGrid:VerticalRowData  RowName ="MaximuSellUrgent"  CellTemplate="{StaticResource intCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="MaximumBuy"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="MaximuSellNormal"  Header ="Maximum Sell(normal)" CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="MaximuSellUrgent"  Header ="Maximu Sell(urgent)" CellTemplate="{StaticResource decimalCellTemplate}"/>
                                     <VGrid:VerticalRowData  RowName ="TemporaryExtraLeverage"  CellTemplate="{StaticResource intCellTemplate}"/>
                                     <VGrid:VerticalRowData  RowName ="TraceFraction"  CellTemplate="{StaticResource intCellTemplate}"/>
                                     <VGrid:VerticalRowData  RowName ="TraceWeathiesNumber"  CellTemplate="{StaticResource intCellTemplate}"/>
                                 </VGrid:VerticalGridControl.Rows>
-                            </VGrid:VerticalGridControl>-->
+                                <VGrid:VerticalGridControl.View>
+                                    <dxg:TableView UseLightweightTemplates="None" />
+                                </VGrid:VerticalGridControl.View>
+                            </VGrid:VerticalGridControl>
 
-                            <dxg:GridControl Name ="gridInvestor" AutoGenerateColumns="None" ItemsSource="{Binding InvestorList}">
+                            <!--<dxg:GridControl Name ="gridInvestor" AutoGenerateColumns="None" ItemsSource="{Binding InvestorList}">
                                 <dxg:GridControl.Columns>
                                     <dxg:GridColumn  FieldName ="InvestorTemplate" Header ="Investor Template" AllowColumnFiltering ="False" />
                                     <dxg:GridColumn  FieldName ="NumberOfInvestors" Header ="Number of Inverstor" AllowColumnFiltering ="False"/>
@@ -313,7 +325,7 @@
                                 <dxg:GridControl.View>
                                     <dxg:TableView x:Name="viewInvestor" AutoWidth="True"  AllowSorting="False"  
                                                    AllowGrouping="False" ShowGroupPanel="False" >
-                                        <!--ColumnHeaderTemplate="{StaticResource wrapHeader}">-->
+                                        --><!--ColumnHeaderTemplate="{StaticResource wrapHeader}">--><!--
                                         <dxg:TableView.ColumnHeaderTemplate>
                                             <DataTemplate>
                                                 <Viewbox Stretch="None">
@@ -327,7 +339,7 @@
                                         </dxg:TableView.ColumnHeaderTemplate>
                                     </dxg:TableView>
                                 </dxg:GridControl.View>
-                            </dxg:GridControl>
+                            </dxg:GridControl>-->
 
                             <dxlc:LayoutGroup Orientation="Vertical" Width ="100" Padding ="5,0,5,5" VerticalAlignment="Top" >
                                 <dxlc:LayoutItem   >
@@ -339,12 +351,82 @@
                             </dxlc:LayoutGroup>
                         </dxlc:LayoutGroup>
                         <dxlc:LayoutGroup Header="Traders" Padding="3">
-                            <dxe:TextEdit />
+                            <VGrid:VerticalGridControl x:Name="gridTrader" AutoPopulateRows="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2" 
+                                   ItemsSource="{Binding TraderList}" >
+                                <VGrid:VerticalGridControl.Rows>
+                                    <VGrid:VerticalRowData  RowName ="Trader" CellTemplate="{StaticResource textCellTemplate}" />
+                                    <VGrid:VerticalRowData  RowName ="BuyAlpha"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="BuyAlphaIncrement"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="BuyBeta"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="BuyBetaIncrement"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="BuyReviewWaitFirst"  Header ="Buy Review, Wait First"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="BuyReviewWaitThen" Header ="Buy Review, Wait Then" CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="BuyReviewWaitLast"  Header ="Buy Review, Wait Last" CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="BuyMaxChange"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="SellAlpha"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="SellAlphaIncrement"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="SellBeta"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="SellBetaIncrement"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="SellReviewWaitFirst"  Header ="Sell Review, Wait First" CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="SellReviewWaitThen"   Header ="Sell Review, Wait Then" CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="SellReviewWaitLast"   Header ="Sell Review, Wait Last" CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="SellMaxChange"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="Recent"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="MaxBidRule"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="MaxBidParameter"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="MinBidRule"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                    <VGrid:VerticalRowData  RowName ="MinBidParameter"  CellTemplate="{StaticResource decimalCellTemplate}"/>
+                                </VGrid:VerticalGridControl.Rows>
+                                <VGrid:VerticalGridControl.View>
+                                    <dxg:TableView UseLightweightTemplates="None" />
+                                </VGrid:VerticalGridControl.View>
+                            </VGrid:VerticalGridControl>
+                            <dxlc:LayoutGroup Orientation="Vertical" Width ="100" Padding ="5,0, 5,5" VerticalAlignment="Top" >
+                                <dxlc:LayoutItem   >
+                                    <Button Content ="+"  Command="{Binding AddTraderCommand}"  />
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem >
+                                    <Button Content ="-"  Command="{Binding RemoveTraderCommand}" />
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
                         </dxlc:LayoutGroup>
                         <dxlc:LayoutGroup Header="Statisticians (DA only)" Padding="3">
-                            <dxe:TextEdit />
-                        </dxlc:LayoutGroup>
+                            <dxg:GridControl Name="gridControlStatisticians" AutoGenerateColumns="AddNew" ItemsSource="{Binding StatisticianList}" >
+                                <dxg:GridControl.View>
+                                    <dxg:TableView DetailHeaderContent="StatisticianList" AutoWidth="True" ShowGroupPanel="False"  />
+                                </dxg:GridControl.View>
+                                <dxg:GridControl.DetailDescriptor>
+                                    <dxg:TabViewDetailDescriptor>
+                                        <dxg:TabViewDetailDescriptor.DetailDescriptors>
+                                            <dxg:DataControlDetailDescriptor ItemsSourcePath="SecurityList">
+                                                <dxg:DataControlDetailDescriptor.DataControl>
+                                                    <dxg:GridControl AutoGenerateColumns="AddNew">
+                                                        <dxg:GridControl.View>
+                                                            <dxg:TableView DetailHeaderContent="SecurityList" AutoWidth="True" ShowGroupPanel="False" />
+                                                        </dxg:GridControl.View>
+                                                    </dxg:GridControl>
+                                                </dxg:DataControlDetailDescriptor.DataControl>
+                                            </dxg:DataControlDetailDescriptor>
+
+                                        </dxg:TabViewDetailDescriptor.DetailDescriptors>
+                                    </dxg:TabViewDetailDescriptor>
+                                </dxg:GridControl.DetailDescriptor>
+                            </dxg:GridControl>
+                            <dxlc:LayoutGroup Orientation="Vertical" Width ="100" Padding ="5,0, 5,5" VerticalAlignment="Top" >
+                                <dxlc:LayoutItem   >
+                                    <Button Content ="+"  Command="{Binding AddStatisticianCommand}"  />
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem >
+                                    <Button Content ="-"  Command="{Binding RemoveStatisticianCommand}" />
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
+                
+
+                    </dxlc:LayoutGroup>
+                       
+                        
                         <dxlc:LayoutGroup Header="CovMatrix (CME only)" Padding="3">
+                            <dxlc:LayoutGroup Visibility ="{Binding SelectedCovMatrixModel,  Converter={StaticResource CovMatrixModelToVisibilityConverter}}">
                             <dxg:GridControl Name="gridControlCovMatrix" AutoPopulateColumns="False" ItemsSource="{Binding CovMatrixList}" 
                                 ItemsSourceChanged="gridControlCovMatrix_ItemsSourceChanged_1" CustomUnboundColumnData="gridControlCovMatrix_CustomUnboundColumnData_1">
                                 <dxg:GridControl.Columns>
@@ -369,6 +451,28 @@
                                     </dxg:TableView>
                                 </dxg:GridControl.View>
                             </dxg:GridControl>
+                            </dxlc:LayoutGroup>
+                            <dxlc:LayoutGroup Orientation="Vertical" Width ="100" Padding ="5,0, 5,5" VerticalAlignment="Top" >
+                                <dxlc:LayoutItem >
+                                    <GroupBox Header="Model Type" >
+                                        <ListBox ItemsSource="{Binding CovMatrixModelList}" SelectedItem="{Binding SelectedCovMatrixModel}"  Padding="3">
+                                            <ListBox.ItemContainerStyle>
+                                                <Style TargetType="{x:Type ListBoxItem}">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                                <RadioButton Content="{TemplateBinding Content}"
+                                                                    IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsSelected}"/>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </ListBox.ItemContainerStyle>
+                                        </ListBox>
+                                    </GroupBox>
+                                </dxlc:LayoutItem>
+                                
+                            </dxlc:LayoutGroup>
                         </dxlc:LayoutGroup>
                        
                     </dxlc:LayoutGroup>

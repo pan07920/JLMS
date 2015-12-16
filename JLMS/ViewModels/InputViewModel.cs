@@ -8,23 +8,28 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using JLMS.Model;
 using System.Data;
+using System.IO;
 
 namespace JLMS.ViewModels
 {
     class InputViewModel : ViewModelBase
     {
         string _casename;
+        string _scovmatrixmodel;
+        string _selectedsamplefile;
         RelayCommand _addfactorcommand;
         RelayCommand _removefactorcommand;
         RelayCommand _addsecuritycommand;
         RelayCommand _removesecuritycommand;
         RelayCommand _addinvestorcommand;
         RelayCommand _removeinvestorcommand;
-
+        RelayCommand _addtradercommand;
+        RelayCommand _removetradercommand;
+        RelayCommand _addstatisticiancommand;
+        RelayCommand _removestatisticiancommand;
         RelayCommand _addanalystcommand;
         RelayCommand _removeanalystcommand;
-
-
+        PropertyObserver<InputViewModel> _observer;
         public string CaseName
         {
             get { return _casename; } 
@@ -37,16 +42,85 @@ namespace JLMS.ViewModels
                 }
             }
         }
+        public string SelectedCovMatrixModel
+        {
+            get
+            {
+                return _scovmatrixmodel;
+            }
+            set
+            {
+                if (_scovmatrixmodel != value)
+                {
+                    _scovmatrixmodel = value;
+                    OnPropertyChanged("SelectedCovMatrixModel");
+                }
+            }
+        }
+
         public ObservableCollection<SecurityData> SecurityList { get; set; }
         public ObservableCollection<AnalystData> AnalystList { get; set; }
         public ObservableCollection<Investor> InvestorList { get; set; }
+        public ObservableCollection<TraderData> TraderList { get; set; }
+        public ObservableCollection<StatisticianData> StatisticianList { get; set; }
 
         public ObservableCollection<FactorData> FactorList { get; set; }
         public ObservableCollection<CovMatrix> CovMatrixList { get; set; }
+        public ObservableCollection<string> CovMatrixModelList { get; }
+        public ObservableCollection<string> SampleFiles { get; }
+        public string SelectedSampleFile
+        {
+            get { return _selectedsamplefile; }
+            set
+            {
+                if (_selectedsamplefile != value)
+                    _selectedsamplefile = value;
+                OnPropertyChanged("SelectedSampleFile");
+            }
+        }
+        private void OnSelectedSampleFileChanged(string fileName)
+        {
+          
+            {
+                string s = fileName;
+            }
+            //ReadInputFile();
+
+        }
+
+        private void OnCaseNameChange(string caseName)
+        {
+
+            {
+                string s = caseName;
+            }
+            //ReadInputFile();
+
+        }
+        private void OnSelectedMatrixModelChanged(InputViewModel vm)
+        {
+            string s = vm.SelectedCovMatrixModel;
+        }
         public InputViewModel()
         {
-            _casename = "New Case!";
+            UiServices.SetBusyState();
 
+            _observer =
+                new PropertyObserver<InputViewModel>(this)
+                   .RegisterHandler(n => n.SelectedSampleFile, n => OnSelectedSampleFileChanged(n.SelectedSampleFile))
+                   .RegisterHandler(n => n.CaseName, n => this.OnCaseNameChange(n.CaseName))
+                   .RegisterHandler(n => n.SelectedCovMatrixModel, this.OnSelectedMatrixModelChanged);
+
+            _casename = "New Case!";
+            SampleFiles = new ObservableCollection<string>();
+            LoadInputFileList();
+
+            CovMatrixModelList = new ObservableCollection<string>();
+            CovMatrixModelList.Add("DF");
+            CovMatrixModelList.Add("AC-UH");
+            CovMatrixModelList.Add("AC-LH");
+            CovMatrixModelList.Add("AC-BH");
+            SelectedCovMatrixModel = "AC-LH";
             FactorList = new ObservableCollection<FactorData>();
             FactorList.Add(new FactorData("Factor0", 1,  0.0125));
             FactorList.Add(new FactorData("Factor1", 0, 0.0225));
@@ -70,6 +144,14 @@ namespace JLMS.ViewModels
             InvestorList = new ObservableCollection<Investor>();
             InvestorList.Add(new Investor("Templ0"));
             InvestorList.Add(new Investor("Templ1"));
+
+            TraderList = new ObservableCollection<TraderData>();
+            TraderList.Add(new TraderData("LiqTrad"));
+
+            StatisticianList = new ObservableCollection<StatisticianData>();
+            StatisticianList.Add(new StatisticianData("Stat0", SecurityList.Count));
+
+
             string covmatrixmodel = "AC_LH";
             CovMatrixList = new ObservableCollection<CovMatrix>();
             for (int i = 0; i < SecurityList.Count; i++)
@@ -85,8 +167,33 @@ namespace JLMS.ViewModels
             }
 
         }
+     
+        private void LoadInputFileList()
+        {
+            SampleFiles.Clear();
+            string workingfolder = Properties.Settings.Default.JLMSFolder;
+            try
+            {
+                var files = from file in Directory.EnumerateFiles(workingfolder, "*.txt", SearchOption.TopDirectoryOnly)
+                            where (!(file.Contains("Trace file for Case")))
+                            select file;
+         
+                foreach (var f in files)
+                {
+                    SampleFiles.Add(f);
+                }
 
-  
+            }
+            catch (UnauthorizedAccessException UAEx)
+            {
+                Console.WriteLine(UAEx.Message);
+            }
+            catch (PathTooLongException PathEx)
+            {
+                Console.WriteLine(PathEx.Message);
+            }
+        }
+      
         public RelayCommand AddFactorCommand
         {
             get
@@ -298,5 +405,109 @@ namespace JLMS.ViewModels
             InvestorList.RemoveAt(InvestorList.Count - 1);
         }
 
+        public RelayCommand AddTraderCommand
+        {
+            get
+            {
+                if (_addtradercommand == null)
+                {
+                    _addtradercommand = new RelayCommand(
+                        param => this.AddTrader(),
+                        param => this.CanAddTrader
+                        );
+                }
+                return _addtradercommand;
+            }
+        }
+
+        bool CanAddTrader
+        {
+            get { return TraderList.Count < 99; }
+        }
+        private void AddTrader()
+        {
+            int n = TraderList.Count ;
+            string Tradername;
+            Tradername = "TT" + n.ToString();
+            TraderList.Add(new TraderData(Tradername));
+        }
+
+        public RelayCommand RemoveTraderCommand
+        {
+            get
+            {
+                if (_removetradercommand == null)
+                {
+                    _removetradercommand = new RelayCommand(
+                        param => this.RemoveTrader(),
+                        param => this.CanRemoveTrader
+                        );
+                }
+                return _removetradercommand;
+            }
+        }
+
+        bool CanRemoveTrader
+        {
+            get { return TraderList.Count > 0; }
+        }
+        private void RemoveTrader()
+        {
+            if (TraderList.Count == 0)
+                return;
+            TraderList.RemoveAt(TraderList.Count - 1);
+        }
+        public RelayCommand AddStatisticianCommand
+        {
+            get
+            {
+                if (_addstatisticiancommand == null)
+                {
+                    _addstatisticiancommand = new RelayCommand(
+                        param => this.AddStatistician(),
+                        param => this.CanAddStatistician
+                        );
+                }
+                return _addstatisticiancommand;
+            }
+        }
+
+        bool CanAddStatistician
+        {
+            get { return StatisticianList.Count < 99; }
+        }
+        private void AddStatistician()
+        {
+            int n = StatisticianList.Count + 1;
+            string Statisticianname;
+            Statisticianname = "Stat" + n.ToString();
+            StatisticianList.Add(new StatisticianData(Statisticianname, SecurityList.Count) );
+        }
+
+        public RelayCommand RemoveStatisticianCommand
+        {
+            get
+            {
+                if (_removestatisticiancommand == null)
+                {
+                    _removestatisticiancommand = new RelayCommand(
+                        param => this.RemoveStatistician(),
+                        param => this.CanRemoveStatistician
+                        );
+                }
+                return _removestatisticiancommand;
+            }
+        }
+
+        bool CanRemoveStatistician
+        {
+            get { return StatisticianList.Count > 0; }
+        }
+        private void RemoveStatistician()
+        {
+            if (StatisticianList.Count == 0)
+                return;
+            StatisticianList.RemoveAt(StatisticianList.Count - 1);
+        }
     }
 }

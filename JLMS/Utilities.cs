@@ -35,7 +35,7 @@ namespace JLMS
         }
     }
 
-    class DataTableMaxValueConverter : IValueConverter
+    public class DataTableMaxValueConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -56,7 +56,7 @@ namespace JLMS
             throw new NotImplementedException();
         }
     }
-    class DataTableMinValueConverter : IValueConverter
+    public class DataTableMinValueConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -77,7 +77,7 @@ namespace JLMS
             throw new NotImplementedException();
         }
     }
-    class Bool2VisibilityConverter : IValueConverter
+    public class Bool2VisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -93,7 +93,7 @@ namespace JLMS
             throw new NotImplementedException();
         }
     }
-
+ 
     public class InvertVisibilityConverter : IValueConverter
     {
 
@@ -112,7 +112,7 @@ namespace JLMS
             throw new Exception("Invalid call - one way only");
         }
     }
-    class NegateBooleanToVisibilityConverter : IValueConverter
+    public class NegateBooleanToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -134,7 +134,7 @@ namespace JLMS
         }
     }
 
-    class MTOperationModeConverter : IValueConverter
+    public class MTOperationModeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -168,6 +168,37 @@ namespace JLMS
         }
     }
 
+    public class RadioButtonCheckedConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            return value.Equals(parameter);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            return value.Equals(true) ? parameter : Binding.DoNothing;
+        }
+    }
+
+    public class CovMatrixModelToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            //return Visibility.Visible; //todo
+            if ((string)value == "DF") //server mode;
+                return Visibility.Hidden;
+            else
+                return Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
     public static class UiServices
     {
 
