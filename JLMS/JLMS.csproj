@@ -83,6 +83,7 @@
     </Compile>
     <Compile Include="IListItemConverter.cs" />
     <Compile Include="Model\AnalystData.cs" />
+    <Compile Include="Model\BasicData.cs" />
     <Compile Include="Model\Beta.cs" />
     <Compile Include="Model\CaseSummary.cs" />
     <Compile Include="Model\ConvarianceMatrix.cs" />

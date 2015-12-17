@@ -9,6 +9,7 @@ using System.Windows.Threading;
 using JLMS.Model;
 using System.Data;
 using System.IO;
+using DevExpress.Xpf.Core;
 
 namespace JLMS.ViewModels
 {
@@ -80,14 +81,58 @@ namespace JLMS.ViewModels
                 OnPropertyChanged("SelectedSampleFile");
             }
         }
-        private void OnSelectedSampleFileChanged(string fileName)
+        private void OnSelectedSampleFileChanged(string filename)
         {
-          
-            {
-                string s = fileName;
-            }
-            //ReadInputFile();
+            //filename = Properties.Settings.Default.JLMSFolder + @"\" + filename;
+            LoadCaseInputFile(filename);
 
+        }
+        private void LoadCaseInputFile(string filename)
+        {
+            if (!VerifyJLMInputFile(filename))
+            {
+                DXMessageBox.Show(filename + " is not a valide JLM Simulator input file!", "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return;
+            }
+            List<string> inputlines = File.ReadAllLines(filename).ToList<string>();
+            string casename = GetDataFromLines("Data number or description (no spaces)", ref inputlines);
+           // string case
+
+        }
+
+        private string GetDataFromLines(string key, ref List<string> list)
+        {
+            string val = list.Find(delegate (string s) { return s.Contains(key); });
+            if (val == null)
+                val = "";
+            else
+            {
+                val = val.Split(':').ToList<string>()[1].Trim();
+            }
+            return val;
+        }
+
+        private bool VerifyJLMInputFile(string filename)
+        {
+
+            if (File.Exists(filename))
+            {
+                string line;
+                using (System.IO.StreamReader file = new System.IO.StreamReader(filename))
+                {
+                    if ((line = file.ReadLine()) != null)
+                    {
+                        if (line.ToUpper().Contains("JLMSIM INPUT FILE"))
+                            return true;
+                        else
+                            return false;
+                    }
+                    else
+                        return false;
+                }
+            }
+            else
+                return false;
         }
 
         private void OnCaseNameChange(string caseName)

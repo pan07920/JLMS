@@ -46,7 +46,7 @@ namespace JLMS.Views
         {
             jlmsfolder = Properties.Settings.Default.JLMSFolder;
             foldername.Text = jlmsfolder;
-            
+            themelist.Items.Add("DXStyle");
             themelist.Items.Add("Office2016White");
             themelist.Items.Add("Office2016Black");
             themelist.Items.Add("Office2016Colorful");
