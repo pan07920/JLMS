@@ -163,13 +163,27 @@ namespace JLMS.VGrid
             }
             if (e.IsSetData)
             {
-                if(itemProperty.CanWrite)
-                    itemProperty.SetValue(item, e.Value);
+                itemProperty.SetValue(item, e.Value);
             }
         }
 
         public static readonly DependencyProperty AutoPopulateRowsProperty = DependencyProperty.Register("AutoPopulateRows", typeof(bool), typeof(VerticalGridControl), new PropertyMetadata(false));
         public static new readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register("ItemsSource", typeof(object), typeof(VerticalGridControl), new PropertyMetadata(null));
+
+        private void OnTableViewShowingEditor(object sender, ShowingEditorEventArgs e)
+        {
+            OnTableViewShowingEditorInternal(e);
+        }
+        protected virtual void OnTableViewShowingEditorInternal(ShowingEditorEventArgs e)
+        {
+            var listIndex = GetListIndexByRowHandle(e.RowHandle);
+            VerticalRowData row = Rows[listIndex];
+            if (!row.AllowEditing)
+            {
+                e.Cancel = true;
+                e.Handled = true;
+            }
+        }
     }
     public class BottomIndicatorRowVisibilityConverter : IMultiValueConverter
     {
@@ -213,13 +227,14 @@ namespace JLMS.VGrid
         }
         public static readonly DependencyProperty HeaderProperty =
             DependencyProperty.Register("Header", typeof(object), typeof(VerticalRowData), new PropertyMetadata(null));
-        public object ReadOnly
+
+        public bool AllowEditing
         {
-            get { return (object)GetValue(ReadOnlyProperty); }
-            set { SetValue(ReadOnlyProperty, value); }
+            get { return (bool)GetValue(AllowEditingProperty); }
+            set { SetValue(AllowEditingProperty, value); }
         }
-        public static readonly DependencyProperty ReadOnlyProperty =
-            DependencyProperty.Register("ReadOnly", typeof(object), typeof(VerticalRowData), new PropertyMetadata(null));
+        public static readonly DependencyProperty AllowEditingProperty =
+            DependencyProperty.Register("AllowEditing", typeof(bool), typeof(VerticalRowData), new PropertyMetadata(true));
 
         public static VerticalRowData FromPropertyInfo(PropertyInfo info)
         {

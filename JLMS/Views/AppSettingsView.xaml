@@ -50,22 +50,27 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <TextBlock Text ="User Interface Theme:" Grid.Column ="0"  Margin="5" />
-                <ComboBox Grid.Row ="0" Grid.Column="1"  ItemsSource="{Binding Source={x:Static dx:Theme.Themes}, Mode=OneWay}" 
+                <!--<ComboBox Grid.Row ="0" Grid.Column="1"  ItemsSource="{Binding Source={x:Static dx:Theme.Themes}, Mode=OneWay}" 
                             SelectedValue="{Binding ApplicationThemeName, Source={x:Static dxthm:GlobalThemeHelper.Instance}}"  
                             SelectedValuePath="Name" 
-                            DisplayMemberPath="Name"  Margin="5"  />
+                            DisplayMemberPath="Name"  Margin="5"  />-->
 
-                <!--<ComboBox Name="cmbColors" Grid.Row="2" Grid.Column="1"  ItemsSource="{Binding Source={x:Static dx:Theme.Themes}, Mode=OneWay}" 
-                           SelectedValue="{Binding ApplicationThemeName, Source={x:Static dxthm:GlobalThemeHelper.Instance}}"  
-                            SelectedValuePath="Name" 
-                            DisplayMemberPath="Name"  Margin="5"
-                            ItemContainerStyle="{Binding Name}">
-                    --><!--<ComboBox.ItemContainerStyle>
-                        <Style TargetType="ComboBoxItem">
-                            <Setter Property="Template" Value="{Binding Name}" />
+                <ComboBox Name ="themelist" Grid.Row ="0" Grid.Column="1" 
+                             SelectedValue="{Binding ApplicationThemeName, Source={x:Static dxthm:GlobalThemeHelper.Instance}}"  
+                             Margin="5"  >
+                  
+                </ComboBox>
+
+                <!--<ComboBox  Name ="themelist" 
+                          SelectedValue="{Binding ApplicationThemeName, Source={x:Static dxthm:GlobalThemeHelper.Instance}}"  
+                           
+                      >
+                    <ComboBox.ItemContainerStyle>
+                        <Style TargetType="ComboBoxItem" dx:ThemeManager.ThemeName ="{Binding Name}">
+                            <Setter Property="Template" dx:ThemeManager.ThemeName ="{Binding Name}" />
                             
                         </Style>
-                    </ComboBox.ItemContainerStyle>--><!--
+                    </ComboBox.ItemContainerStyle>
                 </ComboBox>-->
                 <TextBlock Text ="Application Folder: " Grid.Column ="0" Grid.Row="1"   Margin="5"  />
                 <TextBox Name ="foldername" Text ="Application Folder: " Grid.Column ="1" Grid.Row="1"  IsReadOnly="True" Margin="5" />

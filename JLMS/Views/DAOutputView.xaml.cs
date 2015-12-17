@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using JLMS.ViewModels;
 using DevExpress.Xpf.WindowsUI.Navigation;
+using JLMS.Model;
 
 namespace JLMS.Views
 {

@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using JLMS.ViewModels;
+using JLMS.Model;
+
 namespace JLMS.Views
 {
     /// <summary>

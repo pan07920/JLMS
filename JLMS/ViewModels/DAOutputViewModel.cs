@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Data;
 using DevExpress.Xpf.Core;
+using JLMS.Model;
 
 namespace JLMS.ViewModels
 {

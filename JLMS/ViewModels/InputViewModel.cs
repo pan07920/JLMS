@@ -30,6 +30,8 @@ namespace JLMS.ViewModels
         RelayCommand _addanalystcommand;
         RelayCommand _removeanalystcommand;
         PropertyObserver<InputViewModel> _observer;
+        public bool CMECase { get; set; }
+        public bool NewCase { get; set; }
         public string CaseName
         {
             get { return _casename; } 
@@ -426,7 +428,7 @@ namespace JLMS.ViewModels
         }
         private void AddTrader()
         {
-            int n = TraderList.Count ;
+            int n = TraderList.Count-1 ;
             string Tradername;
             Tradername = "TT" + n.ToString();
             TraderList.Add(new TraderData(Tradername));

@@ -9,18 +9,11 @@ using System.Windows.Threading;
 using System.IO;
 using System.Globalization;
 using DevExpress.Xpf.Core;
+using JLMS.Model;
 
 namespace JLMS.ViewModels
 {
-    public class CaseSummary 
-    {
-        public string Name { get; set; }
-        public int TotalSecurities { get; set; }
-        public int SimulationLength { get; set; }
-        public bool MTOperationMode { get; set; }
-        public ObservableCollection<KeyValuePair<string, KeyValuePair<string, string>>> Summary { get; set; }
-        public ObservableCollection<KeyValuePair<string, string>> OutputFiles;
-    }
+   
     class MainViewModel : ViewModelBase
     {
 

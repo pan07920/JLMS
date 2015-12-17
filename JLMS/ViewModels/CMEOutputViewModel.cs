@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Data;
+using JLMS.Model;
 
 namespace JLMS.ViewModels
 {

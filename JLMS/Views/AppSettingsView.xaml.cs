@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Xpf.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,7 +46,25 @@ namespace JLMS.Views
         {
             jlmsfolder = Properties.Settings.Default.JLMSFolder;
             foldername.Text = jlmsfolder;
-           
+            
+            themelist.Items.Add("Office2016White");
+            themelist.Items.Add("Office2016Black");
+            themelist.Items.Add("Office2016Colorful");
+            themelist.Items.Add("Office2013");
+            themelist.Items.Add("Office2013DarkGray");
+            themelist.Items.Add("Office2013LightGray");
+            themelist.Items.Add("Office2010Black");
+            themelist.Items.Add("Office2010Blue");
+            themelist.Items.Add("Office2010Silver");
+            themelist.Items.Add("MetropolisLight");
+            themelist.Items.Add("MetropolisDark");
+            themelist.Items.Add("VS2010");
+            themelist.Items.Add("Office2007Black");
+            themelist.Items.Add("Office2007Blue");
+            themelist.Items.Add("Office2007Silver");
+            themelist.Items.Add("Seven");
+            themelist.Items.Add("DeepBlue");
+            themelist.Items.Add("LightGray");
         }
     }
 }

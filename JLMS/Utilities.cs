@@ -77,6 +77,23 @@ namespace JLMS
             throw new NotImplementedException();
         }
     }
+
+    public class Boolean2CaseTypeConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            //return Visibility.Visible; //todo
+            if ((bool)value) //server mode;
+                return "Capital Market Equilibrium";
+            else
+                return "Dynamic Analysis";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
     public class Bool2VisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
