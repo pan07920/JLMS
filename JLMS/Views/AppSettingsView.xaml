@@ -55,27 +55,47 @@
                             SelectedValuePath="Name" 
                             DisplayMemberPath="Name"  Margin="5"  />-->
 
-                <ComboBox Name ="themelist" Grid.Row ="0" Grid.Column="1" 
+                <!--<ComboBox Name ="themelist" Grid.Row ="0" Grid.Column="1" 
                              SelectedValue="{Binding ApplicationThemeName, Source={x:Static dxthm:GlobalThemeHelper.Instance}}"  
                              Margin="5"  >
                   
-                </ComboBox>
-
-                <!--<ComboBox  Name ="themelist" 
-                          SelectedValue="{Binding ApplicationThemeName, Source={x:Static dxthm:GlobalThemeHelper.Instance}}"  
-                           
-                      >
-                    <ComboBox.ItemContainerStyle>
-                        <Style TargetType="ComboBoxItem" dx:ThemeManager.ThemeName ="{Binding Name}">
-                            <Setter Property="Template" dx:ThemeManager.ThemeName ="{Binding Name}" />
-                            
-                        </Style>
-                    </ComboBox.ItemContainerStyle>
                 </ComboBox>-->
+
+                <!--<dxe:ComboBoxEdit Name="themelist"  Grid.Column="1"  EditValue="{Binding ApplicationThemeName, Source={x:Static dxthm:GlobalThemeHelper.Instance}}"  AllowUpdateTwoWayBoundPropertiesOnSynchronization="False" IsTextEditable="False" ApplyItemTemplateToSelectedItem="True" ValueMember="Name" HorizontalContentAlignment="Stretch">
+                    <dxe:ComboBoxEdit.ItemContainerStyle>
+                        <Style TargetType="dxe:ListBoxEditItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </dxe:ComboBoxEdit.ItemContainerStyle>
+                    <dxe:ComboBoxEdit.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </dxe:ComboBoxEdit.ItemsPanel>
+                    <dxe:ComboBoxEdit.ItemTemplate>
+                        <DataTemplate>
+                            <dx:BackgroundPanel dx:ThemeManager.Theme="{Binding}" Margin="1">
+                                <TextBlock Text="{Binding}" Margin="20"/>
+                            </dx:BackgroundPanel>
+                        </DataTemplate>
+                    </dxe:ComboBoxEdit.ItemTemplate>
+                </dxe:ComboBoxEdit>-->
+                
                 <TextBlock Text ="Application Folder: " Grid.Column ="0" Grid.Row="1"   Margin="5"  />
                 <TextBox Name ="foldername" Text ="Application Folder: " Grid.Column ="1" Grid.Row="1"  IsReadOnly="True" Margin="5" />
                 <dx:SimpleButton Content="..."  Margin="5" Grid.Row="1"  Grid.Column ="2" HorizontalAlignment="Left" Click="SimpleButton_Click"/>
-               
+
+                <dxe:ComboBoxEdit  Grid.Column="1" Grid.Row="0"  Margin="5"
+                                   ItemsSource="{x:Static dx:Theme.Themes}" EditValue="{Binding ApplicationThemeName, Source={x:Static dxthm:GlobalThemeHelper.Instance}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"   IsTextEditable="False" ApplyItemTemplateToSelectedItem="True" ValueMember="Name">
+                    <dxe:ComboBoxEdit.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding LargeGlyph}" Width="32" Height="32"/>
+                                <TextBlock Text="{Binding}" Margin="20"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </dxe:ComboBoxEdit.ItemTemplate>
+                </dxe:ComboBoxEdit>
             </Grid>
         </Border>
     </Grid>

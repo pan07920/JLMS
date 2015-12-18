@@ -129,7 +129,10 @@ namespace JLMS.Views
                 md[colNum] = double.Parse(v.ToString());
         }
 
-      
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
 

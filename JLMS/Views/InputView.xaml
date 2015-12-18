@@ -109,16 +109,16 @@
                         <dxlc:LayoutGroup Header="Basic" Orientation="Horizontal">
                             <dxlc:LayoutGroup Orientation="Vertical"  View="GroupBox" Padding="10">
                                 <dxlc:LayoutItem Label="Case Description:">
-                                    <dxe:TextEdit />
+                                    <dxe:TextEdit Text="{Binding BasicData.CaseDescription}" />
                                 </dxlc:LayoutItem>
                                 <dxlc:LayoutItem Label="Length of Simulation (day):">
-                                    <dxe:TextEdit MaskType="Numeric" HorizontalContentAlignment="Right"/>
+                                    <dxe:TextEdit MaskType="Numeric" Text="{Binding BasicDataObj.SimLength}" Mask="D" HorizontalContentAlignment="Right"/>
                                 </dxlc:LayoutItem>
                                 <dxlc:LayoutItem Label="Random Seed:">
-                                    <dxe:TextEdit MaskType="Numeric" HorizontalContentAlignment="Right"/>
+                                    <dxe:TextEdit MaskType="Numeric" Text="{Binding BasicDataObj.RandomSeed}" Mask="F" HorizontalContentAlignment="Right"/>
                                 </dxlc:LayoutItem>
                                 <dxlc:LayoutItem Label="Only short on uptick:">
-                                    <CheckBox HorizontalContentAlignment="Right" />
+                                    <!--<CheckBox HorizontalContentAlignment="Right" Checked="{Binding BasicData.ShortOnUptick}" />-->
                                 </dxlc:LayoutItem>
                                 <dxlc:LayoutItem Label="Short rebate:" >
                                     <StackPanel Orientation="Horizontal" >
@@ -138,6 +138,14 @@
                                     <dxe:TextEdit MaskType="Numeric" HorizontalContentAlignment="Right"/>
                                 </dxlc:LayoutItem>
 
+                                <dxlc:LayoutItem Label="Data Source:" Visibility="{Binding CMECase, Converter={StaticResource  NegateBooleanToVisibilityConverter}}">
+                                    <StackPanel  Orientation="Horizontal" >
+                                        <RadioButton Margin="3" Content="Exogenous"/>
+                                        <RadioButton Margin="3" Content="Endogenous"/>
+                                    </StackPanel>
+                                   
+                                </dxlc:LayoutItem>
+                                
                                 <dxlc:LayoutItem Label="CME Parameters:" Visibility="{Binding CMECase, Converter={StaticResource Bool2VisibilityConverter}}">
                                     <StackPanel Margin="3"  Orientation="Horizontal" >
                                         <TextBlock Margin="0, 0, 3, 0">A0:</TextBlock>

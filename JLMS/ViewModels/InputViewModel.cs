@@ -31,8 +31,15 @@ namespace JLMS.ViewModels
         RelayCommand _addanalystcommand;
         RelayCommand _removeanalystcommand;
         PropertyObserver<InputViewModel> _observer;
+
+        BasicData _basicdata = new BasicData();
+
         public bool CMECase { get; set; }
         public bool NewCase { get; set; }
+        public BasicData BasicDataObj
+        {
+            get { return _basicdata; }
+        }
         public string CaseName
         {
             get { return _casename; } 
@@ -83,7 +90,6 @@ namespace JLMS.ViewModels
         }
         private void OnSelectedSampleFileChanged(string filename)
         {
-            //filename = Properties.Settings.Default.JLMSFolder + @"\" + filename;
             LoadCaseInputFile(filename);
 
         }
@@ -95,9 +101,92 @@ namespace JLMS.ViewModels
                 return;
             }
             List<string> inputlines = File.ReadAllLines(filename).ToList<string>();
-            string casename = GetDataFromLines("Data number or description (no spaces)", ref inputlines);
-           // string case
+            
 
+        }
+
+        private bool LoadBasicData(ref List<string> inputlines)
+        {
+            try
+            {
+                string casename = GetDataFromLines("Data number or description (no spaces)", ref inputlines);
+                _basicdata.CaseDescription = GetDataFromLines("Data number or description (no spaces)", ref inputlines);
+                _basicdata.RandomSeed = int.Parse(GetDataFromLines("Initial random seed (or -1 for default)", ref inputlines));
+                _basicdata.SimLength = int.Parse(GetDataFromLines("Length of Simulation (in days)", ref inputlines));
+                
+                _basicdata.DaysKept = int.Parse(GetDataFromLines("Nr. of Days Data Kept for statisticians", ref inputlines));
+                _basicdata.MonthsKept = int.Parse(GetDataFromLines("Nr. of Months Data Kept for statisticians", ref inputlines));
+                _basicdata.DaysToImpact = double.Parse(GetDataFromLines("Time in days or fraction thereof) ", ref inputlines));
+                string OpMode = GetDataFromLines("or that specific specs follow ", ref inputlines).ToUpper();
+                if (OpMode == "X" || OpMode == "N")
+                {
+                    _basicdata.CMEMode = false;
+                    if (OpMode == "X")
+                        _basicdata.DataSourceExogenous = true;
+                    else
+                        _basicdata.DataSourceExogenous = false;
+                }
+                else if (OpMode == "CME" || OpMode == "MODIFIED_CME" || OpMode == "CME_PACKAGE")
+                    _basicdata.CMEMode = true;
+                string A0A1B0B1 = GetDataFromLines("Reset A0,A1,B0,B1 parameters", ref inputlines);
+                if (A0A1B0B1 != "")
+                {
+                    char[] whitespace = new char[] { ' ', '\t' };
+                    string[] paramsarray = A0A1B0B1.Split(whitespace);
+                    _basicdata.A0Param = double.Parse(paramsarray[1]);
+                    _basicdata.A1Param = double.Parse(paramsarray[2]);
+                    _basicdata.B0Param = double.Parse(paramsarray[3]);
+                    _basicdata.B1Param = double.Parse(paramsarray[4]);
+                }
+              
+                _basicdata.MaxInitialLpS = double.Parse(GetDataFromLines("Max Initial Sum of Long + |Short|", ref inputlines));
+                _basicdata.MaxMMLpS = double.Parse(GetDataFromLines("Max Mark-to-Market Sum of Long + |Short|", ref inputlines));
+                _basicdata.InitialBrokerRate = double.Parse(GetDataFromLines("Initial \"Annual\" Broker Rate (broker charges)", ref inputlines));
+                _basicdata.InitialBrokerPays = double.Parse(GetDataFromLines("Initial \"Annual\" Riskfree Rate (broker pays)", ref inputlines));
+                _basicdata.ThresholdDebtIncrease = double.Parse(GetDataFromLines("Increase Rates if total debt exceeds this", ref inputlines));
+                _basicdata.ThresholdDebtDecrease = double.Parse(GetDataFromLines("Decrease Rates if total debt is less than this", ref inputlines));
+                _basicdata.BrokerRateDelta = double.Parse(GetDataFromLines("Broker Rate Delta (\"Annual\")", ref inputlines));
+                _basicdata.BrokerPaysDelta = double.Parse(GetDataFromLines("Riskfree Rate Delta (\"Annual\")", ref inputlines));
+                _basicdata.EarliestRateReduction = double.Parse(GetDataFromLines("Don't lower rates before this day", ref inputlines));
+                _basicdata.EarliestRateIncrease = double.Parse(GetDataFromLines("Don't raise rates before this day", ref inputlines));
+                _basicdata.SmallPurchaseSlack = double.Parse(GetDataFromLines("this much purchasing power)", ref inputlines));
+
+                string uptick = GetDataFromLines("Can only short on uptick?  Y or N", ref inputlines);
+
+                if (uptick == "Y" || uptick == "N")
+                {
+                    if (uptick == "Y")
+                        _basicdata.ShortOnUptick = true;
+                    else
+                        _basicdata.ShortOnUptick = false;
+
+                    _basicdata.ShortRebateFraction = double.Parse(GetDataFromLines("Short rebate fraction", ref inputlines));
+                    _basicdata.UseShortRebate = true;
+                }
+                else if (uptick == "YY" || uptick == "NN")
+                {
+                    if (uptick == "YY")
+                        _basicdata.ShortOnUptick = true;
+                    else
+                        _basicdata.ShortOnUptick = false;
+                    string rbt = GetDataFromLines("Short rebate fraction", ref inputlines);
+                    string[] alpha_beta = rbt.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
+                    _basicdata.AlphaRebateFraction = double.Parse(alpha_beta[0]);
+                    _basicdata.BetaRebateFraction = double.Parse(alpha_beta[1]);
+
+                }
+               
+
+                //_basicdata.InitialPortfolioSpecification = int.Parse(GetDataFromLines("Data number or description (no spaces)", ref inputlines));
+                // _basicdata.InitialCashFraction = double.Parse(GetDataFromLines("Data number or description (no spaces)", ref inputlines));
+                // _basicdata.CCCMType = GetDataFromLines("Data number or description (no spaces)", ref inputlines);
+            }
+            catch (Exception e)
+            {
+                DXMessageBox.Show("Error parsing Basic Data section JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                 return false;
+            }
+            return true;
         }
 
         private string GetDataFromLines(string key, ref List<string> list)
