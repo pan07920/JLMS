@@ -151,6 +151,29 @@ namespace JLMS
         }
     }
 
+    public class ReadOnlyColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value is Boolean && !(bool)value)
+            {
+                return System.Windows.Media.Colors.Transparent;
+            }
+            return SystemColors.WindowBrush;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            //if (value is Visibility && (Visibility)value == Visibility.Visible)
+            //{
+            //    return true;
+            //}
+            //return false;
+            throw new NotImplementedException();
+        }
+    }
+
+
     public class MTOperationModeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

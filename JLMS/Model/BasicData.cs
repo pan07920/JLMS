@@ -39,9 +39,10 @@ namespace JLMS.Model
         private static double defaultEarliestRateReduction = 20000;
         private static double defaultEarliestRateIncrease  = 20000;
         private static double defaultSmallPurchaseSlack = 1000;
-        //private static int defaultInitialPortfolioSpecification = 0;
-        //private static double defaultInitialCashFraction = 0;
-        //private static string defaultCCCMType = "DF";
+
+        private static bool defaultInitialcash = false;
+        private static double defaultInitialCashFraction = 0;
+        private static string defaultCCCMType = "DF";
 
 
         private string _casedescription = defaultCaseDescription;
@@ -73,8 +74,8 @@ namespace JLMS.Model
         private double  _earliestratereduction = defaultEarliestRateReduction;
         private double  _earliestrateincrease = defaultEarliestRateIncrease;
         private double  _smallpurchaseslack = defaultSmallPurchaseSlack;
-
-
+        private bool    _initialcash = defaultInitialcash;
+        private double _initialcashfraction = defaultInitialCashFraction;
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -139,8 +140,9 @@ namespace JLMS.Model
             _earliestratereduction = defaultEarliestRateReduction;
             _earliestrateincrease = defaultEarliestRateIncrease;
             _smallpurchaseslack = defaultSmallPurchaseSlack;
-            //_InitialPortfolioSpecification = defaultInitialPortfolioSpecification;
-            //_InitialCashFraction = defaultInitialCashFraction;
+            _initialcash = defaultInitialcash;
+
+            _initialcashfraction = defaultInitialCashFraction;
             //_CCCMType = defaultCCCMType;
         }  
         public string CaseDescription
@@ -288,9 +290,17 @@ namespace JLMS.Model
             get { return _smallpurchaseslack; }
             set { SetField(ref _smallpurchaseslack, value); }
         }
-        //public int InitialPortfolioSpecification { get; set; }
-        //public double InitialCashFraction { get; set; }
+        public double InitialCashFraction
+        {
+            get { return _initialcashfraction; }
+            set { SetField(ref _initialcashfraction, value); }
+        }
+        public bool InitialCash
+        {
+            get { return _initialcash; }
+            set { SetField(ref _initialcash, value); } 
+        }
         //public string CCCMType { get; set; }
-      
+
     }
 }

@@ -35,24 +35,19 @@ namespace JLMS.Views
             if (e.Parameter.GetType() == typeof(CaseSummary))
             {
                 CaseSummary cs = (CaseSummary)e.Parameter;
+                _vm.NewCase = false;
                 _vm.CaseName = cs.Name;
                 _vm.CMECase = cs.MTOperationMode;
-                _vm.NewCase = false;
+                
             }
             else
             {
+                _vm.NewCase = true;
                 string casename = (string)e.Parameter;
                 if (casename == "CME:New")
-                {
                     _vm.CMECase = true;
-                    _vm.NewCase = true;
-                }
                 else if (casename == "DA:New")
-                {
                     _vm.CMECase = false;
-                    _vm.NewCase = true;
-                }
-                
             }
         }
         public void NavigatingFrom(DevExpress.Xpf.WindowsUI.Navigation.NavigatingEventArgs e)
@@ -131,6 +126,26 @@ namespace JLMS.Views
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
+
+        }
+
+       
+        private void caseid_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var tb = (TextBox)sender;
+            using (tb.DeclareChangeBlock())
+            {
+                foreach (var c in e.Changes)
+                {
+                    if (c.AddedLength == 0) continue;
+                    tb.Select(c.Offset, c.AddedLength);
+                    if (tb.SelectedText.Contains(' '))
+                    {
+                        tb.SelectedText = tb.SelectedText.Replace(' ', '_');
+                    }
+                    tb.Select(c.Offset + c.AddedLength, 0);
+                }
+            }
 
         }
     }

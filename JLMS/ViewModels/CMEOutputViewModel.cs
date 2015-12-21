@@ -16,7 +16,7 @@ namespace JLMS.ViewModels
     {
         [DllImport("DataParsingDLL.dll", EntryPoint = "Process")]
         public static extern int ParsingProcessData(string SimInput, string TraceFile, string output);
-        private string _jlmsimfolder = @"C:\JLMSim";
+        private string _jlmsimfolder = Properties.Settings.Default.JLMSFolder;
 
         DataTable _weightstable;
         DataTable _returnstable;

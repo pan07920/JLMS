@@ -16,7 +16,7 @@ namespace JLMS.ViewModels
     class DAOutputViewModel : ViewModelBase
     {
        
-        private string _jlmsimfolder = @"C:\JLMSim";
+        private string _jlmsimfolder = Properties.Settings.Default.JLMSFolder;
         int _perdays;
         double[,] _price;
         int[,] _volume;

@@ -101,7 +101,8 @@ namespace JLMS.ViewModels
                 return;
             }
             List<string> inputlines = File.ReadAllLines(filename).ToList<string>();
-            
+
+            LoadBasicData(ref inputlines);
 
         }
 
@@ -226,12 +227,12 @@ namespace JLMS.ViewModels
 
         private void OnCaseNameChange(string caseName)
         {
-
+           if(!NewCase)  
             {
-                string s = caseName;
+                string prefixInput = "JLMSimInput for Case ";
+                string caseinputfile = Properties.Settings.Default.JLMSFolder + @"\" + prefixInput + CaseName + ".txt";
+                LoadCaseInputFile(caseinputfile);
             }
-            //ReadInputFile();
-
         }
         private void OnSelectedMatrixModelChanged(InputViewModel vm)
         {
