@@ -12,8 +12,8 @@ namespace JLMS.Model
         public FactorData(string factor, double dailyreturn = 0, double dailysigma = 0)
         {
             Factor = factor;
-            DailyReturn = 0;
-            DailySigma = 0;
+            DailyReturn = dailyreturn;
+            DailySigma = dailysigma;
         }
         public string Factor { get; private set; }
 

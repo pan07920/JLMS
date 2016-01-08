@@ -18,8 +18,10 @@ namespace JLMS.ViewModels
     {
 
         private CaseSummary _selectedcase;
-        ObservableCollection<CaseSummary> _casefilescollectioncme = new ObservableCollection<CaseSummary>();
-        ObservableCollection<CaseSummary> _casefilescollectionda = new ObservableCollection<CaseSummary>();
+        ObservableCollection<CaseSummary> _casefilescollection = new ObservableCollection<CaseSummary>();
+
+        PropertyObserver<AppSettingsViewModel> _observer;
+        public AppSettingsViewModel AppSettingVM { get; private set; }
         public bool IsCaseReady
         {
             get { return _selectedcase != null && _selectedcase.Name != ""; }
@@ -51,21 +53,23 @@ namespace JLMS.ViewModels
 
         }
 
-        public ObservableCollection<CaseSummary> CaseFilesCME
+        public ObservableCollection<CaseSummary> CaseFiles
         {
             get
             {
-                return _casefilescollectioncme;
+                return _casefilescollection;
             }
         }
-        public ObservableCollection<CaseSummary> CaseFilesDA
-        {
-            get
-            {
-                return _casefilescollectionda;
-            }
-        }
+      
         public MainViewModel()
+        {
+            AppSettingVM = new AppSettingsViewModel();
+            _observer = 
+              new PropertyObserver<AppSettingsViewModel>(this.AppSettingVM)
+                 .RegisterHandler(n => n.AppFolder, n => OnAppFolderChanged());
+            LoadCaseFiles();
+        }
+        private void OnAppFolderChanged()
         {
             LoadCaseFiles();
         }
@@ -174,11 +178,8 @@ namespace JLMS.ViewModels
                 simcase.TotalSecurities = nTotalSecurities;
                 simcase.OutputFiles = filelist;
                 simcase.Summary = summary;
-                //if (bMTOperationMode)
-                    _casefilescollectioncme.Add(simcase);
-               // else
-                 //   _casefilescollectionda.Add(simcase);
 
+                _casefilescollection.Add(simcase);
             }
             catch(Exception e)
             {
@@ -189,8 +190,14 @@ namespace JLMS.ViewModels
         private void LoadCaseFiles()
         {
             string prefixcase = "JLMSimInput for Case ";
+            if (_casefilescollection.Count > 0)
+                _casefilescollection.Clear();
             try
             {
+                if (!System.IO.Directory.Exists(FileFolder))
+                {
+                    Directory.CreateDirectory(FileFolder);
+                }
                 var files = from file in Directory.EnumerateFiles(FileFolder, "*.txt", SearchOption.AllDirectories)
                             where file.Contains(prefixcase)
                             select new

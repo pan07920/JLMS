@@ -13,58 +13,35 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using JLMS.ViewModels;
+using DevExpress.Xpf.WindowsUI.Navigation;
 
 namespace JLMS.Views
 {
     /// <summary>
     /// Interaction logic for AppSettingsView.xaml
     /// </summary>
-    public partial class AppSettingsView : UserControl
+    public partial class AppSettingsView : UserControl, INavigationAware
     {
-        private string jlmsfolder;
+
         public AppSettingsView()
         {
             InitializeComponent();
         }
-
-        private void SimpleButton_Click(object sender, RoutedEventArgs e)
+        public void NavigatedTo(DevExpress.Xpf.WindowsUI.Navigation.NavigationEventArgs e)
         {
-            var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            
-            if( result == System.Windows.Forms.DialogResult.OK)
+            if (e.Parameter.GetType() == typeof(AppSettingsViewModel))
             {
-                //foldername.Text = dlg.FileName;
-                foldername.Text = dialog.SelectedPath;
-                Properties.Settings.Default.JLMSFolder = foldername.Text;
-                Properties.Settings.Default.Save();
+                DataContext = e.Parameter;
             }
         }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        public void NavigatingFrom(DevExpress.Xpf.WindowsUI.Navigation.NavigatingEventArgs e)
         {
-            jlmsfolder = Properties.Settings.Default.JLMSFolder;
-            foldername.Text = jlmsfolder;
-            //themelist.Items.Add("DXStyle");
-            //themelist.Items.Add("Office2016White");
-            //themelist.Items.Add("Office2016Black");
-            //themelist.Items.Add("Office2016Colorful");
-            //themelist.Items.Add("Office2013");
-            //themelist.Items.Add("Office2013DarkGray");
-            //themelist.Items.Add("Office2013LightGray");
-            //themelist.Items.Add("Office2010Black");
-            //themelist.Items.Add("Office2010Blue");
-            //themelist.Items.Add("Office2010Silver");
-            //themelist.Items.Add("MetropolisLight");
-            //themelist.Items.Add("MetropolisDark");
-            //themelist.Items.Add("VS2010");
-            //themelist.Items.Add("Office2007Black");
-            //themelist.Items.Add("Office2007Blue");
-            //themelist.Items.Add("Office2007Silver");
-            //themelist.Items.Add("Seven");
-            //themelist.Items.Add("DeepBlue");
-            //themelist.Items.Add("LightGray");
+            //string s = e.Parameter.ToString();
+        }
+        public void NavigatedFrom(DevExpress.Xpf.WindowsUI.Navigation.NavigationEventArgs e)
+        {
+            // string s = e.Parameter.ToString();
         }
     }
 }

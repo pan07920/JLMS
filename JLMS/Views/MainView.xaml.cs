@@ -13,50 +13,33 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DevExpress.Xpf.WindowsUI.Navigation;
 
 namespace JLMS.Views
 {
     /// <summary>
     /// Interaction logic for MainView.xaml
     /// </summary>
-    public partial class MainView : UserControl
+    public partial class MainView : UserControl, INavigationAware
     {
         public MainView()
         {
             InitializeComponent();
            // DataContext = new JLMS.ViewModels.MainViewModel();
         }
-        //public class FileInfo
-        //{
-        //    public string Name { get; set; }
-        //    public DateTime LastModified { get; set; }
-        //    public FileInfo(string name)
-        //    {
-        //        Name = name;
-        //        LastModified = DateTime.Now;
-        //    }
-        //}
-
-        //ObservableCollection<FileInfo> mFileNames = new ObservableCollection<FileInfo>();
-
-        //public ObservableCollection<FileInfo> FileNames
-        //{
-        //    get
-        //    {
-        //        return mFileNames;
-        //    }
-        //}
-
-        ////public MainViewModel()
-        ////{
-        ////    Load();
-        ////}
-
-        //private void Load()
-        //{
-        //    mFileNames.Add(new FileInfo("x"));
-        //    mFileNames.Add(new FileInfo("y"));
-        //    mFileNames.Add(new FileInfo("z"));
-        //}
+        public void NavigatedTo(DevExpress.Xpf.WindowsUI.Navigation.NavigationEventArgs e)
+        {
+            string s;
+            if (e.Parameter!=null)
+                s = e.Parameter.ToString();
+        }
+        public void NavigatingFrom(DevExpress.Xpf.WindowsUI.Navigation.NavigatingEventArgs e)
+        {
+            //string s = e.Parameter.ToString();
+        }
+        public void NavigatedFrom(DevExpress.Xpf.WindowsUI.Navigation.NavigationEventArgs e)
+        {
+            // string s = e.Parameter.ToString();
+        }
     }
 }

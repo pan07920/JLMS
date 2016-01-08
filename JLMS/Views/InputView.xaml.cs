@@ -98,6 +98,8 @@ namespace JLMS.Views
             if ((sender as GridControl).ItemsSource is ObservableCollection<CovMatrix> )
             {
                 ObservableCollection<CovMatrix> it = (sender as GridControl).ItemsSource as ObservableCollection<CovMatrix>;
+                if (it.Count == 0)
+                    return;
                 int colCount = it[0].GetColumnsColunt();
                 for (int i = 0; i < colCount; i++)
                 {

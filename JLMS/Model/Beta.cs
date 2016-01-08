@@ -9,10 +9,10 @@ namespace JLMS.Model
     class Beta
     {
         public Beta() { }
-        public Beta(string name)
+        public Beta(string name, double val = 0)
         {
             Name = name;
-            Value = 0;
+            Value = val;
         }
         public string Name { get;  }
         public double Value { get; set; }

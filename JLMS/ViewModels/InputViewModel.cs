@@ -93,6 +93,25 @@ namespace JLMS.ViewModels
             LoadCaseInputFile(filename);
 
         }
+
+        private List<string> GetDataSection(ref List<string> input, string beginstring, string endstring)
+        {
+            List<string> section = new List<string>();
+            int startidx = 0, endidx = 0;
+            for (int i = 0; i < input.Count; i++)
+            {
+                if (input[i].Contains(beginstring))
+                    startidx = i;
+                else if (input[i].Contains(endstring))
+                {
+                    endidx = i;
+                    break;
+                }
+            }
+            section = input.GetRange(startidx + 1, endidx -startidx- 1);
+            input.RemoveRange(0, endidx + 1);
+            return section; 
+        }
         private void LoadCaseInputFile(string filename)
         {
             if (!VerifyJLMInputFile(filename))
@@ -103,9 +122,232 @@ namespace JLMS.ViewModels
             List<string> inputlines = File.ReadAllLines(filename).ToList<string>();
 
             LoadBasicData(ref inputlines);
+            //Load Factors
+
+            List<string> input = GetDataSection(ref inputlines, "Factor      Daily Mean       Daily Sigma", "For Each Security except cash and loans...");
+            LoadFactors(ref input);
+            
+            //Load Securities
+            input.Clear();
+            input = GetDataSection(ref inputlines, "Security         Alpha     Beta 1   Beta 2   Idiosync' sigma    Volume", "More about each security except cash and loans...");
+            LoadSecurities(ref input);
+
+            //Load SecuritiesPrice
+            input.Clear();
+            input = GetDataSection(ref inputlines, "Security      Start", "Checkpoint : EndHistoricParameters");
+            LoadSecuritiesPrice(ref input);
+
+            //Load Statisticians
+            if (!CMECase)
+            {
+                input.Clear();
+                input = GetDataSection(ref inputlines, "Security      Percent      Exp Ret", "Omit this if source for covariances is not CCCM.  Else indicate");
+                LoadStatisticians(ref input);
+            }
+
+            //Load PortAnalysts
+            input.Clear();
+            input = GetDataSection(ref inputlines, "Portfolio Analyst          Used     Long + |Short|    short (Y/N)", "Checkpoint : EndPortfolioAnalystDescription");
+            LoadPortAnalysts(ref input);
+
+            //Load InvestorTemplate
+            input.Clear();
+            input = GetDataSection(ref inputlines, "Template  Investors  dd/mm/qq/yy  Analyst Nr. Templ Nr. U=E-KV   Mean   Std Dev", "NOTE.....DEPOSIT AND WITHDRAWAL INFORMATION IS OMITTED IF DW IS REPLACEMENT!!");
+            LoadInvestorTemplate(ref input);
+
+            //Load TradingConstrains
+            input.Clear();
+            input = GetDataSection(ref inputlines, "Inv Template         Max Buy    (Normal)   (Urgent)   pending sell or cover", "Investor Templates (continued). Trace Instructions.");
+            LoadTradingConstrains(ref input);
+
+            //Load LoadTraceInstruction
+            input.Clear();
+            input = GetDataSection(ref inputlines, "Inv Template    (or -1 = don't)      (0 or -1 = don't)", "Note... currently each investor's starting portfolio is equally weighted. To be changed.");
+            LoadTraceInstruction(ref input);
+
+            if (CMECase)
+            {
+                //Load TraderTemplate
+                input.Clear();
+                input = GetDataSection(ref inputlines, "Nr           Alpha   incr.   Beta    incr.   First   Then    Last    changes", "Trader Templates (continued).  Max bid/Min offer rules.");
+                LoadTraderTemplate(ref input);
+
+                //Load TemplateRules
+                input.Clear();
+                input = GetDataSection(ref inputlines, "Template        equals     Max Bid   Max Bid    Min Offer  Min Offer", "Checkpoint : EndTraderTemplateDescription");
+                LoadTraderTemplateRules(ref input);
+
+                //Load CovMatrix if there
+            }
+
+         
 
         }
 
+        private bool LoadTraderTemplateRules(ref List<string> input)
+        {
+            try
+            {
+            }
+            catch (Exception e)
+            {
+                DXMessageBox.Show("Error parsingPort Trader Template section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
+        private bool LoadTraderTemplate(ref List<string> input)
+        {
+            try
+            {
+            }
+            catch (Exception e)
+            {
+                DXMessageBox.Show("Error parsingPort Trader Template section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
+        private bool LoadTraceInstruction(ref List<string> input)
+        {
+            try
+            {
+            }
+            catch (Exception e)
+            {
+                DXMessageBox.Show("Error parsingPort Trace Instruction section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool LoadTradingConstrains(ref List<string> input)
+        {
+            try
+            {
+            }
+            catch (Exception e)
+            {
+                DXMessageBox.Show("Error parsingPort Investor Template section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
+        private bool LoadInvestorTemplate(ref List<string> input)
+        {
+            try
+            {
+            }
+            catch (Exception e)
+            {
+                DXMessageBox.Show("Error parsingPort Investor Template section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
+        private bool LoadPortAnalysts(ref List<string> input)
+        {
+            try
+            {
+            }
+            catch (Exception e)
+            {
+                DXMessageBox.Show("Error parsingPort Analysits section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
+        private bool LoadStatisticians(ref List<string> input)
+        {
+            try
+            {
+            }
+            catch (Exception e)
+            {
+                DXMessageBox.Show("Error parsing Statistician section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
+        private bool LoadSecuritiesPrice(ref List<string> input)
+        {
+            try
+            {
+            }
+            catch (Exception e)
+            {
+                DXMessageBox.Show("Error parsing Security Price section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
+        private bool LoadSecurities(ref List<string> input)
+        {
+            try
+            {
+                int nFactor = FactorList.Count;
+                char[] whitespace = new char[] { ':', ' ', '\t' };
+                SecurityList.Clear();
+                SecurityData tempdata;
+                foreach (string line in input)
+                {
+                    if (line.Contains(":"))
+                    {
+                        string[] data = line.Split(whitespace, StringSplitOptions.RemoveEmptyEntries);
+                        tempdata = new SecurityData("Sec" + data[0], nFactor);
+                        tempdata.Alpha = double.Parse(data[1]);
+                        tempdata.Sigma = double.Parse(data[2 + nFactor]);
+                        tempdata.Volume = int.Parse(data[3 + nFactor]);
+                        for (int i = 0; i < nFactor; i++)
+                        {
+                            tempdata.BetaList[i] = new Beta("Beta" + i.ToString(), double.Parse(data[nFactor + i]));
+                        }
+                        SecurityList.Add(tempdata);
+
+                    }
+                }
+                OnPropertyChanged("FactorList");
+            }
+            catch (Exception e)
+            {
+                DXMessageBox.Show("Error parsing Security section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
+        private bool LoadFactors(ref List<string> input)
+        {
+            try
+            {
+                char[] whitespace = new char[] {':',  ' ', '\t' };
+                FactorList.Clear();
+                foreach (string line in input)
+                {
+                    if (line.Contains(":"))
+                    {
+                        string[] data = line.Split(whitespace, StringSplitOptions.RemoveEmptyEntries);
+                        FactorList.Add(new FactorData("Fact" + data[0], double.Parse(data[1]), double.Parse(data[2])));
+                    }
+                }
+                OnPropertyChanged("FactorList");
+            }
+            catch (Exception e)
+            {
+                DXMessageBox.Show("Error parsing Factor section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
         private bool LoadBasicData(ref List<string> inputlines)
         {
             try
@@ -176,7 +418,7 @@ namespace JLMS.ViewModels
                     _basicdata.BetaRebateFraction = double.Parse(alpha_beta[1]);
 
                 }
-               
+                
 
                 //_basicdata.InitialPortfolioSpecification = int.Parse(GetDataFromLines("Data number or description (no spaces)", ref inputlines));
                 // _basicdata.InitialCashFraction = double.Parse(GetDataFromLines("Data number or description (no spaces)", ref inputlines));
@@ -184,7 +426,7 @@ namespace JLMS.ViewModels
             }
             catch (Exception e)
             {
-                DXMessageBox.Show("Error parsing Basic Data section JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                DXMessageBox.Show("Error parsing Basic Data section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                  return false;
             }
             return true;
@@ -258,20 +500,21 @@ namespace JLMS.ViewModels
             CovMatrixModelList.Add("AC-LH");
             CovMatrixModelList.Add("AC-BH");
             SelectedCovMatrixModel = "AC-LH";
+
             FactorList = new ObservableCollection<FactorData>();
-            FactorList.Add(new FactorData("Factor0", 1,  0.0125));
-            FactorList.Add(new FactorData("Factor1", 0, 0.0225));
+            //FactorList.Add(new FactorData("Factor0", 1, 0.0125));
+            //FactorList.Add(new FactorData("Factor1", 0, 0.0225));
 
 
             SecurityList = new ObservableCollection<SecurityData>();
-            SecurityList.Add(new SecurityData("Security0", FactorList.Count));
-            SecurityList.Add(new SecurityData("Security1", FactorList.Count));
-            SecurityList.Add(new SecurityData("Security2", FactorList.Count));
-            SecurityList.Add(new SecurityData("Security3", FactorList.Count));
-            SecurityList.Add(new SecurityData("Security4", FactorList.Count));
-            SecurityList.Add(new SecurityData("Security5", FactorList.Count));
-            SecurityList.Add(new SecurityData("Security6", FactorList.Count));
-            SecurityList.Add(new SecurityData("Security7", FactorList.Count));
+            //SecurityList.Add(new SecurityData("Security0", FactorList.Count));
+            //SecurityList.Add(new SecurityData("Security1", FactorList.Count));
+            //SecurityList.Add(new SecurityData("Security2", FactorList.Count));
+            //SecurityList.Add(new SecurityData("Security3", FactorList.Count));
+            //SecurityList.Add(new SecurityData("Security4", FactorList.Count));
+            //SecurityList.Add(new SecurityData("Security5", FactorList.Count));
+            //SecurityList.Add(new SecurityData("Security6", FactorList.Count));
+            //SecurityList.Add(new SecurityData("Security7", FactorList.Count));
 
 
             AnalystList = new ObservableCollection<AnalystData>();
@@ -291,17 +534,17 @@ namespace JLMS.ViewModels
 
             string covmatrixmodel = "AC_LH";
             CovMatrixList = new ObservableCollection<CovMatrix>();
-            for (int i = 0; i < SecurityList.Count; i++)
-            {
-                if (covmatrixmodel == "AC_UH")
-                    CovMatrixList.Add(new CovMatrix(0, SecurityList.Count, i - 1, true));
-                else if (covmatrixmodel == "AC_LH")
-                    CovMatrixList.Add(new CovMatrix(0, SecurityList.Count, i + 1, false));
-                else if (covmatrixmodel == "AC_BH")
-                    CovMatrixList.Add(new CovMatrix(0, SecurityList.Count));
-                else
-                    CovMatrixList.Clear();
-            }
+            //for (int i = 0; i < SecurityList.Count; i++)
+            //{
+            //    if (covmatrixmodel == "AC_UH")
+            //        CovMatrixList.Add(new CovMatrix(0, SecurityList.Count, i - 1, true));
+            //    else if (covmatrixmodel == "AC_LH")
+            //        CovMatrixList.Add(new CovMatrix(0, SecurityList.Count, i + 1, false));
+            //    else if (covmatrixmodel == "AC_BH")
+            //        CovMatrixList.Add(new CovMatrix(0, SecurityList.Count));
+            //    else
+            //        CovMatrixList.Clear();
+            //}
 
         }
      
@@ -354,7 +597,7 @@ namespace JLMS.ViewModels
         {
             int n = FactorList.Count + 1;
             string factorname;
-            factorname = "Factor" + n.ToString();
+            factorname = "Fact" + n.ToString();
             FactorList.Add(new FactorData(factorname));
         }
 

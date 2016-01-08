@@ -102,6 +102,7 @@
     <Compile Include="VGrid\VerticalGridControl.xaml.cs">
       <DependentUpon>VerticalGridControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\AppSettingsViewModel.cs" />
     <Compile Include="ViewModels\OutputFileViewModel.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
