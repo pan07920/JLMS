@@ -67,7 +67,7 @@ namespace JLMS.ViewModels
                 }
             }
         }
-
+        public ObservableCollection<string> Methods { get; set; }
         public ObservableCollection<SecurityData> SecurityList { get; set; }
         public ObservableCollection<AnalystData> AnalystList { get; set; }
         public ObservableCollection<Investor> InvestorList { get; set; }
@@ -108,8 +108,11 @@ namespace JLMS.ViewModels
                     break;
                 }
             }
+            if (endidx == 0)
+                return section;
             section = input.GetRange(startidx + 1, endidx -startidx- 1);
-            input.RemoveRange(0, endidx + 1);
+            //input.RemoveRange(0, endidx + 1);
+            input.RemoveRange(0, endidx );//keep last checked line, needed for Statisticians: Expected Return Estimate PER SHARE.
             return section; 
         }
         private void LoadCaseInputFile(string filename)
@@ -138,11 +141,30 @@ namespace JLMS.ViewModels
             LoadSecuritiesPrice(ref input);
 
             //Load Statisticians
-            if (!CMECase)
+            if (!CMECase) //CASE DA
+            {
+               
+                input.Clear();
+                //input = GetDataSection(ref inputlines, "Security      Percent      Exp Ret", "Omit this if source for covariances is not CCCM.  Else indicate");
+                input = GetDataSection(ref inputlines, "For Each Statistician...", "Expected Return Estimate PER SHARE.");
+                if (input.Count > 0)
+                {
+                    LoadStatisticians(ref input);
+
+                    input.Clear();
+                    //input = GetDataSection(ref inputlines, "Security      Percent      Exp Ret", "Omit this if source for covariances is not CCCM.  Else indicate");
+                    input = GetDataSection(ref inputlines, "Expected Return Estimate PER SHARE.", "Checkpoint : EndStatisticianDescription");
+                    LoadStatisticiansSecReturn(ref input);
+                }
+            }
+            else //CASE CME
             {
                 input.Clear();
-                input = GetDataSection(ref inputlines, "Security      Percent      Exp Ret", "Omit this if source for covariances is not CCCM.  Else indicate");
-                LoadStatisticians(ref input);
+                input = GetDataSection(ref inputlines, "Checkpoint : StartStatisticianDescription", "Omit this if source for covariances is not CCCM.  Else indicate");
+                if (input.Count > 0)
+                {
+                    LoadSecuritiesEqPctAndInitRet(ref input);
+                }
             }
 
             //Load PortAnalysts
@@ -155,39 +177,106 @@ namespace JLMS.ViewModels
             input = GetDataSection(ref inputlines, "Template  Investors  dd/mm/qq/yy  Analyst Nr. Templ Nr. U=E-KV   Mean   Std Dev", "NOTE.....DEPOSIT AND WITHDRAWAL INFORMATION IS OMITTED IF DW IS REPLACEMENT!!");
             LoadInvestorTemplate(ref input);
 
-            //Load TradingConstrains
             input.Clear();
-            input = GetDataSection(ref inputlines, "Inv Template         Max Buy    (Normal)   (Urgent)   pending sell or cover", "Investor Templates (continued). Trace Instructions.");
-            LoadTradingConstrains(ref input);
+            input = GetDataSection(ref inputlines, "Investor Templates (Continued). Random deposits and withdrawals.", "Investor Templates (continued). Trading constraints.");
+            LoadInvestorTemplateRandomDepositAndWithdraw(ref input);
 
-            //Load LoadTraceInstruction
+
             input.Clear();
-            input = GetDataSection(ref inputlines, "Inv Template    (or -1 = don't)      (0 or -1 = don't)", "Note... currently each investor's starting portfolio is equally weighted. To be changed.");
-            LoadTraceInstruction(ref input);
+            input = GetDataSection(ref inputlines, "Investor Templates (continued). Trading constraints.", "Investor Templates (continued). Trace Instructions.");
+            LoadInvestorTemplateContinueConstrains(ref input);
 
-            if (CMECase)
-            {
+            input.Clear();
+            input = GetDataSection(ref inputlines, "Investor Templates (continued). Trace Instructions.", "Checkpoint : EndInvestorTemplateDescription");
+            LoadInvestorTemplateTraceInstruction(ref input);
+
                 //Load TraderTemplate
-                input.Clear();
-                input = GetDataSection(ref inputlines, "Nr           Alpha   incr.   Beta    incr.   First   Then    Last    changes", "Trader Templates (continued).  Max bid/Min offer rules.");
-                LoadTraderTemplate(ref input);
-
-                //Load TemplateRules
-                input.Clear();
-                input = GetDataSection(ref inputlines, "Template        equals     Max Bid   Max Bid    Min Offer  Min Offer", "Checkpoint : EndTraderTemplateDescription");
-                LoadTraderTemplateRules(ref input);
-
-                //Load CovMatrix if there
-            }
-
-         
-
+            input.Clear();
+            input = GetDataSection(ref inputlines, "Nr           Alpha   incr.   Beta    incr.   First   Then    Last    changes", "Trader Templates (continued).  Max bid/Min offer rules.");
+            LoadTraderTemplate(ref input, ref inputlines);
+            
+            //Load CovMatrix if there
+            
         }
 
-        private bool LoadTraderTemplateRules(ref List<string> input)
+        private bool LoadTraderTemplateRules(ref List<string> input, ref TraderData traderdata, int seqnum)
         {
             try
             {
+                char[] whitespace = new char[] { ':', ' ', '\t' };
+                int idx = 0;
+                foreach (string line in input)
+                {
+                    if (line.Contains(":"))
+                    {
+                        string[] data = line.Split(whitespace, StringSplitOptions.RemoveEmptyEntries);
+                        idx = int.Parse(data[0]);
+                        if (seqnum == idx)
+                        {
+                            traderdata.Recent = double.Parse(data[1]);
+                            traderdata.MaxBidRule = double.Parse(data[2]);
+                            traderdata.MaxBidParameter = double.Parse(data[3]);
+                            traderdata.MinBidRule = double.Parse(data[4]);
+                            traderdata.MinBidParameter = double.Parse(data[5]);
+                            return true;
+                        }
+                    }
+                 }
+            }
+            catch (Exception e)
+            {
+                DXMessageBox.Show("Error parsingPort Trader Template Rules section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
+        private bool LoadTraderTemplate(ref List<string> input, ref List<string> input4traderule)
+        {
+            try
+            {
+                TraderList.Clear();
+                int nLineCount = input.Count;
+                char[] whitespace = new char[] { ':', ' ', '\t' };
+                TraderData tempdata;
+                int seqnum;
+                for(int i = 0; i < nLineCount; i++) 
+                {
+                    string line = input[i];
+                    if (line.Contains(":"))
+                    {
+                        string[] data = line.Split(whitespace, StringSplitOptions.RemoveEmptyEntries);
+                        if (data[0].ToLower() != "sell" && data[1].ToLower() == "buy")
+                        {
+                            seqnum = int.Parse(data[0]);
+                            tempdata = new TraderData("TT" + seqnum.ToString());
+                            tempdata.BuyAlpha = double.Parse(data[2]);
+                            tempdata.BuyAlphaIncrement = double.Parse(data[3]);
+                            tempdata.BuyBeta = double.Parse(data[4]);
+                            tempdata.BuyBetaIncrement = double.Parse(data[5]);
+                            tempdata.BuyReviewWaitFirst = double.Parse(data[6]);
+                            tempdata.BuyReviewWaitThen = double.Parse(data[7]);
+                            tempdata.BuyReviewWaitLast = double.Parse(data[8]);
+                            tempdata.BuyMaxChange = double.Parse(data[9]);
+                            i++;
+                            line = input[i];
+                            string[] dataSell = line.Split(whitespace, StringSplitOptions.RemoveEmptyEntries);
+                            tempdata.SellAlpha = double.Parse(dataSell[1]);
+                            tempdata.SellAlphaIncrement = double.Parse(dataSell[2]);
+                            tempdata.SellBeta = double.Parse(dataSell[3]);
+                            tempdata.SellBetaIncrement = double.Parse(dataSell[4]);
+                            tempdata.SellReviewWaitFirst = double.Parse(dataSell[5]);
+                            tempdata.SellReviewWaitThen = double.Parse(dataSell[6]);
+                            tempdata.SellReviewWaitLast = double.Parse(dataSell[7]);
+                            tempdata.SellMaxChange = double.Parse(dataSell[8]);
+
+                            LoadTraderTemplateRules(ref input4traderule, ref tempdata, seqnum);
+                            TraderList.Add(tempdata);
+                        }
+                    }
+                }
+                TraderList[TraderList.Count - 1].Trader = "LiqTrad";
+               // OnPropertyChanged("TraderList");
             }
             catch (Exception e)
             {
@@ -197,41 +286,91 @@ namespace JLMS.ViewModels
 
             return true;
         }
-        private bool LoadTraderTemplate(ref List<string> input)
+      
+        private bool LoadInvestorTemplateTraceInstruction(ref List<string> input)
         {
             try
             {
+                char[] whitespace = new char[] { ':', ' ', '\t' };
+                int idx = 0;
+                foreach (string line in input)
+                {
+                    if (line.Contains(":"))
+                    {
+                        string[] data = line.Split(whitespace, StringSplitOptions.RemoveEmptyEntries);
+                        idx = int.Parse(data[0]);
+
+                        InvestorList[idx].TraceFraction = int.Parse(data[1]);
+                        InvestorList[idx].TraceWeathiesNumber = int.Parse(data[2]);
+                    }
+                }
+                OnPropertyChanged("InvestorList");
             }
             catch (Exception e)
             {
-                DXMessageBox.Show("Error parsingPort Trader Template section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                DXMessageBox.Show("Error parsingPort Investor Template Trace Instruction section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 return false;
             }
 
             return true;
         }
-        private bool LoadTraceInstruction(ref List<string> input)
+        private bool LoadInvestorTemplateContinueConstrains(ref List<string> input)
         {
             try
             {
+                char[] whitespace = new char[] { ':', ' ', '\t' };
+                int idx = 0;
+                foreach (string line in input)
+                {
+                    if (line.Contains(":"))
+                    {
+                        string[] data = line.Split(whitespace, StringSplitOptions.RemoveEmptyEntries);
+                        idx = int.Parse(data[0]);
+                        InvestorList[idx].MaximumBuy = double.Parse(data[1]);
+                        InvestorList[idx].MaximuSellNormal = double.Parse(data[2]);
+                        InvestorList[idx].MaximuSellUrgent = double.Parse(data[3]);
+                        InvestorList[idx].TemporaryExtraLeverage = int.Parse(data[4]);
+
+                        //InvestorList[idx].TraceFraction = int.Parse(data[5]);
+                        //InvestorList[idx].TraceWeathiesNumber = int.Parse(data[6]);
+                    }
+                }
+                OnPropertyChanged("InvestorList");
             }
             catch (Exception e)
             {
-                DXMessageBox.Show("Error parsingPort Trace Instruction section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                DXMessageBox.Show("Error parsingPort Investor Template Constrain section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 return false;
             }
 
             return true;
         }
-
-        private bool LoadTradingConstrains(ref List<string> input)
+        private bool LoadInvestorTemplateRandomDepositAndWithdraw(ref List<string> input)
         {
             try
             {
+                char[] whitespace = new char[] { ':', ' ', '\t' };
+                int idx = 0;
+                foreach (string line in input)
+                {
+                    if (line.Contains(":"))
+                    {
+                        string[] data = line.Split(whitespace, StringSplitOptions.RemoveEmptyEntries);
+                        idx =  int.Parse( data[0]);
+                        InvestorList[idx].Probability = double.Parse(data[1]);
+                        InvestorList[idx].LowerEdge = double.Parse(data[2]);
+                        InvestorList[idx].UpperEdge = double.Parse(data[3]);
+                        InvestorList[idx].Increment = double.Parse(data[4]);
+                        //InvestorList[idx].MaximumBuy = double.Parse(data[5]);
+                        //InvestorList[idx].MaximumBuy = double.Parse(data[5]);
+
+                    }
+                }
+                OnPropertyChanged("InvestorList");
             }
             catch (Exception e)
             {
-                DXMessageBox.Show("Error parsingPort Investor Template section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                DXMessageBox.Show("Error parsingPort Investor Template Random deposits and withdrawals section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 return false;
             }
 
@@ -241,6 +380,28 @@ namespace JLMS.ViewModels
         {
             try
             {
+                InvestorList.Clear();
+
+                char[] whitespace = new char[] { ':', ' ', '\t' };
+                Investor tempdata;
+                foreach (string line in input)
+                {
+                    if (line.Contains(":"))
+                    {
+                        string[] data = line.Split(whitespace, StringSplitOptions.RemoveEmptyEntries);
+                        tempdata = new Investor("Templ" + data[0]);
+                        tempdata.NumberOfInvestors = int.Parse(data[1]);
+                        tempdata.ReoptimizationFrequency = data[2];
+                        tempdata.PortfolioAnalystUsed = int.Parse(data[3]);
+                        tempdata.TraderTemplateUsed = int.Parse(data[4]);
+                        tempdata.RiskAversion = double.Parse(data[5]);
+                        tempdata.MeanStartWealth = int.Parse(data[6]);
+                        tempdata.SigmaStartWealth = int.Parse(data[7]);
+
+                        InvestorList.Add(tempdata);
+                    }
+                }
+                OnPropertyChanged("InvestorList");
             }
             catch (Exception e)
             {
@@ -254,6 +415,23 @@ namespace JLMS.ViewModels
         {
             try
             {
+                AnalystList.Clear();
+               
+                char[] whitespace = new char[] { ':', ' ', '\t' };
+                AnalystData tempdata;
+                foreach (string line in input)
+                {
+                    if (line.Contains(":"))
+                    {
+                        string[] data = line.Split(whitespace, StringSplitOptions.RemoveEmptyEntries);
+                        tempdata = new AnalystData("PA" + data[0]);
+                        tempdata.StatisticiansUsed = int.Parse(data[1]);
+                        tempdata.MaxLPlusS = double.Parse(data[2]);
+                        tempdata.ClientsCanShort = data[3].ToUpper() == "N" ? false : true;
+                        AnalystList.Add(tempdata);
+                    }
+                }
+                OnPropertyChanged("AnalystList");
             }
             catch (Exception e)
             {
@@ -263,10 +441,72 @@ namespace JLMS.ViewModels
 
             return true;
         }
+        private bool LoadStatisticiansSecReturn(ref List<string> input)
+        {
+            try
+            {
+                int nSecurity = SecurityList.Count;
+                char[] whitespace = new char[] { ':', ' ', '\t' };
+                int nIdx = 0;
+                foreach (string line in input)
+                {
+                    if (line.Contains(":"))
+                    {
+                        string[] data = line.Split(whitespace, StringSplitOptions.RemoveEmptyEntries);
+                        nIdx = int.Parse(data[0]);
+                        for (int i = 0; i < nSecurity; i++)
+                        {
+                            StatisticianList[nIdx].SecurityList[i].Name = "Sec" + i.ToString();
+                            StatisticianList[nIdx].SecurityList[i].Value = int.Parse(data[i+1]);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                DXMessageBox.Show("Error parsing Statistician Security Return section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
         private bool LoadStatisticians(ref List<string> input)
         {
             try
             {
+                int nSecurity = SecurityList.Count;
+                char[] whitespace = new char[] { ':', ' ', '\t' };
+                StatisticianList.Clear();
+                StatisticianData tempdata;
+                foreach (string line in input)
+                {
+                    if (line.Contains(":"))
+                    {
+                        string[] data = line.Split(whitespace, StringSplitOptions.RemoveEmptyEntries);
+                        tempdata = new StatisticianData("Stat" + data[0], nSecurity);
+                        tempdata.Method = data[1];
+                        if(tempdata.Method == "RPS_C")
+                        {
+                            tempdata.RetFreq = null;
+                            tempdata.RetNum = null;
+                        }
+                        else
+                        {
+                            tempdata.RetFreq = data[2];
+                            tempdata.RetNum = int.Parse(data[3]);
+                        }
+                        
+                        tempdata.CovFreq = data[4];
+                        tempdata.CovNum = int.Parse(data[5]);
+
+                        for (int i = 0; i < nSecurity; i++)
+                        {
+                            tempdata.SecurityList[i] = new Security("Sec" + i.ToString());
+                        }
+                        StatisticianList.Add(tempdata);
+
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -276,10 +516,56 @@ namespace JLMS.ViewModels
 
             return true;
         }
+        private bool LoadSecuritiesEqPctAndInitRet(ref List<string> input)
+        {
+            try
+            {
+                int nSecurityCount = SecurityList.Count;
+                char[] whitespace = new char[] { ':', ' ', '\t' };
+                int secNum;
+                double pct;
+                double ret;
+                foreach (string line in input)
+                {
+                    if (line.Contains(":"))
+                    {
+                        string[] data = line.Split(whitespace, StringSplitOptions.RemoveEmptyEntries);
+                        secNum = int.Parse(data[0]);
+                        pct = double.Parse(data[1]);
+                        ret = double.Parse(data[2]);
+                        SecurityList[secNum].EqPct = pct;
+                        SecurityList[secNum].InitRet = ret;
+                    }
+                }
+                OnPropertyChanged("SecurityList");
+            }
+            catch (Exception e)
+            {
+                DXMessageBox.Show("Error parsing Security equilibrium percent and initial expected return...section of JLM Simulator input file: " + Environment.NewLine + e.ToString(), "JLMS Simulator", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
         private bool LoadSecuritiesPrice(ref List<string> input)
         {
             try
             {
+                int nSecurityCount = SecurityList.Count;
+                char[] whitespace = new char[] { ':', ' ', '\t' };
+                int secNum;
+                double price;
+                foreach (string line in input)
+                {
+                    if (line.Contains(":"))
+                    {
+                        string[] data = line.Split(whitespace, StringSplitOptions.RemoveEmptyEntries);
+                        secNum = int.Parse(data[0]);
+                        price = double.Parse(data[1]);
+                        SecurityList[secNum].Price = price;
+                    }
+                }
+                OnPropertyChanged("SecurityList");
             }
             catch (Exception e)
             {
@@ -314,7 +600,7 @@ namespace JLMS.ViewModels
 
                     }
                 }
-                OnPropertyChanged("FactorList");
+                OnPropertyChanged("SecurityList");
             }
             catch (Exception e)
             {
@@ -398,6 +684,7 @@ namespace JLMS.ViewModels
 
                 if (uptick == "Y" || uptick == "N")
                 {
+
                     if (uptick == "Y")
                         _basicdata.ShortOnUptick = true;
                     else
@@ -405,6 +692,7 @@ namespace JLMS.ViewModels
 
                     _basicdata.ShortRebateFraction = double.Parse(GetDataFromLines("Short rebate fraction", ref inputlines));
                     _basicdata.UseShortRebate = true;
+                    _basicdata.AlphaRebateFraction = 0;
                 }
                 else if (uptick == "YY" || uptick == "NN")
                 {
@@ -418,10 +706,13 @@ namespace JLMS.ViewModels
                     _basicdata.BetaRebateFraction = double.Parse(alpha_beta[1]);
 
                 }
-                
-
-                //_basicdata.InitialPortfolioSpecification = int.Parse(GetDataFromLines("Data number or description (no spaces)", ref inputlines));
-                // _basicdata.InitialCashFraction = double.Parse(GetDataFromLines("Data number or description (no spaces)", ref inputlines));
+                // in section of  Checkpoint : StartInvestorTemplateDescriptionWithISP
+                string s = GetDataFromLines("1 = Cash plus eq. wtd. securities", ref inputlines);
+                if (s != "")
+                {
+                    _basicdata.InitialCash = (1 == int.Parse(s)) ? true : false;
+                    _basicdata.InitialCashFraction = double.Parse(GetDataFromLines("in cash.  E.g., 0.20 = 20%", ref inputlines));
+                }
                 // _basicdata.CCCMType = GetDataFromLines("Data number or description (no spaces)", ref inputlines);
             }
             catch (Exception e)
@@ -490,6 +781,10 @@ namespace JLMS.ViewModels
                    .RegisterHandler(n => n.CaseName, n => this.OnCaseNameChange(n.CaseName))
                    .RegisterHandler(n => n.SelectedCovMatrixModel, this.OnSelectedMatrixModelChanged);
 
+            Methods = new ObservableCollection<string>();
+            Methods.Add("RPS_C");
+            Methods.Add("HIST");
+
             _casename = "New Case!";
             SampleFiles = new ObservableCollection<string>();
             LoadInputFileList();
@@ -502,19 +797,19 @@ namespace JLMS.ViewModels
             SelectedCovMatrixModel = "AC-LH";
 
             FactorList = new ObservableCollection<FactorData>();
-            //FactorList.Add(new FactorData("Factor0", 1, 0.0125));
-            //FactorList.Add(new FactorData("Factor1", 0, 0.0225));
+            FactorList.Add(new FactorData("Factor0", 1, 0.0125));
+            FactorList.Add(new FactorData("Factor1", 0, 0.0225));
 
 
             SecurityList = new ObservableCollection<SecurityData>();
-            //SecurityList.Add(new SecurityData("Security0", FactorList.Count));
-            //SecurityList.Add(new SecurityData("Security1", FactorList.Count));
-            //SecurityList.Add(new SecurityData("Security2", FactorList.Count));
-            //SecurityList.Add(new SecurityData("Security3", FactorList.Count));
-            //SecurityList.Add(new SecurityData("Security4", FactorList.Count));
-            //SecurityList.Add(new SecurityData("Security5", FactorList.Count));
-            //SecurityList.Add(new SecurityData("Security6", FactorList.Count));
-            //SecurityList.Add(new SecurityData("Security7", FactorList.Count));
+            SecurityList.Add(new SecurityData("Security0", FactorList.Count));
+            SecurityList.Add(new SecurityData("Security1", FactorList.Count));
+            SecurityList.Add(new SecurityData("Security2", FactorList.Count));
+            SecurityList.Add(new SecurityData("Security3", FactorList.Count));
+            SecurityList.Add(new SecurityData("Security4", FactorList.Count));
+            SecurityList.Add(new SecurityData("Security5", FactorList.Count));
+            SecurityList.Add(new SecurityData("Security6", FactorList.Count));
+            SecurityList.Add(new SecurityData("Security7", FactorList.Count));
 
 
             AnalystList = new ObservableCollection<AnalystData>();
@@ -527,6 +822,7 @@ namespace JLMS.ViewModels
 
             TraderList = new ObservableCollection<TraderData>();
             TraderList.Add(new TraderData("LiqTrad"));
+            TraderList.Insert(0, new TraderData("TT0"));
 
             StatisticianList = new ObservableCollection<StatisticianData>();
             StatisticianList.Add(new StatisticianData("Stat0", SecurityList.Count));
@@ -534,17 +830,17 @@ namespace JLMS.ViewModels
 
             string covmatrixmodel = "AC_LH";
             CovMatrixList = new ObservableCollection<CovMatrix>();
-            //for (int i = 0; i < SecurityList.Count; i++)
-            //{
-            //    if (covmatrixmodel == "AC_UH")
-            //        CovMatrixList.Add(new CovMatrix(0, SecurityList.Count, i - 1, true));
-            //    else if (covmatrixmodel == "AC_LH")
-            //        CovMatrixList.Add(new CovMatrix(0, SecurityList.Count, i + 1, false));
-            //    else if (covmatrixmodel == "AC_BH")
-            //        CovMatrixList.Add(new CovMatrix(0, SecurityList.Count));
-            //    else
-            //        CovMatrixList.Clear();
-            //}
+            for (int i = 0; i < SecurityList.Count; i++)
+            {
+                if (covmatrixmodel == "AC_UH")
+                    CovMatrixList.Add(new CovMatrix(0, SecurityList.Count, i - 1, true));
+                else if (covmatrixmodel == "AC_LH")
+                    CovMatrixList.Add(new CovMatrix(0, SecurityList.Count, i + 1, false));
+                else if (covmatrixmodel == "AC_BH")
+                    CovMatrixList.Add(new CovMatrix(0, SecurityList.Count));
+                else
+                    CovMatrixList.Clear();
+            }
 
         }
      
@@ -809,7 +1105,7 @@ namespace JLMS.ViewModels
             int n = TraderList.Count-1 ;
             string Tradername;
             Tradername = "TT" + n.ToString();
-            TraderList.Add(new TraderData(Tradername));
+            TraderList.Insert(TraderList.Count-1, new TraderData(Tradername));
         }
 
         public RelayCommand RemoveTraderCommand

@@ -14,7 +14,7 @@ namespace JLMS.Model
             Name = name;
             Value = 0;
         }
-        public string Name { get; }
+        public string Name { get; set; }
         public int Value { get; set; }
     }
 }

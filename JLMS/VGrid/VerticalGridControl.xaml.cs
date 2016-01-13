@@ -205,7 +205,7 @@ namespace JLMS.VGrid
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             VerticalRowData row = ((item as EditGridCellData).RowData.Row as VerticalRowData);
-            if (row.CellTemplate == null) return base.SelectTemplate(item, container);
+            if ( row == null || row.CellTemplate == null) return base.SelectTemplate(item, container);
             return row.CellTemplate;
         }
     }

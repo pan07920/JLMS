@@ -133,7 +133,7 @@
                                         <TextBlock Margin="0, 0, 5, 0">Constant:</TextBlock>
                                         <dxe:TextEdit Margin="0, 0, 12, 0" Width="50" Text="{Binding BasicDataObj.AlphaRebateFraction}" MaskType="Numeric" HorizontalContentAlignment="Right" />
                                         <TextBlock Margin="0, 0, 5, 0">Fraction:</TextBlock>
-                                        <dxe:TextEdit Width="50"  Text="{Binding BasicDataObj.BetaRebateFraction}" MaskType="Numeric" HorizontalContentAlignment="Right" />
+                                        <dxe:TextEdit Width="50"  Text="{Binding BasicDataObj.ShortRebateFraction}" MaskType="Numeric" HorizontalContentAlignment="Right" />
                                     </StackPanel>
                                 </dxlc:LayoutItem>
                                 <dxlc:LayoutItem Label="Number of days data kept:">
@@ -280,6 +280,7 @@
                             <dxg:GridControl Name ="gridAnalyst" AutoGenerateColumns="None" ItemsSource="{Binding AnalystList}">
                                 <dxg:GridControl.Columns>
                                     <dxg:GridColumn x:Name ="colAnaylst" FieldName ="Analyst" Header ="Portfolio Analyst"/>
+                                    <dxg:GridColumn x:Name ="colStatUsed" FieldName ="StatisticiansUsed" Visible="{Binding CMECase, Converter={StaticResource InvertBooleanConverter}}" Header ="Statisticians Used" SortOrder="Ascending" SortIndex="0"/>
                                     <dxg:GridColumn x:Name ="colMaxLPlusS" FieldName ="MaxLPlusS" Header ="max[L+abs(s)]"/>
                                      <dxg:GridColumn x:Name ="colClientsCanShort" FieldName ="ClientsCanShort" Header ="Clients Can Short"/>
                                 </dxg:GridControl.Columns>
@@ -414,6 +415,22 @@
                         <!--(DA only)-->
                         <dxlc:LayoutGroup Header="Statisticians" Padding="3" Visibility="{Binding CMECase, Converter={StaticResource NegateBooleanToVisibilityConverter}}">
                             <dxg:GridControl Name="gridControlStatisticians" AutoGenerateColumns="AddNew" ItemsSource="{Binding StatisticianList}" >
+                                <dxg:GridControl.Columns>
+                                <dxg:GridColumn  FieldName ="Statistician" Header ="Statistician" AllowColumnFiltering ="False"/>
+                                    
+                                    <dxg:GridColumn FieldName="Method">
+                                        <dxg:GridColumn.EditSettings>
+                                            <dxe:ComboBoxEditSettings ItemsSource="{Binding Path=Methods}" IsTextEditable="False"   />
+                                        </dxg:GridColumn.EditSettings>
+                                    </dxg:GridColumn>
+
+
+                                    <dxg:GridColumn  FieldName ="RetFreq" Header ="Return Frequency" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="RetNum" Header ="Return Number" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="CovFreq" Header ="Cov. Frequency" AllowColumnFiltering ="False" />
+                                    <dxg:GridColumn  FieldName ="CovNum" Header ="Cov. Number" AllowColumnFiltering ="False" />
+                                    
+                                </dxg:GridControl.Columns>
                                 <dxg:GridControl.View>
                                     <dxg:TableView DetailHeaderContent="StatisticianList" AutoWidth="True" ShowGroupPanel="False"  />
                                 </dxg:GridControl.View>
