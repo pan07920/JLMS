@@ -638,6 +638,7 @@ namespace JLMS.ViewModels
         {
             try
             {
+
                 string casename = GetDataFromLines("Data number or description (no spaces)", ref inputlines);
                 _basicdata.CaseDescription = GetDataFromLines("Data number or description (no spaces)", ref inputlines);
                 _basicdata.RandomSeed = int.Parse(GetDataFromLines("Initial random seed (or -1 for default)", ref inputlines));
